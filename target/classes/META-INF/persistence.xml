@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.mycompany_LibraryManagement_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>Model.Users</class>
+    <class>Model.Authors</class>
+    <class>Model.Books</class>
+    <class>Model.Borrows</class>
+    <class>Model.BookRequests</class>
+    <class>Model.Publishers</class>
+    <class>Model.BooksByAuthors</class>
+    <class>Model.Countries</class>
+    <class>Model.Roles</class>
+    <class>Model.BookTitles</class>
+    <class>Model.Sysdiagrams</class>
+    <class>Model.Readers</class>
+    <class>Model.Staffs</class>
+    <class>Model.Categories</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=booktique"/>
+      <property name="javax.persistence.jdbc.user" value="sa"/>
+      <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+      <property name="javax.persistence.jdbc.password" value="1234567"/>
+    </properties>
+  </persistence-unit>
+</persistence>
