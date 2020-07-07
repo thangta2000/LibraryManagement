@@ -14,228 +14,175 @@ import javax.persistence.criteria.Root;
 import Model.BookTitles;
 import Model.Categories;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author admin
+ * @author tkang_85a
  */
-public class CategoriesJpaController implements Serializable
-{
+public class CategoriesJpaController implements Serializable {
 
-    public CategoriesJpaController(EntityManagerFactory emf)
-    {
+    public CategoriesJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Categories categories)
-    {
-        if (categories.getBookTitlesCollection() == null)
-        {
-            categories.setBookTitlesCollection(new ArrayList<BookTitles>());
+    public void create(Categories categories) {
+        if (categories.getBookTitlesList() == null) {
+            categories.setBookTitlesList(new ArrayList<BookTitles>());
         }
         EntityManager em = null;
-        try
-        {
+        try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<BookTitles> attachedBookTitlesCollection = new ArrayList<BookTitles>();
-            for (BookTitles bookTitlesCollectionBookTitlesToAttach : categories.getBookTitlesCollection())
-            {
-                bookTitlesCollectionBookTitlesToAttach = em.getReference(bookTitlesCollectionBookTitlesToAttach.getClass(), bookTitlesCollectionBookTitlesToAttach.getId());
-                attachedBookTitlesCollection.add(bookTitlesCollectionBookTitlesToAttach);
+            List<BookTitles> attachedBookTitlesList = new ArrayList<BookTitles>();
+            for (BookTitles bookTitlesListBookTitlesToAttach : categories.getBookTitlesList()) {
+                bookTitlesListBookTitlesToAttach = em.getReference(bookTitlesListBookTitlesToAttach.getClass(), bookTitlesListBookTitlesToAttach.getId());
+                attachedBookTitlesList.add(bookTitlesListBookTitlesToAttach);
             }
-            categories.setBookTitlesCollection(attachedBookTitlesCollection);
+            categories.setBookTitlesList(attachedBookTitlesList);
             em.persist(categories);
-            for (BookTitles bookTitlesCollectionBookTitles : categories.getBookTitlesCollection())
-            {
-                Categories oldCategoryIdOfBookTitlesCollectionBookTitles = bookTitlesCollectionBookTitles.getCategoryId();
-                bookTitlesCollectionBookTitles.setCategoryId(categories);
-                bookTitlesCollectionBookTitles = em.merge(bookTitlesCollectionBookTitles);
-                if (oldCategoryIdOfBookTitlesCollectionBookTitles != null)
-                {
-                    oldCategoryIdOfBookTitlesCollectionBookTitles.getBookTitlesCollection().remove(bookTitlesCollectionBookTitles);
-                    oldCategoryIdOfBookTitlesCollectionBookTitles = em.merge(oldCategoryIdOfBookTitlesCollectionBookTitles);
+            for (BookTitles bookTitlesListBookTitles : categories.getBookTitlesList()) {
+                Categories oldCategoryIdOfBookTitlesListBookTitles = bookTitlesListBookTitles.getCategoryId();
+                bookTitlesListBookTitles.setCategoryId(categories);
+                bookTitlesListBookTitles = em.merge(bookTitlesListBookTitles);
+                if (oldCategoryIdOfBookTitlesListBookTitles != null) {
+                    oldCategoryIdOfBookTitlesListBookTitles.getBookTitlesList().remove(bookTitlesListBookTitles);
+                    oldCategoryIdOfBookTitlesListBookTitles = em.merge(oldCategoryIdOfBookTitlesListBookTitles);
                 }
             }
             em.getTransaction().commit();
-        }
-        finally
-        {
-            if (em != null)
-            {
+        } finally {
+            if (em != null) {
                 em.close();
             }
         }
     }
 
-    public void edit(Categories categories) throws NonexistentEntityException, Exception
-    {
+    public void edit(Categories categories) throws NonexistentEntityException, Exception {
         EntityManager em = null;
-        try
-        {
+        try {
             em = getEntityManager();
             em.getTransaction().begin();
             Categories persistentCategories = em.find(Categories.class, categories.getId());
-            Collection<BookTitles> bookTitlesCollectionOld = persistentCategories.getBookTitlesCollection();
-            Collection<BookTitles> bookTitlesCollectionNew = categories.getBookTitlesCollection();
-            Collection<BookTitles> attachedBookTitlesCollectionNew = new ArrayList<BookTitles>();
-            for (BookTitles bookTitlesCollectionNewBookTitlesToAttach : bookTitlesCollectionNew)
-            {
-                bookTitlesCollectionNewBookTitlesToAttach = em.getReference(bookTitlesCollectionNewBookTitlesToAttach.getClass(), bookTitlesCollectionNewBookTitlesToAttach.getId());
-                attachedBookTitlesCollectionNew.add(bookTitlesCollectionNewBookTitlesToAttach);
+            List<BookTitles> bookTitlesListOld = persistentCategories.getBookTitlesList();
+            List<BookTitles> bookTitlesListNew = categories.getBookTitlesList();
+            List<BookTitles> attachedBookTitlesListNew = new ArrayList<BookTitles>();
+            for (BookTitles bookTitlesListNewBookTitlesToAttach : bookTitlesListNew) {
+                bookTitlesListNewBookTitlesToAttach = em.getReference(bookTitlesListNewBookTitlesToAttach.getClass(), bookTitlesListNewBookTitlesToAttach.getId());
+                attachedBookTitlesListNew.add(bookTitlesListNewBookTitlesToAttach);
             }
-            bookTitlesCollectionNew = attachedBookTitlesCollectionNew;
-            categories.setBookTitlesCollection(bookTitlesCollectionNew);
+            bookTitlesListNew = attachedBookTitlesListNew;
+            categories.setBookTitlesList(bookTitlesListNew);
             categories = em.merge(categories);
-            for (BookTitles bookTitlesCollectionOldBookTitles : bookTitlesCollectionOld)
-            {
-                if (!bookTitlesCollectionNew.contains(bookTitlesCollectionOldBookTitles))
-                {
-                    bookTitlesCollectionOldBookTitles.setCategoryId(null);
-                    bookTitlesCollectionOldBookTitles = em.merge(bookTitlesCollectionOldBookTitles);
+            for (BookTitles bookTitlesListOldBookTitles : bookTitlesListOld) {
+                if (!bookTitlesListNew.contains(bookTitlesListOldBookTitles)) {
+                    bookTitlesListOldBookTitles.setCategoryId(null);
+                    bookTitlesListOldBookTitles = em.merge(bookTitlesListOldBookTitles);
                 }
             }
-            for (BookTitles bookTitlesCollectionNewBookTitles : bookTitlesCollectionNew)
-            {
-                if (!bookTitlesCollectionOld.contains(bookTitlesCollectionNewBookTitles))
-                {
-                    Categories oldCategoryIdOfBookTitlesCollectionNewBookTitles = bookTitlesCollectionNewBookTitles.getCategoryId();
-                    bookTitlesCollectionNewBookTitles.setCategoryId(categories);
-                    bookTitlesCollectionNewBookTitles = em.merge(bookTitlesCollectionNewBookTitles);
-                    if (oldCategoryIdOfBookTitlesCollectionNewBookTitles != null && !oldCategoryIdOfBookTitlesCollectionNewBookTitles.equals(categories))
-                    {
-                        oldCategoryIdOfBookTitlesCollectionNewBookTitles.getBookTitlesCollection().remove(bookTitlesCollectionNewBookTitles);
-                        oldCategoryIdOfBookTitlesCollectionNewBookTitles = em.merge(oldCategoryIdOfBookTitlesCollectionNewBookTitles);
+            for (BookTitles bookTitlesListNewBookTitles : bookTitlesListNew) {
+                if (!bookTitlesListOld.contains(bookTitlesListNewBookTitles)) {
+                    Categories oldCategoryIdOfBookTitlesListNewBookTitles = bookTitlesListNewBookTitles.getCategoryId();
+                    bookTitlesListNewBookTitles.setCategoryId(categories);
+                    bookTitlesListNewBookTitles = em.merge(bookTitlesListNewBookTitles);
+                    if (oldCategoryIdOfBookTitlesListNewBookTitles != null && !oldCategoryIdOfBookTitlesListNewBookTitles.equals(categories)) {
+                        oldCategoryIdOfBookTitlesListNewBookTitles.getBookTitlesList().remove(bookTitlesListNewBookTitles);
+                        oldCategoryIdOfBookTitlesListNewBookTitles = em.merge(oldCategoryIdOfBookTitlesListNewBookTitles);
                     }
                 }
             }
             em.getTransaction().commit();
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0)
-            {
+            if (msg == null || msg.length() == 0) {
                 Integer id = categories.getId();
-                if (findCategories(id) == null)
-                {
+                if (findCategories(id) == null) {
                     throw new NonexistentEntityException("The categories with id " + id + " no longer exists.");
                 }
             }
             throw ex;
-        }
-        finally
-        {
-            if (em != null)
-            {
+        } finally {
+            if (em != null) {
                 em.close();
             }
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
-    {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
-        try
-        {
+        try {
             em = getEntityManager();
             em.getTransaction().begin();
             Categories categories;
-            try
-            {
+            try {
                 categories = em.getReference(Categories.class, id);
                 categories.getId();
-            }
-            catch (EntityNotFoundException enfe)
-            {
+            } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The categories with id " + id + " no longer exists.", enfe);
             }
-            Collection<BookTitles> bookTitlesCollection = categories.getBookTitlesCollection();
-            for (BookTitles bookTitlesCollectionBookTitles : bookTitlesCollection)
-            {
-                bookTitlesCollectionBookTitles.setCategoryId(null);
-                bookTitlesCollectionBookTitles = em.merge(bookTitlesCollectionBookTitles);
+            List<BookTitles> bookTitlesList = categories.getBookTitlesList();
+            for (BookTitles bookTitlesListBookTitles : bookTitlesList) {
+                bookTitlesListBookTitles.setCategoryId(null);
+                bookTitlesListBookTitles = em.merge(bookTitlesListBookTitles);
             }
             em.remove(categories);
             em.getTransaction().commit();
-        }
-        finally
-        {
-            if (em != null)
-            {
+        } finally {
+            if (em != null) {
                 em.close();
             }
         }
     }
 
-    public List<Categories> findCategoriesEntities()
-    {
+    public List<Categories> findCategoriesEntities() {
         return findCategoriesEntities(true, -1, -1);
     }
 
-    public List<Categories> findCategoriesEntities(int maxResults, int firstResult)
-    {
+    public List<Categories> findCategoriesEntities(int maxResults, int firstResult) {
         return findCategoriesEntities(false, maxResults, firstResult);
     }
 
-    private List<Categories> findCategoriesEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Categories> findCategoriesEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
-        try
-        {
+        try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Categories.class));
             Query q = em.createQuery(cq);
-            if (!all)
-            {
+            if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
-        }
-        finally
-        {
+        } finally {
             em.close();
         }
     }
 
-    public Categories findCategories(Integer id)
-    {
+    public Categories findCategories(Integer id) {
         EntityManager em = getEntityManager();
-        try
-        {
+        try {
             return em.find(Categories.class, id);
-        }
-        finally
-        {
+        } finally {
             em.close();
         }
     }
 
-    public int getCategoriesCount()
-    {
+    public int getCategoriesCount() {
         EntityManager em = getEntityManager();
-        try
-        {
+        try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Categories> rt = cq.from(Categories.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
-        }
-        finally
-        {
+        } finally {
             em.close();
         }
     }

@@ -6,7 +6,7 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,12 +22,11 @@ import javax.persistence.Table;
 
 /**
  *
- * @author admin
+ * @author tkang_85a
  */
 @Entity
 @Table(name = "Staffs", catalog = "booktique", schema = "dbo")
-@NamedQueries(
-{
+@NamedQueries({
     @NamedQuery(name = "Staffs.findAll", query = "SELECT s FROM Staffs s"),
     @NamedQuery(name = "Staffs.findById", query = "SELECT s FROM Staffs s WHERE s.id = :id"),
     @NamedQuery(name = "Staffs.findByFullName", query = "SELECT s FROM Staffs s WHERE s.fullName = :fullName"),
@@ -36,10 +35,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "Staffs.findByEmail", query = "SELECT s FROM Staffs s WHERE s.email = :email"),
     @NamedQuery(name = "Staffs.findByIdentityCard", query = "SELECT s FROM Staffs s WHERE s.identityCard = :identityCard"),
     @NamedQuery(name = "Staffs.findByPosition", query = "SELECT s FROM Staffs s WHERE s.position = :position"),
-    @NamedQuery(name = "Staffs.findByGender", query = "SELECT s FROM Staffs s WHERE s.gender = :gender")
-})
-public class Staffs implements Serializable
-{
+    @NamedQuery(name = "Staffs.findByGender", query = "SELECT s FROM Staffs s WHERE s.gender = :gender")})
+public class Staffs implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -65,144 +62,117 @@ public class Staffs implements Serializable
     @ManyToOne
     private Countries countryId;
     @OneToMany(mappedBy = "staffId")
-    private Collection<Users> usersCollection;
+    private List<Users> usersList;
 
-    public Staffs()
-    {
+    public Staffs() {
     }
 
-    public Staffs(Integer id)
-    {
+    public Staffs(Integer id) {
         this.id = id;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getFullName()
-    {
+    public String getFullName() {
         return fullName;
     }
 
-    public void setFullName(String fullName)
-    {
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
-    public String getPhone()
-    {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone)
-    {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public String getAddress()
-    {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address)
-    {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email)
-    {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getIdentityCard()
-    {
+    public String getIdentityCard() {
         return identityCard;
     }
 
-    public void setIdentityCard(String identityCard)
-    {
+    public void setIdentityCard(String identityCard) {
         this.identityCard = identityCard;
     }
 
-    public Integer getPosition()
-    {
+    public Integer getPosition() {
         return position;
     }
 
-    public void setPosition(Integer position)
-    {
+    public void setPosition(Integer position) {
         this.position = position;
     }
 
-    public Boolean getGender()
-    {
+    public Boolean getGender() {
         return gender;
     }
 
-    public void setGender(Boolean gender)
-    {
+    public void setGender(Boolean gender) {
         this.gender = gender;
     }
 
-    public Countries getCountryId()
-    {
+    public Countries getCountryId() {
         return countryId;
     }
 
-    public void setCountryId(Countries countryId)
-    {
+    public void setCountryId(Countries countryId) {
         this.countryId = countryId;
     }
 
-    public Collection<Users> getUsersCollection()
-    {
-        return usersCollection;
+    public List<Users> getUsersList() {
+        return usersList;
     }
 
-    public void setUsersCollection(Collection<Users> usersCollection)
-    {
-        this.usersCollection = usersCollection;
+    public void setUsersList(List<Users> usersList) {
+        this.usersList = usersList;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Staffs))
-        {
+        if (!(object instanceof Staffs)) {
             return false;
         }
         Staffs other = (Staffs) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
-        {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Model.Staffs[ id=" + id + " ]";
     }
     

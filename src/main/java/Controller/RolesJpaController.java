@@ -14,228 +14,175 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Model.Users;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author admin
+ * @author tkang_85a
  */
-public class RolesJpaController implements Serializable
-{
+public class RolesJpaController implements Serializable {
 
-    public RolesJpaController(EntityManagerFactory emf)
-    {
+    public RolesJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Roles roles)
-    {
-        if (roles.getUsersCollection() == null)
-        {
-            roles.setUsersCollection(new ArrayList<Users>());
+    public void create(Roles roles) {
+        if (roles.getUsersList() == null) {
+            roles.setUsersList(new ArrayList<Users>());
         }
         EntityManager em = null;
-        try
-        {
+        try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Users> attachedUsersCollection = new ArrayList<Users>();
-            for (Users usersCollectionUsersToAttach : roles.getUsersCollection())
-            {
-                usersCollectionUsersToAttach = em.getReference(usersCollectionUsersToAttach.getClass(), usersCollectionUsersToAttach.getId());
-                attachedUsersCollection.add(usersCollectionUsersToAttach);
+            List<Users> attachedUsersList = new ArrayList<Users>();
+            for (Users usersListUsersToAttach : roles.getUsersList()) {
+                usersListUsersToAttach = em.getReference(usersListUsersToAttach.getClass(), usersListUsersToAttach.getId());
+                attachedUsersList.add(usersListUsersToAttach);
             }
-            roles.setUsersCollection(attachedUsersCollection);
+            roles.setUsersList(attachedUsersList);
             em.persist(roles);
-            for (Users usersCollectionUsers : roles.getUsersCollection())
-            {
-                Roles oldRoleIdOfUsersCollectionUsers = usersCollectionUsers.getRoleId();
-                usersCollectionUsers.setRoleId(roles);
-                usersCollectionUsers = em.merge(usersCollectionUsers);
-                if (oldRoleIdOfUsersCollectionUsers != null)
-                {
-                    oldRoleIdOfUsersCollectionUsers.getUsersCollection().remove(usersCollectionUsers);
-                    oldRoleIdOfUsersCollectionUsers = em.merge(oldRoleIdOfUsersCollectionUsers);
+            for (Users usersListUsers : roles.getUsersList()) {
+                Roles oldRoleIdOfUsersListUsers = usersListUsers.getRoleId();
+                usersListUsers.setRoleId(roles);
+                usersListUsers = em.merge(usersListUsers);
+                if (oldRoleIdOfUsersListUsers != null) {
+                    oldRoleIdOfUsersListUsers.getUsersList().remove(usersListUsers);
+                    oldRoleIdOfUsersListUsers = em.merge(oldRoleIdOfUsersListUsers);
                 }
             }
             em.getTransaction().commit();
-        }
-        finally
-        {
-            if (em != null)
-            {
+        } finally {
+            if (em != null) {
                 em.close();
             }
         }
     }
 
-    public void edit(Roles roles) throws NonexistentEntityException, Exception
-    {
+    public void edit(Roles roles) throws NonexistentEntityException, Exception {
         EntityManager em = null;
-        try
-        {
+        try {
             em = getEntityManager();
             em.getTransaction().begin();
             Roles persistentRoles = em.find(Roles.class, roles.getId());
-            Collection<Users> usersCollectionOld = persistentRoles.getUsersCollection();
-            Collection<Users> usersCollectionNew = roles.getUsersCollection();
-            Collection<Users> attachedUsersCollectionNew = new ArrayList<Users>();
-            for (Users usersCollectionNewUsersToAttach : usersCollectionNew)
-            {
-                usersCollectionNewUsersToAttach = em.getReference(usersCollectionNewUsersToAttach.getClass(), usersCollectionNewUsersToAttach.getId());
-                attachedUsersCollectionNew.add(usersCollectionNewUsersToAttach);
+            List<Users> usersListOld = persistentRoles.getUsersList();
+            List<Users> usersListNew = roles.getUsersList();
+            List<Users> attachedUsersListNew = new ArrayList<Users>();
+            for (Users usersListNewUsersToAttach : usersListNew) {
+                usersListNewUsersToAttach = em.getReference(usersListNewUsersToAttach.getClass(), usersListNewUsersToAttach.getId());
+                attachedUsersListNew.add(usersListNewUsersToAttach);
             }
-            usersCollectionNew = attachedUsersCollectionNew;
-            roles.setUsersCollection(usersCollectionNew);
+            usersListNew = attachedUsersListNew;
+            roles.setUsersList(usersListNew);
             roles = em.merge(roles);
-            for (Users usersCollectionOldUsers : usersCollectionOld)
-            {
-                if (!usersCollectionNew.contains(usersCollectionOldUsers))
-                {
-                    usersCollectionOldUsers.setRoleId(null);
-                    usersCollectionOldUsers = em.merge(usersCollectionOldUsers);
+            for (Users usersListOldUsers : usersListOld) {
+                if (!usersListNew.contains(usersListOldUsers)) {
+                    usersListOldUsers.setRoleId(null);
+                    usersListOldUsers = em.merge(usersListOldUsers);
                 }
             }
-            for (Users usersCollectionNewUsers : usersCollectionNew)
-            {
-                if (!usersCollectionOld.contains(usersCollectionNewUsers))
-                {
-                    Roles oldRoleIdOfUsersCollectionNewUsers = usersCollectionNewUsers.getRoleId();
-                    usersCollectionNewUsers.setRoleId(roles);
-                    usersCollectionNewUsers = em.merge(usersCollectionNewUsers);
-                    if (oldRoleIdOfUsersCollectionNewUsers != null && !oldRoleIdOfUsersCollectionNewUsers.equals(roles))
-                    {
-                        oldRoleIdOfUsersCollectionNewUsers.getUsersCollection().remove(usersCollectionNewUsers);
-                        oldRoleIdOfUsersCollectionNewUsers = em.merge(oldRoleIdOfUsersCollectionNewUsers);
+            for (Users usersListNewUsers : usersListNew) {
+                if (!usersListOld.contains(usersListNewUsers)) {
+                    Roles oldRoleIdOfUsersListNewUsers = usersListNewUsers.getRoleId();
+                    usersListNewUsers.setRoleId(roles);
+                    usersListNewUsers = em.merge(usersListNewUsers);
+                    if (oldRoleIdOfUsersListNewUsers != null && !oldRoleIdOfUsersListNewUsers.equals(roles)) {
+                        oldRoleIdOfUsersListNewUsers.getUsersList().remove(usersListNewUsers);
+                        oldRoleIdOfUsersListNewUsers = em.merge(oldRoleIdOfUsersListNewUsers);
                     }
                 }
             }
             em.getTransaction().commit();
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0)
-            {
+            if (msg == null || msg.length() == 0) {
                 Integer id = roles.getId();
-                if (findRoles(id) == null)
-                {
+                if (findRoles(id) == null) {
                     throw new NonexistentEntityException("The roles with id " + id + " no longer exists.");
                 }
             }
             throw ex;
-        }
-        finally
-        {
-            if (em != null)
-            {
+        } finally {
+            if (em != null) {
                 em.close();
             }
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
-    {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
-        try
-        {
+        try {
             em = getEntityManager();
             em.getTransaction().begin();
             Roles roles;
-            try
-            {
+            try {
                 roles = em.getReference(Roles.class, id);
                 roles.getId();
-            }
-            catch (EntityNotFoundException enfe)
-            {
+            } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The roles with id " + id + " no longer exists.", enfe);
             }
-            Collection<Users> usersCollection = roles.getUsersCollection();
-            for (Users usersCollectionUsers : usersCollection)
-            {
-                usersCollectionUsers.setRoleId(null);
-                usersCollectionUsers = em.merge(usersCollectionUsers);
+            List<Users> usersList = roles.getUsersList();
+            for (Users usersListUsers : usersList) {
+                usersListUsers.setRoleId(null);
+                usersListUsers = em.merge(usersListUsers);
             }
             em.remove(roles);
             em.getTransaction().commit();
-        }
-        finally
-        {
-            if (em != null)
-            {
+        } finally {
+            if (em != null) {
                 em.close();
             }
         }
     }
 
-    public List<Roles> findRolesEntities()
-    {
+    public List<Roles> findRolesEntities() {
         return findRolesEntities(true, -1, -1);
     }
 
-    public List<Roles> findRolesEntities(int maxResults, int firstResult)
-    {
+    public List<Roles> findRolesEntities(int maxResults, int firstResult) {
         return findRolesEntities(false, maxResults, firstResult);
     }
 
-    private List<Roles> findRolesEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Roles> findRolesEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
-        try
-        {
+        try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Roles.class));
             Query q = em.createQuery(cq);
-            if (!all)
-            {
+            if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
-        }
-        finally
-        {
+        } finally {
             em.close();
         }
     }
 
-    public Roles findRoles(Integer id)
-    {
+    public Roles findRoles(Integer id) {
         EntityManager em = getEntityManager();
-        try
-        {
+        try {
             return em.find(Roles.class, id);
-        }
-        finally
-        {
+        } finally {
             em.close();
         }
     }
 
-    public int getRolesCount()
-    {
+    public int getRolesCount() {
         EntityManager em = getEntityManager();
-        try
-        {
+        try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Roles> rt = cq.from(Roles.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
-        }
-        finally
-        {
+        } finally {
             em.close();
         }
     }

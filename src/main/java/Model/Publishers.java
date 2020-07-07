@@ -6,7 +6,7 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,19 +22,16 @@ import javax.persistence.Table;
 
 /**
  *
- * @author admin
+ * @author tkang_85a
  */
 @Entity
 @Table(name = "Publishers", catalog = "booktique", schema = "dbo")
-@NamedQueries(
-{
+@NamedQueries({
     @NamedQuery(name = "Publishers.findAll", query = "SELECT p FROM Publishers p"),
     @NamedQuery(name = "Publishers.findById", query = "SELECT p FROM Publishers p WHERE p.id = :id"),
     @NamedQuery(name = "Publishers.findByName", query = "SELECT p FROM Publishers p WHERE p.name = :name"),
-    @NamedQuery(name = "Publishers.findByFoundingYear", query = "SELECT p FROM Publishers p WHERE p.foundingYear = :foundingYear")
-})
-public class Publishers implements Serializable
-{
+    @NamedQuery(name = "Publishers.findByFoundingYear", query = "SELECT p FROM Publishers p WHERE p.foundingYear = :foundingYear")})
+public class Publishers implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,97 +44,80 @@ public class Publishers implements Serializable
     @Column(name = "FoundingYear")
     private Integer foundingYear;
     @OneToMany(mappedBy = "publisherId")
-    private Collection<BookTitles> bookTitlesCollection;
+    private List<BookTitles> bookTitlesList;
     @JoinColumn(name = "CountryId", referencedColumnName = "Id")
     @ManyToOne
     private Countries countryId;
 
-    public Publishers()
-    {
+    public Publishers() {
     }
 
-    public Publishers(Integer id)
-    {
+    public Publishers(Integer id) {
         this.id = id;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Integer getFoundingYear()
-    {
+    public Integer getFoundingYear() {
         return foundingYear;
     }
 
-    public void setFoundingYear(Integer foundingYear)
-    {
+    public void setFoundingYear(Integer foundingYear) {
         this.foundingYear = foundingYear;
     }
 
-    public Collection<BookTitles> getBookTitlesCollection()
-    {
-        return bookTitlesCollection;
+    public List<BookTitles> getBookTitlesList() {
+        return bookTitlesList;
     }
 
-    public void setBookTitlesCollection(Collection<BookTitles> bookTitlesCollection)
-    {
-        this.bookTitlesCollection = bookTitlesCollection;
+    public void setBookTitlesList(List<BookTitles> bookTitlesList) {
+        this.bookTitlesList = bookTitlesList;
     }
 
-    public Countries getCountryId()
-    {
+    public Countries getCountryId() {
         return countryId;
     }
 
-    public void setCountryId(Countries countryId)
-    {
+    public void setCountryId(Countries countryId) {
         this.countryId = countryId;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Publishers))
-        {
+        if (!(object instanceof Publishers)) {
             return false;
         }
         Publishers other = (Publishers) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
-        {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Model.Publishers[ id=" + id + " ]";
     }
     
