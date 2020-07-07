@@ -24,22 +24,19 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author admin
+ * @author tkang_85a
  */
 @Entity
 @Table(name = "Borrows", catalog = "booktique", schema = "dbo")
-@NamedQueries(
-{
+@NamedQueries({
     @NamedQuery(name = "Borrows.findAll", query = "SELECT b FROM Borrows b"),
     @NamedQuery(name = "Borrows.findById", query = "SELECT b FROM Borrows b WHERE b.id = :id"),
     @NamedQuery(name = "Borrows.findByBorrowDate", query = "SELECT b FROM Borrows b WHERE b.borrowDate = :borrowDate"),
     @NamedQuery(name = "Borrows.findByPlanReturnDate", query = "SELECT b FROM Borrows b WHERE b.planReturnDate = :planReturnDate"),
     @NamedQuery(name = "Borrows.findByReturnDate", query = "SELECT b FROM Borrows b WHERE b.returnDate = :returnDate"),
     @NamedQuery(name = "Borrows.findByChargeFee", query = "SELECT b FROM Borrows b WHERE b.chargeFee = :chargeFee"),
-    @NamedQuery(name = "Borrows.findByChargeReason", query = "SELECT b FROM Borrows b WHERE b.chargeReason = :chargeReason")
-})
-public class Borrows implements Serializable
-{
+    @NamedQuery(name = "Borrows.findByChargeReason", query = "SELECT b FROM Borrows b WHERE b.chargeReason = :chargeReason")})
+public class Borrows implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -68,122 +65,99 @@ public class Borrows implements Serializable
     @ManyToOne
     private Readers readerId;
 
-    public Borrows()
-    {
+    public Borrows() {
     }
 
-    public Borrows(Long id)
-    {
+    public Borrows(Long id) {
         this.id = id;
     }
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Long id)
-    {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Date getBorrowDate()
-    {
+    public Date getBorrowDate() {
         return borrowDate;
     }
 
-    public void setBorrowDate(Date borrowDate)
-    {
+    public void setBorrowDate(Date borrowDate) {
         this.borrowDate = borrowDate;
     }
 
-    public Date getPlanReturnDate()
-    {
+    public Date getPlanReturnDate() {
         return planReturnDate;
     }
 
-    public void setPlanReturnDate(Date planReturnDate)
-    {
+    public void setPlanReturnDate(Date planReturnDate) {
         this.planReturnDate = planReturnDate;
     }
 
-    public Date getReturnDate()
-    {
+    public Date getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(Date returnDate)
-    {
+    public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
     }
 
-    public BigDecimal getChargeFee()
-    {
+    public BigDecimal getChargeFee() {
         return chargeFee;
     }
 
-    public void setChargeFee(BigDecimal chargeFee)
-    {
+    public void setChargeFee(BigDecimal chargeFee) {
         this.chargeFee = chargeFee;
     }
 
-    public Integer getChargeReason()
-    {
+    public Integer getChargeReason() {
         return chargeReason;
     }
 
-    public void setChargeReason(Integer chargeReason)
-    {
+    public void setChargeReason(Integer chargeReason) {
         this.chargeReason = chargeReason;
     }
 
-    public Books getBookId()
-    {
+    public Books getBookId() {
         return bookId;
     }
 
-    public void setBookId(Books bookId)
-    {
+    public void setBookId(Books bookId) {
         this.bookId = bookId;
     }
 
-    public Readers getReaderId()
-    {
+    public Readers getReaderId() {
         return readerId;
     }
 
-    public void setReaderId(Readers readerId)
-    {
+    public void setReaderId(Readers readerId) {
         this.readerId = readerId;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Borrows))
-        {
+        if (!(object instanceof Borrows)) {
             return false;
         }
         Borrows other = (Borrows) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
-        {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Model.Borrows[ id=" + id + " ]";
     }
     

@@ -6,7 +6,7 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,19 +20,16 @@ import javax.persistence.Table;
 
 /**
  *
- * @author admin
+ * @author tkang_85a
  */
 @Entity
 @Table(name = "Roles", catalog = "booktique", schema = "dbo")
-@NamedQueries(
-{
+@NamedQueries({
     @NamedQuery(name = "Roles.findAll", query = "SELECT r FROM Roles r"),
     @NamedQuery(name = "Roles.findById", query = "SELECT r FROM Roles r WHERE r.id = :id"),
     @NamedQuery(name = "Roles.findByRoleName", query = "SELECT r FROM Roles r WHERE r.roleName = :roleName"),
-    @NamedQuery(name = "Roles.findByDescription", query = "SELECT r FROM Roles r WHERE r.description = :description")
-})
-public class Roles implements Serializable
-{
+    @NamedQuery(name = "Roles.findByDescription", query = "SELECT r FROM Roles r WHERE r.description = :description")})
+public class Roles implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,84 +42,69 @@ public class Roles implements Serializable
     @Column(name = "Description")
     private String description;
     @OneToMany(mappedBy = "roleId")
-    private Collection<Users> usersCollection;
+    private List<Users> usersList;
 
-    public Roles()
-    {
+    public Roles() {
     }
 
-    public Roles(Integer id)
-    {
+    public Roles(Integer id) {
         this.id = id;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getRoleName()
-    {
+    public String getRoleName() {
         return roleName;
     }
 
-    public void setRoleName(String roleName)
-    {
+    public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
 
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description)
-    {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public Collection<Users> getUsersCollection()
-    {
-        return usersCollection;
+    public List<Users> getUsersList() {
+        return usersList;
     }
 
-    public void setUsersCollection(Collection<Users> usersCollection)
-    {
-        this.usersCollection = usersCollection;
+    public void setUsersList(List<Users> usersList) {
+        this.usersList = usersList;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Roles))
-        {
+        if (!(object instanceof Roles)) {
             return false;
         }
         Roles other = (Roles) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
-        {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Model.Roles[ id=" + id + " ]";
     }
     

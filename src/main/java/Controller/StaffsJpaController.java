@@ -15,262 +15,203 @@ import Model.Countries;
 import Model.Staffs;
 import Model.Users;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author admin
+ * @author tkang_85a
  */
-public class StaffsJpaController implements Serializable
-{
+public class StaffsJpaController implements Serializable {
 
-    public StaffsJpaController(EntityManagerFactory emf)
-    {
+    public StaffsJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Staffs staffs)
-    {
-        if (staffs.getUsersCollection() == null)
-        {
-            staffs.setUsersCollection(new ArrayList<Users>());
+    public void create(Staffs staffs) {
+        if (staffs.getUsersList() == null) {
+            staffs.setUsersList(new ArrayList<Users>());
         }
         EntityManager em = null;
-        try
-        {
+        try {
             em = getEntityManager();
             em.getTransaction().begin();
             Countries countryId = staffs.getCountryId();
-            if (countryId != null)
-            {
+            if (countryId != null) {
                 countryId = em.getReference(countryId.getClass(), countryId.getId());
                 staffs.setCountryId(countryId);
             }
-            Collection<Users> attachedUsersCollection = new ArrayList<Users>();
-            for (Users usersCollectionUsersToAttach : staffs.getUsersCollection())
-            {
-                usersCollectionUsersToAttach = em.getReference(usersCollectionUsersToAttach.getClass(), usersCollectionUsersToAttach.getId());
-                attachedUsersCollection.add(usersCollectionUsersToAttach);
+            List<Users> attachedUsersList = new ArrayList<Users>();
+            for (Users usersListUsersToAttach : staffs.getUsersList()) {
+                usersListUsersToAttach = em.getReference(usersListUsersToAttach.getClass(), usersListUsersToAttach.getId());
+                attachedUsersList.add(usersListUsersToAttach);
             }
-            staffs.setUsersCollection(attachedUsersCollection);
+            staffs.setUsersList(attachedUsersList);
             em.persist(staffs);
-            if (countryId != null)
-            {
-                countryId.getStaffsCollection().add(staffs);
+            if (countryId != null) {
+                countryId.getStaffsList().add(staffs);
                 countryId = em.merge(countryId);
             }
-            for (Users usersCollectionUsers : staffs.getUsersCollection())
-            {
-                Staffs oldStaffIdOfUsersCollectionUsers = usersCollectionUsers.getStaffId();
-                usersCollectionUsers.setStaffId(staffs);
-                usersCollectionUsers = em.merge(usersCollectionUsers);
-                if (oldStaffIdOfUsersCollectionUsers != null)
-                {
-                    oldStaffIdOfUsersCollectionUsers.getUsersCollection().remove(usersCollectionUsers);
-                    oldStaffIdOfUsersCollectionUsers = em.merge(oldStaffIdOfUsersCollectionUsers);
+            for (Users usersListUsers : staffs.getUsersList()) {
+                Staffs oldStaffIdOfUsersListUsers = usersListUsers.getStaffId();
+                usersListUsers.setStaffId(staffs);
+                usersListUsers = em.merge(usersListUsers);
+                if (oldStaffIdOfUsersListUsers != null) {
+                    oldStaffIdOfUsersListUsers.getUsersList().remove(usersListUsers);
+                    oldStaffIdOfUsersListUsers = em.merge(oldStaffIdOfUsersListUsers);
                 }
             }
             em.getTransaction().commit();
-        }
-        finally
-        {
-            if (em != null)
-            {
+        } finally {
+            if (em != null) {
                 em.close();
             }
         }
     }
 
-    public void edit(Staffs staffs) throws NonexistentEntityException, Exception
-    {
+    public void edit(Staffs staffs) throws NonexistentEntityException, Exception {
         EntityManager em = null;
-        try
-        {
+        try {
             em = getEntityManager();
             em.getTransaction().begin();
             Staffs persistentStaffs = em.find(Staffs.class, staffs.getId());
             Countries countryIdOld = persistentStaffs.getCountryId();
             Countries countryIdNew = staffs.getCountryId();
-            Collection<Users> usersCollectionOld = persistentStaffs.getUsersCollection();
-            Collection<Users> usersCollectionNew = staffs.getUsersCollection();
-            if (countryIdNew != null)
-            {
+            List<Users> usersListOld = persistentStaffs.getUsersList();
+            List<Users> usersListNew = staffs.getUsersList();
+            if (countryIdNew != null) {
                 countryIdNew = em.getReference(countryIdNew.getClass(), countryIdNew.getId());
                 staffs.setCountryId(countryIdNew);
             }
-            Collection<Users> attachedUsersCollectionNew = new ArrayList<Users>();
-            for (Users usersCollectionNewUsersToAttach : usersCollectionNew)
-            {
-                usersCollectionNewUsersToAttach = em.getReference(usersCollectionNewUsersToAttach.getClass(), usersCollectionNewUsersToAttach.getId());
-                attachedUsersCollectionNew.add(usersCollectionNewUsersToAttach);
+            List<Users> attachedUsersListNew = new ArrayList<Users>();
+            for (Users usersListNewUsersToAttach : usersListNew) {
+                usersListNewUsersToAttach = em.getReference(usersListNewUsersToAttach.getClass(), usersListNewUsersToAttach.getId());
+                attachedUsersListNew.add(usersListNewUsersToAttach);
             }
-            usersCollectionNew = attachedUsersCollectionNew;
-            staffs.setUsersCollection(usersCollectionNew);
+            usersListNew = attachedUsersListNew;
+            staffs.setUsersList(usersListNew);
             staffs = em.merge(staffs);
-            if (countryIdOld != null && !countryIdOld.equals(countryIdNew))
-            {
-                countryIdOld.getStaffsCollection().remove(staffs);
+            if (countryIdOld != null && !countryIdOld.equals(countryIdNew)) {
+                countryIdOld.getStaffsList().remove(staffs);
                 countryIdOld = em.merge(countryIdOld);
             }
-            if (countryIdNew != null && !countryIdNew.equals(countryIdOld))
-            {
-                countryIdNew.getStaffsCollection().add(staffs);
+            if (countryIdNew != null && !countryIdNew.equals(countryIdOld)) {
+                countryIdNew.getStaffsList().add(staffs);
                 countryIdNew = em.merge(countryIdNew);
             }
-            for (Users usersCollectionOldUsers : usersCollectionOld)
-            {
-                if (!usersCollectionNew.contains(usersCollectionOldUsers))
-                {
-                    usersCollectionOldUsers.setStaffId(null);
-                    usersCollectionOldUsers = em.merge(usersCollectionOldUsers);
+            for (Users usersListOldUsers : usersListOld) {
+                if (!usersListNew.contains(usersListOldUsers)) {
+                    usersListOldUsers.setStaffId(null);
+                    usersListOldUsers = em.merge(usersListOldUsers);
                 }
             }
-            for (Users usersCollectionNewUsers : usersCollectionNew)
-            {
-                if (!usersCollectionOld.contains(usersCollectionNewUsers))
-                {
-                    Staffs oldStaffIdOfUsersCollectionNewUsers = usersCollectionNewUsers.getStaffId();
-                    usersCollectionNewUsers.setStaffId(staffs);
-                    usersCollectionNewUsers = em.merge(usersCollectionNewUsers);
-                    if (oldStaffIdOfUsersCollectionNewUsers != null && !oldStaffIdOfUsersCollectionNewUsers.equals(staffs))
-                    {
-                        oldStaffIdOfUsersCollectionNewUsers.getUsersCollection().remove(usersCollectionNewUsers);
-                        oldStaffIdOfUsersCollectionNewUsers = em.merge(oldStaffIdOfUsersCollectionNewUsers);
+            for (Users usersListNewUsers : usersListNew) {
+                if (!usersListOld.contains(usersListNewUsers)) {
+                    Staffs oldStaffIdOfUsersListNewUsers = usersListNewUsers.getStaffId();
+                    usersListNewUsers.setStaffId(staffs);
+                    usersListNewUsers = em.merge(usersListNewUsers);
+                    if (oldStaffIdOfUsersListNewUsers != null && !oldStaffIdOfUsersListNewUsers.equals(staffs)) {
+                        oldStaffIdOfUsersListNewUsers.getUsersList().remove(usersListNewUsers);
+                        oldStaffIdOfUsersListNewUsers = em.merge(oldStaffIdOfUsersListNewUsers);
                     }
                 }
             }
             em.getTransaction().commit();
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0)
-            {
+            if (msg == null || msg.length() == 0) {
                 Integer id = staffs.getId();
-                if (findStaffs(id) == null)
-                {
+                if (findStaffs(id) == null) {
                     throw new NonexistentEntityException("The staffs with id " + id + " no longer exists.");
                 }
             }
             throw ex;
-        }
-        finally
-        {
-            if (em != null)
-            {
+        } finally {
+            if (em != null) {
                 em.close();
             }
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
-    {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
-        try
-        {
+        try {
             em = getEntityManager();
             em.getTransaction().begin();
             Staffs staffs;
-            try
-            {
+            try {
                 staffs = em.getReference(Staffs.class, id);
                 staffs.getId();
-            }
-            catch (EntityNotFoundException enfe)
-            {
+            } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The staffs with id " + id + " no longer exists.", enfe);
             }
             Countries countryId = staffs.getCountryId();
-            if (countryId != null)
-            {
-                countryId.getStaffsCollection().remove(staffs);
+            if (countryId != null) {
+                countryId.getStaffsList().remove(staffs);
                 countryId = em.merge(countryId);
             }
-            Collection<Users> usersCollection = staffs.getUsersCollection();
-            for (Users usersCollectionUsers : usersCollection)
-            {
-                usersCollectionUsers.setStaffId(null);
-                usersCollectionUsers = em.merge(usersCollectionUsers);
+            List<Users> usersList = staffs.getUsersList();
+            for (Users usersListUsers : usersList) {
+                usersListUsers.setStaffId(null);
+                usersListUsers = em.merge(usersListUsers);
             }
             em.remove(staffs);
             em.getTransaction().commit();
-        }
-        finally
-        {
-            if (em != null)
-            {
+        } finally {
+            if (em != null) {
                 em.close();
             }
         }
     }
 
-    public List<Staffs> findStaffsEntities()
-    {
+    public List<Staffs> findStaffsEntities() {
         return findStaffsEntities(true, -1, -1);
     }
 
-    public List<Staffs> findStaffsEntities(int maxResults, int firstResult)
-    {
+    public List<Staffs> findStaffsEntities(int maxResults, int firstResult) {
         return findStaffsEntities(false, maxResults, firstResult);
     }
 
-    private List<Staffs> findStaffsEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Staffs> findStaffsEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
-        try
-        {
+        try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Staffs.class));
             Query q = em.createQuery(cq);
-            if (!all)
-            {
+            if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
-        }
-        finally
-        {
+        } finally {
             em.close();
         }
     }
 
-    public Staffs findStaffs(Integer id)
-    {
+    public Staffs findStaffs(Integer id) {
         EntityManager em = getEntityManager();
-        try
-        {
+        try {
             return em.find(Staffs.class, id);
-        }
-        finally
-        {
+        } finally {
             em.close();
         }
     }
 
-    public int getStaffsCount()
-    {
+    public int getStaffsCount() {
         EntityManager em = getEntityManager();
-        try
-        {
+        try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Staffs> rt = cq.from(Staffs.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
-        }
-        finally
-        {
+        } finally {
             em.close();
         }
     }

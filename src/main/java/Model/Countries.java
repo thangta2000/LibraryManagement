@@ -6,7 +6,7 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,18 +20,15 @@ import javax.persistence.Table;
 
 /**
  *
- * @author admin
+ * @author tkang_85a
  */
 @Entity
 @Table(name = "Countries", catalog = "booktique", schema = "dbo")
-@NamedQueries(
-{
+@NamedQueries({
     @NamedQuery(name = "Countries.findAll", query = "SELECT c FROM Countries c"),
     @NamedQuery(name = "Countries.findById", query = "SELECT c FROM Countries c WHERE c.id = :id"),
-    @NamedQuery(name = "Countries.findByName", query = "SELECT c FROM Countries c WHERE c.name = :name")
-})
-public class Countries implements Serializable
-{
+    @NamedQuery(name = "Countries.findByName", query = "SELECT c FROM Countries c WHERE c.name = :name")})
+public class Countries implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,134 +39,111 @@ public class Countries implements Serializable
     @Column(name = "Name")
     private String name;
     @OneToMany(mappedBy = "countryId")
-    private Collection<Staffs> staffsCollection;
+    private List<Staffs> staffsList;
     @OneToMany(mappedBy = "countryId")
-    private Collection<Authors> authorsCollection;
+    private List<Authors> authorsList;
     @OneToMany(mappedBy = "countryId")
-    private Collection<BookTitles> bookTitlesCollection;
+    private List<BookTitles> bookTitlesList;
     @OneToMany(mappedBy = "countryId")
-    private Collection<Readers> readersCollection;
+    private List<Readers> readersList;
     @OneToMany(mappedBy = "countryId")
-    private Collection<Publishers> publishersCollection;
+    private List<Publishers> publishersList;
     @OneToMany(mappedBy = "countryId")
-    private Collection<BookRequests> bookRequestsCollection;
+    private List<BookRequests> bookRequestsList;
 
-    public Countries()
-    {
+    public Countries() {
     }
 
-    public Countries(Integer id)
-    {
+    public Countries(Integer id) {
         this.id = id;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Collection<Staffs> getStaffsCollection()
-    {
-        return staffsCollection;
+    public List<Staffs> getStaffsList() {
+        return staffsList;
     }
 
-    public void setStaffsCollection(Collection<Staffs> staffsCollection)
-    {
-        this.staffsCollection = staffsCollection;
+    public void setStaffsList(List<Staffs> staffsList) {
+        this.staffsList = staffsList;
     }
 
-    public Collection<Authors> getAuthorsCollection()
-    {
-        return authorsCollection;
+    public List<Authors> getAuthorsList() {
+        return authorsList;
     }
 
-    public void setAuthorsCollection(Collection<Authors> authorsCollection)
-    {
-        this.authorsCollection = authorsCollection;
+    public void setAuthorsList(List<Authors> authorsList) {
+        this.authorsList = authorsList;
     }
 
-    public Collection<BookTitles> getBookTitlesCollection()
-    {
-        return bookTitlesCollection;
+    public List<BookTitles> getBookTitlesList() {
+        return bookTitlesList;
     }
 
-    public void setBookTitlesCollection(Collection<BookTitles> bookTitlesCollection)
-    {
-        this.bookTitlesCollection = bookTitlesCollection;
+    public void setBookTitlesList(List<BookTitles> bookTitlesList) {
+        this.bookTitlesList = bookTitlesList;
     }
 
-    public Collection<Readers> getReadersCollection()
-    {
-        return readersCollection;
+    public List<Readers> getReadersList() {
+        return readersList;
     }
 
-    public void setReadersCollection(Collection<Readers> readersCollection)
-    {
-        this.readersCollection = readersCollection;
+    public void setReadersList(List<Readers> readersList) {
+        this.readersList = readersList;
     }
 
-    public Collection<Publishers> getPublishersCollection()
-    {
-        return publishersCollection;
+    public List<Publishers> getPublishersList() {
+        return publishersList;
     }
 
-    public void setPublishersCollection(Collection<Publishers> publishersCollection)
-    {
-        this.publishersCollection = publishersCollection;
+    public void setPublishersList(List<Publishers> publishersList) {
+        this.publishersList = publishersList;
     }
 
-    public Collection<BookRequests> getBookRequestsCollection()
-    {
-        return bookRequestsCollection;
+    public List<BookRequests> getBookRequestsList() {
+        return bookRequestsList;
     }
 
-    public void setBookRequestsCollection(Collection<BookRequests> bookRequestsCollection)
-    {
-        this.bookRequestsCollection = bookRequestsCollection;
+    public void setBookRequestsList(List<BookRequests> bookRequestsList) {
+        this.bookRequestsList = bookRequestsList;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Countries))
-        {
+        if (!(object instanceof Countries)) {
             return false;
         }
         Countries other = (Countries) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
-        {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Model.Countries[ id=" + id + " ]";
     }
     

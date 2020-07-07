@@ -6,8 +6,8 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,12 +25,11 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author admin
+ * @author tkang_85a
  */
 @Entity
 @Table(name = "Readers", catalog = "booktique", schema = "dbo")
-@NamedQueries(
-{
+@NamedQueries({
     @NamedQuery(name = "Readers.findAll", query = "SELECT r FROM Readers r"),
     @NamedQuery(name = "Readers.findById", query = "SELECT r FROM Readers r WHERE r.id = :id"),
     @NamedQuery(name = "Readers.findByMemberCard", query = "SELECT r FROM Readers r WHERE r.memberCard = :memberCard"),
@@ -42,10 +41,8 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Readers.findByGender", query = "SELECT r FROM Readers r WHERE r.gender = :gender"),
     @NamedQuery(name = "Readers.findByBirthDay", query = "SELECT r FROM Readers r WHERE r.birthDay = :birthDay"),
     @NamedQuery(name = "Readers.findByWorkPlace", query = "SELECT r FROM Readers r WHERE r.workPlace = :workPlace"),
-    @NamedQuery(name = "Readers.findByJobTitle", query = "SELECT r FROM Readers r WHERE r.jobTitle = :jobTitle")
-})
-public class Readers implements Serializable
-{
+    @NamedQuery(name = "Readers.findByJobTitle", query = "SELECT r FROM Readers r WHERE r.jobTitle = :jobTitle")})
+public class Readers implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -78,186 +75,151 @@ public class Readers implements Serializable
     @ManyToOne
     private Countries countryId;
     @OneToMany(mappedBy = "readerId")
-    private Collection<BookRequests> bookRequestsCollection;
+    private List<BookRequests> bookRequestsList;
     @OneToMany(mappedBy = "readerId")
-    private Collection<Borrows> borrowsCollection;
+    private List<Borrows> borrowsList;
 
-    public Readers()
-    {
+    public Readers() {
     }
 
-    public Readers(Integer id)
-    {
+    public Readers(Integer id) {
         this.id = id;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getMemberCard()
-    {
+    public String getMemberCard() {
         return memberCard;
     }
 
-    public void setMemberCard(String memberCard)
-    {
+    public void setMemberCard(String memberCard) {
         this.memberCard = memberCard;
     }
 
-    public String getFullName()
-    {
+    public String getFullName() {
         return fullName;
     }
 
-    public void setFullName(String fullName)
-    {
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
-    public String getIdentityCard()
-    {
+    public String getIdentityCard() {
         return identityCard;
     }
 
-    public void setIdentityCard(String identityCard)
-    {
+    public void setIdentityCard(String identityCard) {
         this.identityCard = identityCard;
     }
 
-    public String getAddress()
-    {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address)
-    {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email)
-    {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getPhone()
-    {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone)
-    {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public Boolean getGender()
-    {
+    public Boolean getGender() {
         return gender;
     }
 
-    public void setGender(Boolean gender)
-    {
+    public void setGender(Boolean gender) {
         this.gender = gender;
     }
 
-    public Date getBirthDay()
-    {
+    public Date getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(Date birthDay)
-    {
+    public void setBirthDay(Date birthDay) {
         this.birthDay = birthDay;
     }
 
-    public String getWorkPlace()
-    {
+    public String getWorkPlace() {
         return workPlace;
     }
 
-    public void setWorkPlace(String workPlace)
-    {
+    public void setWorkPlace(String workPlace) {
         this.workPlace = workPlace;
     }
 
-    public String getJobTitle()
-    {
+    public String getJobTitle() {
         return jobTitle;
     }
 
-    public void setJobTitle(String jobTitle)
-    {
+    public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
     }
 
-    public Countries getCountryId()
-    {
+    public Countries getCountryId() {
         return countryId;
     }
 
-    public void setCountryId(Countries countryId)
-    {
+    public void setCountryId(Countries countryId) {
         this.countryId = countryId;
     }
 
-    public Collection<BookRequests> getBookRequestsCollection()
-    {
-        return bookRequestsCollection;
+    public List<BookRequests> getBookRequestsList() {
+        return bookRequestsList;
     }
 
-    public void setBookRequestsCollection(Collection<BookRequests> bookRequestsCollection)
-    {
-        this.bookRequestsCollection = bookRequestsCollection;
+    public void setBookRequestsList(List<BookRequests> bookRequestsList) {
+        this.bookRequestsList = bookRequestsList;
     }
 
-    public Collection<Borrows> getBorrowsCollection()
-    {
-        return borrowsCollection;
+    public List<Borrows> getBorrowsList() {
+        return borrowsList;
     }
 
-    public void setBorrowsCollection(Collection<Borrows> borrowsCollection)
-    {
-        this.borrowsCollection = borrowsCollection;
+    public void setBorrowsList(List<Borrows> borrowsList) {
+        this.borrowsList = borrowsList;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Readers))
-        {
+        if (!(object instanceof Readers)) {
             return false;
         }
         Readers other = (Readers) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
-        {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Model.Readers[ id=" + id + " ]";
     }
     

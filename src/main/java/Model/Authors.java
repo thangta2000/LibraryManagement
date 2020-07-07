@@ -6,7 +6,7 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,18 +22,15 @@ import javax.persistence.Table;
 
 /**
  *
- * @author admin
+ * @author tkang_85a
  */
 @Entity
 @Table(name = "Authors", catalog = "booktique", schema = "dbo")
-@NamedQueries(
-{
+@NamedQueries({
     @NamedQuery(name = "Authors.findAll", query = "SELECT a FROM Authors a"),
     @NamedQuery(name = "Authors.findById", query = "SELECT a FROM Authors a WHERE a.id = :id"),
-    @NamedQuery(name = "Authors.findByFullName", query = "SELECT a FROM Authors a WHERE a.fullName = :fullName")
-})
-public class Authors implements Serializable
-{
+    @NamedQuery(name = "Authors.findByFullName", query = "SELECT a FROM Authors a WHERE a.fullName = :fullName")})
+public class Authors implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,84 +44,69 @@ public class Authors implements Serializable
     @ManyToOne
     private Countries countryId;
     @OneToMany(mappedBy = "authorId")
-    private Collection<BooksByAuthors> booksByAuthorsCollection;
+    private List<BooksByAuthors> booksByAuthorsList;
 
-    public Authors()
-    {
+    public Authors() {
     }
 
-    public Authors(Integer id)
-    {
+    public Authors(Integer id) {
         this.id = id;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getFullName()
-    {
+    public String getFullName() {
         return fullName;
     }
 
-    public void setFullName(String fullName)
-    {
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
-    public Countries getCountryId()
-    {
+    public Countries getCountryId() {
         return countryId;
     }
 
-    public void setCountryId(Countries countryId)
-    {
+    public void setCountryId(Countries countryId) {
         this.countryId = countryId;
     }
 
-    public Collection<BooksByAuthors> getBooksByAuthorsCollection()
-    {
-        return booksByAuthorsCollection;
+    public List<BooksByAuthors> getBooksByAuthorsList() {
+        return booksByAuthorsList;
     }
 
-    public void setBooksByAuthorsCollection(Collection<BooksByAuthors> booksByAuthorsCollection)
-    {
-        this.booksByAuthorsCollection = booksByAuthorsCollection;
+    public void setBooksByAuthorsList(List<BooksByAuthors> booksByAuthorsList) {
+        this.booksByAuthorsList = booksByAuthorsList;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Authors))
-        {
+        if (!(object instanceof Authors)) {
             return false;
         }
         Authors other = (Authors) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
-        {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Model.Authors[ id=" + id + " ]";
     }
     

@@ -20,17 +20,14 @@ import javax.persistence.Table;
 
 /**
  *
- * @author admin
+ * @author tkang_85a
  */
 @Entity
 @Table(name = "BooksByAuthors", catalog = "booktique", schema = "dbo")
-@NamedQueries(
-{
+@NamedQueries({
     @NamedQuery(name = "BooksByAuthors.findAll", query = "SELECT b FROM BooksByAuthors b"),
-    @NamedQuery(name = "BooksByAuthors.findById", query = "SELECT b FROM BooksByAuthors b WHERE b.id = :id")
-})
-public class BooksByAuthors implements Serializable
-{
+    @NamedQuery(name = "BooksByAuthors.findById", query = "SELECT b FROM BooksByAuthors b WHERE b.id = :id")})
+public class BooksByAuthors implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,72 +42,59 @@ public class BooksByAuthors implements Serializable
     @ManyToOne
     private BookTitles bookTitleId;
 
-    public BooksByAuthors()
-    {
+    public BooksByAuthors() {
     }
 
-    public BooksByAuthors(Integer id)
-    {
+    public BooksByAuthors(Integer id) {
         this.id = id;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Authors getAuthorId()
-    {
+    public Authors getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(Authors authorId)
-    {
+    public void setAuthorId(Authors authorId) {
         this.authorId = authorId;
     }
 
-    public BookTitles getBookTitleId()
-    {
+    public BookTitles getBookTitleId() {
         return bookTitleId;
     }
 
-    public void setBookTitleId(BookTitles bookTitleId)
-    {
+    public void setBookTitleId(BookTitles bookTitleId) {
         this.bookTitleId = bookTitleId;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof BooksByAuthors))
-        {
+        if (!(object instanceof BooksByAuthors)) {
             return false;
         }
         BooksByAuthors other = (BooksByAuthors) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
-        {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Model.BooksByAuthors[ id=" + id + " ]";
     }
     
