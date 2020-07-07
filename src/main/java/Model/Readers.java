@@ -6,8 +6,8 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -78,9 +78,9 @@ public class Readers implements Serializable
     @ManyToOne
     private Countries countryId;
     @OneToMany(mappedBy = "readerId")
-    private Collection<BookRequests> bookRequestsCollection;
+    private List<BookRequests> bookRequestsList;
     @OneToMany(mappedBy = "readerId")
-    private Collection<Borrows> borrowsCollection;
+    private List<Borrows> borrowsList;
 
     public Readers()
     {
@@ -211,24 +211,24 @@ public class Readers implements Serializable
         this.countryId = countryId;
     }
 
-    public Collection<BookRequests> getBookRequestsCollection()
+    public List<BookRequests> getBookRequestsList()
     {
-        return bookRequestsCollection;
+        return bookRequestsList;
     }
 
-    public void setBookRequestsCollection(Collection<BookRequests> bookRequestsCollection)
+    public void setBookRequestsList(List<BookRequests> bookRequestsList)
     {
-        this.bookRequestsCollection = bookRequestsCollection;
+        this.bookRequestsList = bookRequestsList;
     }
 
-    public Collection<Borrows> getBorrowsCollection()
+    public List<Borrows> getBorrowsList()
     {
-        return borrowsCollection;
+        return borrowsList;
     }
 
-    public void setBorrowsCollection(Collection<Borrows> borrowsCollection)
+    public void setBorrowsList(List<Borrows> borrowsList)
     {
-        this.borrowsCollection = borrowsCollection;
+        this.borrowsList = borrowsList;
     }
 
     @Override

@@ -59,12 +59,12 @@ public class UsersJpaController implements Serializable
             em.persist(users);
             if (roleId != null)
             {
-                roleId.getUsersCollection().add(users);
+                roleId.getUsersList().add(users);
                 roleId = em.merge(roleId);
             }
             if (staffId != null)
             {
-                staffId.getUsersCollection().add(users);
+                staffId.getUsersList().add(users);
                 staffId = em.merge(staffId);
             }
             em.getTransaction().commit();
@@ -103,22 +103,22 @@ public class UsersJpaController implements Serializable
             users = em.merge(users);
             if (roleIdOld != null && !roleIdOld.equals(roleIdNew))
             {
-                roleIdOld.getUsersCollection().remove(users);
+                roleIdOld.getUsersList().remove(users);
                 roleIdOld = em.merge(roleIdOld);
             }
             if (roleIdNew != null && !roleIdNew.equals(roleIdOld))
             {
-                roleIdNew.getUsersCollection().add(users);
+                roleIdNew.getUsersList().add(users);
                 roleIdNew = em.merge(roleIdNew);
             }
             if (staffIdOld != null && !staffIdOld.equals(staffIdNew))
             {
-                staffIdOld.getUsersCollection().remove(users);
+                staffIdOld.getUsersList().remove(users);
                 staffIdOld = em.merge(staffIdOld);
             }
             if (staffIdNew != null && !staffIdNew.equals(staffIdOld))
             {
-                staffIdNew.getUsersCollection().add(users);
+                staffIdNew.getUsersList().add(users);
                 staffIdNew = em.merge(staffIdNew);
             }
             em.getTransaction().commit();
@@ -165,13 +165,13 @@ public class UsersJpaController implements Serializable
             Roles roleId = users.getRoleId();
             if (roleId != null)
             {
-                roleId.getUsersCollection().remove(users);
+                roleId.getUsersList().remove(users);
                 roleId = em.merge(roleId);
             }
             Staffs staffId = users.getStaffId();
             if (staffId != null)
             {
-                staffId.getUsersCollection().remove(users);
+                staffId.getUsersList().remove(users);
                 staffId = em.merge(staffId);
             }
             em.remove(users);

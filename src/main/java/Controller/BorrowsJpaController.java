@@ -59,12 +59,12 @@ public class BorrowsJpaController implements Serializable
             em.persist(borrows);
             if (bookId != null)
             {
-                bookId.getBorrowsCollection().add(borrows);
+                bookId.getBorrowsList().add(borrows);
                 bookId = em.merge(bookId);
             }
             if (readerId != null)
             {
-                readerId.getBorrowsCollection().add(borrows);
+                readerId.getBorrowsList().add(borrows);
                 readerId = em.merge(readerId);
             }
             em.getTransaction().commit();
@@ -103,22 +103,22 @@ public class BorrowsJpaController implements Serializable
             borrows = em.merge(borrows);
             if (bookIdOld != null && !bookIdOld.equals(bookIdNew))
             {
-                bookIdOld.getBorrowsCollection().remove(borrows);
+                bookIdOld.getBorrowsList().remove(borrows);
                 bookIdOld = em.merge(bookIdOld);
             }
             if (bookIdNew != null && !bookIdNew.equals(bookIdOld))
             {
-                bookIdNew.getBorrowsCollection().add(borrows);
+                bookIdNew.getBorrowsList().add(borrows);
                 bookIdNew = em.merge(bookIdNew);
             }
             if (readerIdOld != null && !readerIdOld.equals(readerIdNew))
             {
-                readerIdOld.getBorrowsCollection().remove(borrows);
+                readerIdOld.getBorrowsList().remove(borrows);
                 readerIdOld = em.merge(readerIdOld);
             }
             if (readerIdNew != null && !readerIdNew.equals(readerIdOld))
             {
-                readerIdNew.getBorrowsCollection().add(borrows);
+                readerIdNew.getBorrowsList().add(borrows);
                 readerIdNew = em.merge(readerIdNew);
             }
             em.getTransaction().commit();
@@ -165,13 +165,13 @@ public class BorrowsJpaController implements Serializable
             Books bookId = borrows.getBookId();
             if (bookId != null)
             {
-                bookId.getBorrowsCollection().remove(borrows);
+                bookId.getBorrowsList().remove(borrows);
                 bookId = em.merge(bookId);
             }
             Readers readerId = borrows.getReaderId();
             if (readerId != null)
             {
-                readerId.getBorrowsCollection().remove(borrows);
+                readerId.getBorrowsList().remove(borrows);
                 readerId = em.merge(readerId);
             }
             em.remove(borrows);

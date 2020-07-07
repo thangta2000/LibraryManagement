@@ -59,12 +59,12 @@ public class BookRequestsJpaController implements Serializable
             em.persist(bookRequests);
             if (countryId != null)
             {
-                countryId.getBookRequestsCollection().add(bookRequests);
+                countryId.getBookRequestsList().add(bookRequests);
                 countryId = em.merge(countryId);
             }
             if (readerId != null)
             {
-                readerId.getBookRequestsCollection().add(bookRequests);
+                readerId.getBookRequestsList().add(bookRequests);
                 readerId = em.merge(readerId);
             }
             em.getTransaction().commit();
@@ -103,22 +103,22 @@ public class BookRequestsJpaController implements Serializable
             bookRequests = em.merge(bookRequests);
             if (countryIdOld != null && !countryIdOld.equals(countryIdNew))
             {
-                countryIdOld.getBookRequestsCollection().remove(bookRequests);
+                countryIdOld.getBookRequestsList().remove(bookRequests);
                 countryIdOld = em.merge(countryIdOld);
             }
             if (countryIdNew != null && !countryIdNew.equals(countryIdOld))
             {
-                countryIdNew.getBookRequestsCollection().add(bookRequests);
+                countryIdNew.getBookRequestsList().add(bookRequests);
                 countryIdNew = em.merge(countryIdNew);
             }
             if (readerIdOld != null && !readerIdOld.equals(readerIdNew))
             {
-                readerIdOld.getBookRequestsCollection().remove(bookRequests);
+                readerIdOld.getBookRequestsList().remove(bookRequests);
                 readerIdOld = em.merge(readerIdOld);
             }
             if (readerIdNew != null && !readerIdNew.equals(readerIdOld))
             {
-                readerIdNew.getBookRequestsCollection().add(bookRequests);
+                readerIdNew.getBookRequestsList().add(bookRequests);
                 readerIdNew = em.merge(readerIdNew);
             }
             em.getTransaction().commit();
@@ -165,13 +165,13 @@ public class BookRequestsJpaController implements Serializable
             Countries countryId = bookRequests.getCountryId();
             if (countryId != null)
             {
-                countryId.getBookRequestsCollection().remove(bookRequests);
+                countryId.getBookRequestsList().remove(bookRequests);
                 countryId = em.merge(countryId);
             }
             Readers readerId = bookRequests.getReaderId();
             if (readerId != null)
             {
-                readerId.getBookRequestsCollection().remove(bookRequests);
+                readerId.getBookRequestsList().remove(bookRequests);
                 readerId = em.merge(readerId);
             }
             em.remove(bookRequests);

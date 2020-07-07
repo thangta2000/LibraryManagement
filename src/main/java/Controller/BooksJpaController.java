@@ -15,7 +15,6 @@ import Model.BookTitles;
 import Model.Books;
 import Model.Borrows;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -41,9 +40,9 @@ public class BooksJpaController implements Serializable
 
     public void create(Books books)
     {
-        if (books.getBorrowsCollection() == null)
+        if (books.getBorrowsList() == null)
         {
-            books.setBorrowsCollection(new ArrayList<Borrows>());
+            books.setBorrowsList(new ArrayList<Borrows>());
         }
         EntityManager em = null;
         try
@@ -56,28 +55,28 @@ public class BooksJpaController implements Serializable
                 bookTitleId = em.getReference(bookTitleId.getClass(), bookTitleId.getId());
                 books.setBookTitleId(bookTitleId);
             }
-            Collection<Borrows> attachedBorrowsCollection = new ArrayList<Borrows>();
-            for (Borrows borrowsCollectionBorrowsToAttach : books.getBorrowsCollection())
+            List<Borrows> attachedBorrowsList = new ArrayList<Borrows>();
+            for (Borrows borrowsListBorrowsToAttach : books.getBorrowsList())
             {
-                borrowsCollectionBorrowsToAttach = em.getReference(borrowsCollectionBorrowsToAttach.getClass(), borrowsCollectionBorrowsToAttach.getId());
-                attachedBorrowsCollection.add(borrowsCollectionBorrowsToAttach);
+                borrowsListBorrowsToAttach = em.getReference(borrowsListBorrowsToAttach.getClass(), borrowsListBorrowsToAttach.getId());
+                attachedBorrowsList.add(borrowsListBorrowsToAttach);
             }
-            books.setBorrowsCollection(attachedBorrowsCollection);
+            books.setBorrowsList(attachedBorrowsList);
             em.persist(books);
             if (bookTitleId != null)
             {
-                bookTitleId.getBooksCollection().add(books);
+                bookTitleId.getBooksList().add(books);
                 bookTitleId = em.merge(bookTitleId);
             }
-            for (Borrows borrowsCollectionBorrows : books.getBorrowsCollection())
+            for (Borrows borrowsListBorrows : books.getBorrowsList())
             {
-                Books oldBookIdOfBorrowsCollectionBorrows = borrowsCollectionBorrows.getBookId();
-                borrowsCollectionBorrows.setBookId(books);
-                borrowsCollectionBorrows = em.merge(borrowsCollectionBorrows);
-                if (oldBookIdOfBorrowsCollectionBorrows != null)
+                Books oldBookIdOfBorrowsListBorrows = borrowsListBorrows.getBookId();
+                borrowsListBorrows.setBookId(books);
+                borrowsListBorrows = em.merge(borrowsListBorrows);
+                if (oldBookIdOfBorrowsListBorrows != null)
                 {
-                    oldBookIdOfBorrowsCollectionBorrows.getBorrowsCollection().remove(borrowsCollectionBorrows);
-                    oldBookIdOfBorrowsCollectionBorrows = em.merge(oldBookIdOfBorrowsCollectionBorrows);
+                    oldBookIdOfBorrowsListBorrows.getBorrowsList().remove(borrowsListBorrows);
+                    oldBookIdOfBorrowsListBorrows = em.merge(oldBookIdOfBorrowsListBorrows);
                 }
             }
             em.getTransaction().commit();
@@ -101,51 +100,51 @@ public class BooksJpaController implements Serializable
             Books persistentBooks = em.find(Books.class, books.getId());
             BookTitles bookTitleIdOld = persistentBooks.getBookTitleId();
             BookTitles bookTitleIdNew = books.getBookTitleId();
-            Collection<Borrows> borrowsCollectionOld = persistentBooks.getBorrowsCollection();
-            Collection<Borrows> borrowsCollectionNew = books.getBorrowsCollection();
+            List<Borrows> borrowsListOld = persistentBooks.getBorrowsList();
+            List<Borrows> borrowsListNew = books.getBorrowsList();
             if (bookTitleIdNew != null)
             {
                 bookTitleIdNew = em.getReference(bookTitleIdNew.getClass(), bookTitleIdNew.getId());
                 books.setBookTitleId(bookTitleIdNew);
             }
-            Collection<Borrows> attachedBorrowsCollectionNew = new ArrayList<Borrows>();
-            for (Borrows borrowsCollectionNewBorrowsToAttach : borrowsCollectionNew)
+            List<Borrows> attachedBorrowsListNew = new ArrayList<Borrows>();
+            for (Borrows borrowsListNewBorrowsToAttach : borrowsListNew)
             {
-                borrowsCollectionNewBorrowsToAttach = em.getReference(borrowsCollectionNewBorrowsToAttach.getClass(), borrowsCollectionNewBorrowsToAttach.getId());
-                attachedBorrowsCollectionNew.add(borrowsCollectionNewBorrowsToAttach);
+                borrowsListNewBorrowsToAttach = em.getReference(borrowsListNewBorrowsToAttach.getClass(), borrowsListNewBorrowsToAttach.getId());
+                attachedBorrowsListNew.add(borrowsListNewBorrowsToAttach);
             }
-            borrowsCollectionNew = attachedBorrowsCollectionNew;
-            books.setBorrowsCollection(borrowsCollectionNew);
+            borrowsListNew = attachedBorrowsListNew;
+            books.setBorrowsList(borrowsListNew);
             books = em.merge(books);
             if (bookTitleIdOld != null && !bookTitleIdOld.equals(bookTitleIdNew))
             {
-                bookTitleIdOld.getBooksCollection().remove(books);
+                bookTitleIdOld.getBooksList().remove(books);
                 bookTitleIdOld = em.merge(bookTitleIdOld);
             }
             if (bookTitleIdNew != null && !bookTitleIdNew.equals(bookTitleIdOld))
             {
-                bookTitleIdNew.getBooksCollection().add(books);
+                bookTitleIdNew.getBooksList().add(books);
                 bookTitleIdNew = em.merge(bookTitleIdNew);
             }
-            for (Borrows borrowsCollectionOldBorrows : borrowsCollectionOld)
+            for (Borrows borrowsListOldBorrows : borrowsListOld)
             {
-                if (!borrowsCollectionNew.contains(borrowsCollectionOldBorrows))
+                if (!borrowsListNew.contains(borrowsListOldBorrows))
                 {
-                    borrowsCollectionOldBorrows.setBookId(null);
-                    borrowsCollectionOldBorrows = em.merge(borrowsCollectionOldBorrows);
+                    borrowsListOldBorrows.setBookId(null);
+                    borrowsListOldBorrows = em.merge(borrowsListOldBorrows);
                 }
             }
-            for (Borrows borrowsCollectionNewBorrows : borrowsCollectionNew)
+            for (Borrows borrowsListNewBorrows : borrowsListNew)
             {
-                if (!borrowsCollectionOld.contains(borrowsCollectionNewBorrows))
+                if (!borrowsListOld.contains(borrowsListNewBorrows))
                 {
-                    Books oldBookIdOfBorrowsCollectionNewBorrows = borrowsCollectionNewBorrows.getBookId();
-                    borrowsCollectionNewBorrows.setBookId(books);
-                    borrowsCollectionNewBorrows = em.merge(borrowsCollectionNewBorrows);
-                    if (oldBookIdOfBorrowsCollectionNewBorrows != null && !oldBookIdOfBorrowsCollectionNewBorrows.equals(books))
+                    Books oldBookIdOfBorrowsListNewBorrows = borrowsListNewBorrows.getBookId();
+                    borrowsListNewBorrows.setBookId(books);
+                    borrowsListNewBorrows = em.merge(borrowsListNewBorrows);
+                    if (oldBookIdOfBorrowsListNewBorrows != null && !oldBookIdOfBorrowsListNewBorrows.equals(books))
                     {
-                        oldBookIdOfBorrowsCollectionNewBorrows.getBorrowsCollection().remove(borrowsCollectionNewBorrows);
-                        oldBookIdOfBorrowsCollectionNewBorrows = em.merge(oldBookIdOfBorrowsCollectionNewBorrows);
+                        oldBookIdOfBorrowsListNewBorrows.getBorrowsList().remove(borrowsListNewBorrows);
+                        oldBookIdOfBorrowsListNewBorrows = em.merge(oldBookIdOfBorrowsListNewBorrows);
                     }
                 }
             }
@@ -193,14 +192,14 @@ public class BooksJpaController implements Serializable
             BookTitles bookTitleId = books.getBookTitleId();
             if (bookTitleId != null)
             {
-                bookTitleId.getBooksCollection().remove(books);
+                bookTitleId.getBooksList().remove(books);
                 bookTitleId = em.merge(bookTitleId);
             }
-            Collection<Borrows> borrowsCollection = books.getBorrowsCollection();
-            for (Borrows borrowsCollectionBorrows : borrowsCollection)
+            List<Borrows> borrowsList = books.getBorrowsList();
+            for (Borrows borrowsListBorrows : borrowsList)
             {
-                borrowsCollectionBorrows.setBookId(null);
-                borrowsCollectionBorrows = em.merge(borrowsCollectionBorrows);
+                borrowsListBorrows.setBookId(null);
+                borrowsListBorrows = em.merge(borrowsListBorrows);
             }
             em.remove(books);
             em.getTransaction().commit();

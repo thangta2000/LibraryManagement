@@ -15,7 +15,6 @@ import javax.persistence.criteria.Root;
 import Model.Countries;
 import Model.BooksByAuthors;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -41,9 +40,9 @@ public class AuthorsJpaController implements Serializable
 
     public void create(Authors authors)
     {
-        if (authors.getBooksByAuthorsCollection() == null)
+        if (authors.getBooksByAuthorsList() == null)
         {
-            authors.setBooksByAuthorsCollection(new ArrayList<BooksByAuthors>());
+            authors.setBooksByAuthorsList(new ArrayList<BooksByAuthors>());
         }
         EntityManager em = null;
         try
@@ -56,28 +55,28 @@ public class AuthorsJpaController implements Serializable
                 countryId = em.getReference(countryId.getClass(), countryId.getId());
                 authors.setCountryId(countryId);
             }
-            Collection<BooksByAuthors> attachedBooksByAuthorsCollection = new ArrayList<BooksByAuthors>();
-            for (BooksByAuthors booksByAuthorsCollectionBooksByAuthorsToAttach : authors.getBooksByAuthorsCollection())
+            List<BooksByAuthors> attachedBooksByAuthorsList = new ArrayList<BooksByAuthors>();
+            for (BooksByAuthors booksByAuthorsListBooksByAuthorsToAttach : authors.getBooksByAuthorsList())
             {
-                booksByAuthorsCollectionBooksByAuthorsToAttach = em.getReference(booksByAuthorsCollectionBooksByAuthorsToAttach.getClass(), booksByAuthorsCollectionBooksByAuthorsToAttach.getId());
-                attachedBooksByAuthorsCollection.add(booksByAuthorsCollectionBooksByAuthorsToAttach);
+                booksByAuthorsListBooksByAuthorsToAttach = em.getReference(booksByAuthorsListBooksByAuthorsToAttach.getClass(), booksByAuthorsListBooksByAuthorsToAttach.getId());
+                attachedBooksByAuthorsList.add(booksByAuthorsListBooksByAuthorsToAttach);
             }
-            authors.setBooksByAuthorsCollection(attachedBooksByAuthorsCollection);
+            authors.setBooksByAuthorsList(attachedBooksByAuthorsList);
             em.persist(authors);
             if (countryId != null)
             {
-                countryId.getAuthorsCollection().add(authors);
+                countryId.getAuthorsList().add(authors);
                 countryId = em.merge(countryId);
             }
-            for (BooksByAuthors booksByAuthorsCollectionBooksByAuthors : authors.getBooksByAuthorsCollection())
+            for (BooksByAuthors booksByAuthorsListBooksByAuthors : authors.getBooksByAuthorsList())
             {
-                Authors oldAuthorIdOfBooksByAuthorsCollectionBooksByAuthors = booksByAuthorsCollectionBooksByAuthors.getAuthorId();
-                booksByAuthorsCollectionBooksByAuthors.setAuthorId(authors);
-                booksByAuthorsCollectionBooksByAuthors = em.merge(booksByAuthorsCollectionBooksByAuthors);
-                if (oldAuthorIdOfBooksByAuthorsCollectionBooksByAuthors != null)
+                Authors oldAuthorIdOfBooksByAuthorsListBooksByAuthors = booksByAuthorsListBooksByAuthors.getAuthorId();
+                booksByAuthorsListBooksByAuthors.setAuthorId(authors);
+                booksByAuthorsListBooksByAuthors = em.merge(booksByAuthorsListBooksByAuthors);
+                if (oldAuthorIdOfBooksByAuthorsListBooksByAuthors != null)
                 {
-                    oldAuthorIdOfBooksByAuthorsCollectionBooksByAuthors.getBooksByAuthorsCollection().remove(booksByAuthorsCollectionBooksByAuthors);
-                    oldAuthorIdOfBooksByAuthorsCollectionBooksByAuthors = em.merge(oldAuthorIdOfBooksByAuthorsCollectionBooksByAuthors);
+                    oldAuthorIdOfBooksByAuthorsListBooksByAuthors.getBooksByAuthorsList().remove(booksByAuthorsListBooksByAuthors);
+                    oldAuthorIdOfBooksByAuthorsListBooksByAuthors = em.merge(oldAuthorIdOfBooksByAuthorsListBooksByAuthors);
                 }
             }
             em.getTransaction().commit();
@@ -101,51 +100,51 @@ public class AuthorsJpaController implements Serializable
             Authors persistentAuthors = em.find(Authors.class, authors.getId());
             Countries countryIdOld = persistentAuthors.getCountryId();
             Countries countryIdNew = authors.getCountryId();
-            Collection<BooksByAuthors> booksByAuthorsCollectionOld = persistentAuthors.getBooksByAuthorsCollection();
-            Collection<BooksByAuthors> booksByAuthorsCollectionNew = authors.getBooksByAuthorsCollection();
+            List<BooksByAuthors> booksByAuthorsListOld = persistentAuthors.getBooksByAuthorsList();
+            List<BooksByAuthors> booksByAuthorsListNew = authors.getBooksByAuthorsList();
             if (countryIdNew != null)
             {
                 countryIdNew = em.getReference(countryIdNew.getClass(), countryIdNew.getId());
                 authors.setCountryId(countryIdNew);
             }
-            Collection<BooksByAuthors> attachedBooksByAuthorsCollectionNew = new ArrayList<BooksByAuthors>();
-            for (BooksByAuthors booksByAuthorsCollectionNewBooksByAuthorsToAttach : booksByAuthorsCollectionNew)
+            List<BooksByAuthors> attachedBooksByAuthorsListNew = new ArrayList<BooksByAuthors>();
+            for (BooksByAuthors booksByAuthorsListNewBooksByAuthorsToAttach : booksByAuthorsListNew)
             {
-                booksByAuthorsCollectionNewBooksByAuthorsToAttach = em.getReference(booksByAuthorsCollectionNewBooksByAuthorsToAttach.getClass(), booksByAuthorsCollectionNewBooksByAuthorsToAttach.getId());
-                attachedBooksByAuthorsCollectionNew.add(booksByAuthorsCollectionNewBooksByAuthorsToAttach);
+                booksByAuthorsListNewBooksByAuthorsToAttach = em.getReference(booksByAuthorsListNewBooksByAuthorsToAttach.getClass(), booksByAuthorsListNewBooksByAuthorsToAttach.getId());
+                attachedBooksByAuthorsListNew.add(booksByAuthorsListNewBooksByAuthorsToAttach);
             }
-            booksByAuthorsCollectionNew = attachedBooksByAuthorsCollectionNew;
-            authors.setBooksByAuthorsCollection(booksByAuthorsCollectionNew);
+            booksByAuthorsListNew = attachedBooksByAuthorsListNew;
+            authors.setBooksByAuthorsList(booksByAuthorsListNew);
             authors = em.merge(authors);
             if (countryIdOld != null && !countryIdOld.equals(countryIdNew))
             {
-                countryIdOld.getAuthorsCollection().remove(authors);
+                countryIdOld.getAuthorsList().remove(authors);
                 countryIdOld = em.merge(countryIdOld);
             }
             if (countryIdNew != null && !countryIdNew.equals(countryIdOld))
             {
-                countryIdNew.getAuthorsCollection().add(authors);
+                countryIdNew.getAuthorsList().add(authors);
                 countryIdNew = em.merge(countryIdNew);
             }
-            for (BooksByAuthors booksByAuthorsCollectionOldBooksByAuthors : booksByAuthorsCollectionOld)
+            for (BooksByAuthors booksByAuthorsListOldBooksByAuthors : booksByAuthorsListOld)
             {
-                if (!booksByAuthorsCollectionNew.contains(booksByAuthorsCollectionOldBooksByAuthors))
+                if (!booksByAuthorsListNew.contains(booksByAuthorsListOldBooksByAuthors))
                 {
-                    booksByAuthorsCollectionOldBooksByAuthors.setAuthorId(null);
-                    booksByAuthorsCollectionOldBooksByAuthors = em.merge(booksByAuthorsCollectionOldBooksByAuthors);
+                    booksByAuthorsListOldBooksByAuthors.setAuthorId(null);
+                    booksByAuthorsListOldBooksByAuthors = em.merge(booksByAuthorsListOldBooksByAuthors);
                 }
             }
-            for (BooksByAuthors booksByAuthorsCollectionNewBooksByAuthors : booksByAuthorsCollectionNew)
+            for (BooksByAuthors booksByAuthorsListNewBooksByAuthors : booksByAuthorsListNew)
             {
-                if (!booksByAuthorsCollectionOld.contains(booksByAuthorsCollectionNewBooksByAuthors))
+                if (!booksByAuthorsListOld.contains(booksByAuthorsListNewBooksByAuthors))
                 {
-                    Authors oldAuthorIdOfBooksByAuthorsCollectionNewBooksByAuthors = booksByAuthorsCollectionNewBooksByAuthors.getAuthorId();
-                    booksByAuthorsCollectionNewBooksByAuthors.setAuthorId(authors);
-                    booksByAuthorsCollectionNewBooksByAuthors = em.merge(booksByAuthorsCollectionNewBooksByAuthors);
-                    if (oldAuthorIdOfBooksByAuthorsCollectionNewBooksByAuthors != null && !oldAuthorIdOfBooksByAuthorsCollectionNewBooksByAuthors.equals(authors))
+                    Authors oldAuthorIdOfBooksByAuthorsListNewBooksByAuthors = booksByAuthorsListNewBooksByAuthors.getAuthorId();
+                    booksByAuthorsListNewBooksByAuthors.setAuthorId(authors);
+                    booksByAuthorsListNewBooksByAuthors = em.merge(booksByAuthorsListNewBooksByAuthors);
+                    if (oldAuthorIdOfBooksByAuthorsListNewBooksByAuthors != null && !oldAuthorIdOfBooksByAuthorsListNewBooksByAuthors.equals(authors))
                     {
-                        oldAuthorIdOfBooksByAuthorsCollectionNewBooksByAuthors.getBooksByAuthorsCollection().remove(booksByAuthorsCollectionNewBooksByAuthors);
-                        oldAuthorIdOfBooksByAuthorsCollectionNewBooksByAuthors = em.merge(oldAuthorIdOfBooksByAuthorsCollectionNewBooksByAuthors);
+                        oldAuthorIdOfBooksByAuthorsListNewBooksByAuthors.getBooksByAuthorsList().remove(booksByAuthorsListNewBooksByAuthors);
+                        oldAuthorIdOfBooksByAuthorsListNewBooksByAuthors = em.merge(oldAuthorIdOfBooksByAuthorsListNewBooksByAuthors);
                     }
                 }
             }
@@ -193,14 +192,14 @@ public class AuthorsJpaController implements Serializable
             Countries countryId = authors.getCountryId();
             if (countryId != null)
             {
-                countryId.getAuthorsCollection().remove(authors);
+                countryId.getAuthorsList().remove(authors);
                 countryId = em.merge(countryId);
             }
-            Collection<BooksByAuthors> booksByAuthorsCollection = authors.getBooksByAuthorsCollection();
-            for (BooksByAuthors booksByAuthorsCollectionBooksByAuthors : booksByAuthorsCollection)
+            List<BooksByAuthors> booksByAuthorsList = authors.getBooksByAuthorsList();
+            for (BooksByAuthors booksByAuthorsListBooksByAuthors : booksByAuthorsList)
             {
-                booksByAuthorsCollectionBooksByAuthors.setAuthorId(null);
-                booksByAuthorsCollectionBooksByAuthors = em.merge(booksByAuthorsCollectionBooksByAuthors);
+                booksByAuthorsListBooksByAuthors.setAuthorId(null);
+                booksByAuthorsListBooksByAuthors = em.merge(booksByAuthorsListBooksByAuthors);
             }
             em.remove(authors);
             em.getTransaction().commit();

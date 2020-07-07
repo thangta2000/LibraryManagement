@@ -6,8 +6,8 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -57,7 +57,7 @@ public class Books implements Serializable
     @ManyToOne
     private BookTitles bookTitleId;
     @OneToMany(mappedBy = "bookId")
-    private Collection<Borrows> borrowsCollection;
+    private List<Borrows> borrowsList;
 
     public Books()
     {
@@ -118,14 +118,14 @@ public class Books implements Serializable
         this.bookTitleId = bookTitleId;
     }
 
-    public Collection<Borrows> getBorrowsCollection()
+    public List<Borrows> getBorrowsList()
     {
-        return borrowsCollection;
+        return borrowsList;
     }
 
-    public void setBorrowsCollection(Collection<Borrows> borrowsCollection)
+    public void setBorrowsList(List<Borrows> borrowsList)
     {
-        this.borrowsCollection = borrowsCollection;
+        this.borrowsList = borrowsList;
     }
 
     @Override

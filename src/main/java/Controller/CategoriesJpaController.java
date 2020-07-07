@@ -14,7 +14,6 @@ import javax.persistence.criteria.Root;
 import Model.BookTitles;
 import Model.Categories;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -40,32 +39,32 @@ public class CategoriesJpaController implements Serializable
 
     public void create(Categories categories)
     {
-        if (categories.getBookTitlesCollection() == null)
+        if (categories.getBookTitlesList() == null)
         {
-            categories.setBookTitlesCollection(new ArrayList<BookTitles>());
+            categories.setBookTitlesList(new ArrayList<BookTitles>());
         }
         EntityManager em = null;
         try
         {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<BookTitles> attachedBookTitlesCollection = new ArrayList<BookTitles>();
-            for (BookTitles bookTitlesCollectionBookTitlesToAttach : categories.getBookTitlesCollection())
+            List<BookTitles> attachedBookTitlesList = new ArrayList<BookTitles>();
+            for (BookTitles bookTitlesListBookTitlesToAttach : categories.getBookTitlesList())
             {
-                bookTitlesCollectionBookTitlesToAttach = em.getReference(bookTitlesCollectionBookTitlesToAttach.getClass(), bookTitlesCollectionBookTitlesToAttach.getId());
-                attachedBookTitlesCollection.add(bookTitlesCollectionBookTitlesToAttach);
+                bookTitlesListBookTitlesToAttach = em.getReference(bookTitlesListBookTitlesToAttach.getClass(), bookTitlesListBookTitlesToAttach.getId());
+                attachedBookTitlesList.add(bookTitlesListBookTitlesToAttach);
             }
-            categories.setBookTitlesCollection(attachedBookTitlesCollection);
+            categories.setBookTitlesList(attachedBookTitlesList);
             em.persist(categories);
-            for (BookTitles bookTitlesCollectionBookTitles : categories.getBookTitlesCollection())
+            for (BookTitles bookTitlesListBookTitles : categories.getBookTitlesList())
             {
-                Categories oldCategoryIdOfBookTitlesCollectionBookTitles = bookTitlesCollectionBookTitles.getCategoryId();
-                bookTitlesCollectionBookTitles.setCategoryId(categories);
-                bookTitlesCollectionBookTitles = em.merge(bookTitlesCollectionBookTitles);
-                if (oldCategoryIdOfBookTitlesCollectionBookTitles != null)
+                Categories oldCategoryIdOfBookTitlesListBookTitles = bookTitlesListBookTitles.getCategoryId();
+                bookTitlesListBookTitles.setCategoryId(categories);
+                bookTitlesListBookTitles = em.merge(bookTitlesListBookTitles);
+                if (oldCategoryIdOfBookTitlesListBookTitles != null)
                 {
-                    oldCategoryIdOfBookTitlesCollectionBookTitles.getBookTitlesCollection().remove(bookTitlesCollectionBookTitles);
-                    oldCategoryIdOfBookTitlesCollectionBookTitles = em.merge(oldCategoryIdOfBookTitlesCollectionBookTitles);
+                    oldCategoryIdOfBookTitlesListBookTitles.getBookTitlesList().remove(bookTitlesListBookTitles);
+                    oldCategoryIdOfBookTitlesListBookTitles = em.merge(oldCategoryIdOfBookTitlesListBookTitles);
                 }
             }
             em.getTransaction().commit();
@@ -87,36 +86,36 @@ public class CategoriesJpaController implements Serializable
             em = getEntityManager();
             em.getTransaction().begin();
             Categories persistentCategories = em.find(Categories.class, categories.getId());
-            Collection<BookTitles> bookTitlesCollectionOld = persistentCategories.getBookTitlesCollection();
-            Collection<BookTitles> bookTitlesCollectionNew = categories.getBookTitlesCollection();
-            Collection<BookTitles> attachedBookTitlesCollectionNew = new ArrayList<BookTitles>();
-            for (BookTitles bookTitlesCollectionNewBookTitlesToAttach : bookTitlesCollectionNew)
+            List<BookTitles> bookTitlesListOld = persistentCategories.getBookTitlesList();
+            List<BookTitles> bookTitlesListNew = categories.getBookTitlesList();
+            List<BookTitles> attachedBookTitlesListNew = new ArrayList<BookTitles>();
+            for (BookTitles bookTitlesListNewBookTitlesToAttach : bookTitlesListNew)
             {
-                bookTitlesCollectionNewBookTitlesToAttach = em.getReference(bookTitlesCollectionNewBookTitlesToAttach.getClass(), bookTitlesCollectionNewBookTitlesToAttach.getId());
-                attachedBookTitlesCollectionNew.add(bookTitlesCollectionNewBookTitlesToAttach);
+                bookTitlesListNewBookTitlesToAttach = em.getReference(bookTitlesListNewBookTitlesToAttach.getClass(), bookTitlesListNewBookTitlesToAttach.getId());
+                attachedBookTitlesListNew.add(bookTitlesListNewBookTitlesToAttach);
             }
-            bookTitlesCollectionNew = attachedBookTitlesCollectionNew;
-            categories.setBookTitlesCollection(bookTitlesCollectionNew);
+            bookTitlesListNew = attachedBookTitlesListNew;
+            categories.setBookTitlesList(bookTitlesListNew);
             categories = em.merge(categories);
-            for (BookTitles bookTitlesCollectionOldBookTitles : bookTitlesCollectionOld)
+            for (BookTitles bookTitlesListOldBookTitles : bookTitlesListOld)
             {
-                if (!bookTitlesCollectionNew.contains(bookTitlesCollectionOldBookTitles))
+                if (!bookTitlesListNew.contains(bookTitlesListOldBookTitles))
                 {
-                    bookTitlesCollectionOldBookTitles.setCategoryId(null);
-                    bookTitlesCollectionOldBookTitles = em.merge(bookTitlesCollectionOldBookTitles);
+                    bookTitlesListOldBookTitles.setCategoryId(null);
+                    bookTitlesListOldBookTitles = em.merge(bookTitlesListOldBookTitles);
                 }
             }
-            for (BookTitles bookTitlesCollectionNewBookTitles : bookTitlesCollectionNew)
+            for (BookTitles bookTitlesListNewBookTitles : bookTitlesListNew)
             {
-                if (!bookTitlesCollectionOld.contains(bookTitlesCollectionNewBookTitles))
+                if (!bookTitlesListOld.contains(bookTitlesListNewBookTitles))
                 {
-                    Categories oldCategoryIdOfBookTitlesCollectionNewBookTitles = bookTitlesCollectionNewBookTitles.getCategoryId();
-                    bookTitlesCollectionNewBookTitles.setCategoryId(categories);
-                    bookTitlesCollectionNewBookTitles = em.merge(bookTitlesCollectionNewBookTitles);
-                    if (oldCategoryIdOfBookTitlesCollectionNewBookTitles != null && !oldCategoryIdOfBookTitlesCollectionNewBookTitles.equals(categories))
+                    Categories oldCategoryIdOfBookTitlesListNewBookTitles = bookTitlesListNewBookTitles.getCategoryId();
+                    bookTitlesListNewBookTitles.setCategoryId(categories);
+                    bookTitlesListNewBookTitles = em.merge(bookTitlesListNewBookTitles);
+                    if (oldCategoryIdOfBookTitlesListNewBookTitles != null && !oldCategoryIdOfBookTitlesListNewBookTitles.equals(categories))
                     {
-                        oldCategoryIdOfBookTitlesCollectionNewBookTitles.getBookTitlesCollection().remove(bookTitlesCollectionNewBookTitles);
-                        oldCategoryIdOfBookTitlesCollectionNewBookTitles = em.merge(oldCategoryIdOfBookTitlesCollectionNewBookTitles);
+                        oldCategoryIdOfBookTitlesListNewBookTitles.getBookTitlesList().remove(bookTitlesListNewBookTitles);
+                        oldCategoryIdOfBookTitlesListNewBookTitles = em.merge(oldCategoryIdOfBookTitlesListNewBookTitles);
                     }
                 }
             }
@@ -161,11 +160,11 @@ public class CategoriesJpaController implements Serializable
             {
                 throw new NonexistentEntityException("The categories with id " + id + " no longer exists.", enfe);
             }
-            Collection<BookTitles> bookTitlesCollection = categories.getBookTitlesCollection();
-            for (BookTitles bookTitlesCollectionBookTitles : bookTitlesCollection)
+            List<BookTitles> bookTitlesList = categories.getBookTitlesList();
+            for (BookTitles bookTitlesListBookTitles : bookTitlesList)
             {
-                bookTitlesCollectionBookTitles.setCategoryId(null);
-                bookTitlesCollectionBookTitles = em.merge(bookTitlesCollectionBookTitles);
+                bookTitlesListBookTitles.setCategoryId(null);
+                bookTitlesListBookTitles = em.merge(bookTitlesListBookTitles);
             }
             em.remove(categories);
             em.getTransaction().commit();
