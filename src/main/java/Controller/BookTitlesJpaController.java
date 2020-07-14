@@ -27,7 +27,7 @@ import javax.persistence.EntityManagerFactory;
  * @author admin
  */
 public class BookTitlesJpaController implements Serializable
-{
+{    
 
     public BookTitlesJpaController(EntityManagerFactory emf)
     {

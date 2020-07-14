@@ -5,8 +5,7 @@
  */
 package View;
 
-import Bean.CategoryBean;
-import Controller.ChangeViewController;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +27,14 @@ public class Home extends javax.swing.JFrame {
         resetColor(new JPanel[]{btn_2,jpnBook,btn_4}, new JPanel[]{ind_2,ind_3, ind_4});
         setTitle("QUẢN LÝ THƯ VIỆN");
         
-        ChangeViewController controller = new ChangeViewController(mainView);
-        controller.setView(jpnBookTitle, jlbBookTitle);
-        
-        List<CategoryBean> listItem = new ArrayList<>();
-        listItem.add(new CategoryBean("BookTitle", jpnBookTitle, jlbBookTitle));
-        listItem.add(new CategoryBean("Book", jpnBook, jlbBook));
-        
-        controller.setEvent(listItem);
+//        ChangeViewController controller = new ChangeViewController(mainView);
+//        controller.setView(jpnBookTitle, jlbBookTitle);
+//        
+//        List<CategoryBean> listItem = new ArrayList<>();
+//        listItem.add(new CategoryBean("BookTitle", jpnBookTitle, jlbBookTitle));
+//        listItem.add(new CategoryBean("Book", jpnBook, jlbBook));
+//        
+//        controller.setEvent(listItem);
 
     }
 
@@ -46,7 +45,8 @@ public class Home extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         side_pane = new javax.swing.JPanel();
         jpnBookTitle = new javax.swing.JPanel();
@@ -72,8 +72,14 @@ public class Home extends javax.swing.JFrame {
         side_pane.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jpnBookTitle.setBackground(new java.awt.Color(23, 35, 51));
-        jpnBookTitle.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+        jpnBookTitle.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jpnBookTitleMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt)
+            {
                 jpnBookTitleMousePressed(evt);
             }
         });
@@ -120,8 +126,10 @@ public class Home extends javax.swing.JFrame {
         side_pane.add(jpnBookTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 180, -1));
 
         btn_2.setBackground(new java.awt.Color(23, 35, 51));
-        btn_2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
+        btn_2.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseReleased(java.awt.event.MouseEvent evt)
+            {
                 btn_2MouseReleased(evt);
             }
         });
@@ -168,8 +176,10 @@ public class Home extends javax.swing.JFrame {
         side_pane.add(btn_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 180, -1));
 
         jpnBook.setBackground(new java.awt.Color(23, 35, 51));
-        jpnBook.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+        jpnBook.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mousePressed(java.awt.event.MouseEvent evt)
+            {
                 jpnBookMousePressed(evt);
             }
         });
@@ -216,8 +226,10 @@ public class Home extends javax.swing.JFrame {
         side_pane.add(jpnBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 180, -1));
 
         btn_4.setBackground(new java.awt.Color(23, 35, 51));
-        btn_4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+        btn_4.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mousePressed(java.awt.event.MouseEvent evt)
+            {
                 btn_4MousePressed(evt);
             }
         });
@@ -294,9 +306,8 @@ public class Home extends javax.swing.JFrame {
 
     private void jpnBookTitleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpnBookTitleMousePressed
         // TODO add your handling code here:
-        setColor(jpnBookTitle); 
-        ind_1.setOpaque(true);
-        resetColor(new JPanel[]{btn_2,jpnBook,btn_4}, new JPanel[]{ind_2,ind_3, ind_4});
+        
+        
     }//GEN-LAST:event_jpnBookTitleMousePressed
 
     private void jpnBookMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpnBookMousePressed
@@ -320,6 +331,22 @@ public class Home extends javax.swing.JFrame {
         resetColor(new JPanel[]{jpnBookTitle,jpnBook,btn_4}, new JPanel[]{ind_1,ind_3, ind_4});
     }//GEN-LAST:event_btn_2MouseReleased
 
+    private void jpnBookTitleMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jpnBookTitleMouseClicked
+    {//GEN-HEADEREND:event_jpnBookTitleMouseClicked
+        // TODO add your handling code here:
+        setColor(jpnBookTitle); 
+        ind_1.setOpaque(true);
+        resetColor(new JPanel[]{btn_2,jpnBook,btn_4}, new JPanel[]{ind_2,ind_3, ind_4});
+        
+        // Đổ vào mainview
+        
+        mainView.setLayout(new BorderLayout());
+        mainView.add(new BookTitlePanel());
+        //panel.repaint();
+        mainView.validate();
+        
+    }//GEN-LAST:event_jpnBookTitleMouseClicked
+
     int xx,xy;
     /**
      * @param args the command line arguments
@@ -332,7 +359,7 @@ public class Home extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

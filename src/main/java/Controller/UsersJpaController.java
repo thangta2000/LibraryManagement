@@ -17,6 +17,8 @@ import Model.Users;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -246,5 +248,26 @@ public class UsersJpaController implements Serializable
             em.close();
         }
     }
-    
+
+    public Users findLogin(String username, String password)
+    {
+        EntityManager em = getEntityManager();
+        try
+        {
+            TypedQuery<Users> query = em.createNamedQuery("Users.findLogin", Users.class);
+            query.setParameter("username", username);
+            query.setParameter("password", password);
+
+            return query.getSingleResult();
+        }
+        catch (NoResultException e)
+        {
+            return null;
+        }
+        finally
+        {
+            em.close();
+        }
+    }
+
 }
