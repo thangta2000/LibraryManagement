@@ -483,8 +483,9 @@ public class Home extends javax.swing.JFrame
         
         // Đổ vào mainview
         mainView.removeAll();
-        mainView.revalidate();
-        mainView.repaint();
+        mainView.setLayout(new BorderLayout());
+        mainView.add(new ReaderPanel());
+        mainView.validate();
     }//GEN-LAST:event_jPanel_ReaderMouseClicked
 
     int xx, xy;

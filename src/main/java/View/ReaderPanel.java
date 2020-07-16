@@ -5,6 +5,15 @@
  */
 package View;
 
+import Controller.BookTitlesJpaController;
+import Controller.ReadersJpaController;
+import Model.BookTitles;
+import Model.Readers;
+import Utility.CustomTableModel;
+import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author admin
@@ -15,11 +24,16 @@ public class ReaderPanel extends javax.swing.JPanel
     /**
      * Creates new form ReaderPanel
      */
+    ArrayList<Readers> readers = new ArrayList<>();
+
     public ReaderPanel()
     {
         initComponents();
-        
-        
+
+        customizePalette();
+
+        populateTable();
+
     }
 
     /**
@@ -33,8 +47,6 @@ public class ReaderPanel extends javax.swing.JPanel
         jPanelTop = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         bookTitleName = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         btnAdd = new javax.swing.JButton();
         jPanelTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -44,27 +56,8 @@ public class ReaderPanel extends javax.swing.JPanel
 
         jPanelTop.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setText("Tên đầu sách");
+        jLabel1.setText("Nhập tên:");
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-
-        bookTitleName.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                bookTitleNameActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("Tên tác giả");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
 
         btnAdd.setText("Thêm mới");
         btnAdd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -81,15 +74,11 @@ public class ReaderPanel extends javax.swing.JPanel
         jPanelTopLayout.setHorizontalGroup(
             jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTopLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
                 .addComponent(bookTitleName, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -100,8 +89,6 @@ public class ReaderPanel extends javax.swing.JPanel
                 .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(bookTitleName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -147,7 +134,7 @@ public class ReaderPanel extends javax.swing.JPanel
             jPanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTableLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanelTableLayout.setVerticalGroup(
@@ -179,16 +166,6 @@ public class ReaderPanel extends javax.swing.JPanel
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bookTitleNameActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_bookTitleNameActionPerformed
-    {//GEN-HEADEREND:event_bookTitleNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bookTitleNameActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jComboBox1ActionPerformed
-    {//GEN-HEADEREND:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnAddActionPerformed
     {//GEN-HEADEREND:event_btnAddActionPerformed
         //        BookTitleCreate bookTitleCreate = new BookTitleCreate();
@@ -199,12 +176,77 @@ public class ReaderPanel extends javax.swing.JPanel
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bookTitleName;
     private javax.swing.JButton btnAdd;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanelTable;
     private javax.swing.JPanel jPanelTop;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+    private void customizePalette()
+    {
+        btnAdd.setBorderPainted(true);
+        btnAdd.setFocusPainted(false);
+        btnAdd.setContentAreaFilled(false);
+
+        jTable1.getTableHeader().setOpaque(false);
+    }
+
+    private void populateTable()
+    {
+        readers = new ArrayList<>(ReadersJpaController.findReadersEntities());
+        String[] columnName =
+        {
+            "No.", "Độc giả", "Số thẻ", "Số CCCD", "Ngày sinh", "Giới tính", "Địa chỉ", "Điện thoại", "Quốc tịch", "Nghề nghiệp", "Cơ quan"
+        };
+
+        // Create model booktitles by creating anonymous nest class of CustomTableModel<T>
+        CustomTableModel<Readers> model = new CustomTableModel<Readers>(readers, columnName)
+        {
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex)
+            {
+                Object temp = null;
+                Readers reader = getDataObject(rowIndex);
+                switch (columnIndex)
+                {
+                    case 0:
+                        return temp = rowIndex + 1;
+                    case 1:
+                        return temp = reader.getFullName();
+                    case 2:
+                        return temp = reader.getMemberCard();
+                    case 3:
+                        return temp = reader.getIdentityCard();
+                    case 4:
+                        return temp = reader.getBirthDay();
+                    case 5:
+                        return temp = reader.getGender() ? "Nam" : "Nữ";
+                    case 6:
+                        return temp = reader.getAddress();
+                    case 7:
+                        return temp = reader.getPhone();
+                    case 8:
+                        return temp = reader.getCountryId().getName();
+                    case 9:
+                        return temp = reader.getJobTitle();
+                    case 10:
+                        return temp = reader.getWorkPlace();
+                    default:
+                        throw new ArrayIndexOutOfBoundsException(columnIndex);
+                }
+            }
+
+        };
+
+        jTable1.setModel(model);
+
+        jScrollPane1.getViewport().add(jTable1);
+        jPanelTable.setLayout(new BorderLayout());
+        jPanelTable.add(jScrollPane1);
+        jPanelTable.validate();
+
+        jPanelTable.setVisible(true);
+    }
+
 }
