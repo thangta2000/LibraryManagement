@@ -13,13 +13,13 @@ package View;
 import info.clearthought.layout.TableLayout;
 
 
-public class FrameBorrows extends javax.swing.JFrame
+public class BorrowFrame extends javax.swing.JFrame
 {
 
     /**
      * Creates new form FrameBorrows
      */
-    public FrameBorrows()
+    public BorrowFrame()
     {
         initComponents();
         designGrid();
@@ -129,20 +129,21 @@ public class FrameBorrows extends javax.swing.JFrame
         }
         catch (ClassNotFoundException ex)
         {
-            java.util.logging.Logger.getLogger(FrameBorrows.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BorrowFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         catch (InstantiationException ex)
         {
-            java.util.logging.Logger.getLogger(FrameBorrows.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BorrowFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         catch (IllegalAccessException ex)
         {
-            java.util.logging.Logger.getLogger(FrameBorrows.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BorrowFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         catch (javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(FrameBorrows.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BorrowFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
@@ -150,7 +151,7 @@ public class FrameBorrows extends javax.swing.JFrame
         {
             public void run()
             {
-                new FrameBorrows().setVisible(true);
+                new BorrowFrame().setVisible(true);
             }
 
         });
