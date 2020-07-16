@@ -6,7 +6,7 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,7 +47,7 @@ public class Publishers implements Serializable
     @Column(name = "FoundingYear")
     private Integer foundingYear;
     @OneToMany(mappedBy = "publisherId")
-    private Collection<BookTitles> bookTitlesCollection;
+    private List<BookTitles> bookTitlesList;
     @JoinColumn(name = "CountryId", referencedColumnName = "Id")
     @ManyToOne
     private Countries countryId;
@@ -91,14 +91,14 @@ public class Publishers implements Serializable
         this.foundingYear = foundingYear;
     }
 
-    public Collection<BookTitles> getBookTitlesCollection()
+    public List<BookTitles> getBookTitlesList()
     {
-        return bookTitlesCollection;
+        return bookTitlesList;
     }
 
-    public void setBookTitlesCollection(Collection<BookTitles> bookTitlesCollection)
+    public void setBookTitlesList(List<BookTitles> bookTitlesList)
     {
-        this.bookTitlesCollection = bookTitlesCollection;
+        this.bookTitlesList = bookTitlesList;
     }
 
     public Countries getCountryId()

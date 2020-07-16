@@ -18,6 +18,8 @@ public class ReaderPanel extends javax.swing.JPanel
     public ReaderPanel()
     {
         initComponents();
+        
+        
     }
 
     /**

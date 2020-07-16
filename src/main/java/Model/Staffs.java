@@ -6,8 +6,8 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -72,7 +72,7 @@ public class Staffs implements Serializable
     @ManyToOne
     private Countries countryId;
     @OneToMany(mappedBy = "staffId")
-    private Collection<Users> usersCollection;
+    private List<Users> usersList;
 
     public Staffs()
     {
@@ -183,14 +183,14 @@ public class Staffs implements Serializable
         this.countryId = countryId;
     }
 
-    public Collection<Users> getUsersCollection()
+    public List<Users> getUsersList()
     {
-        return usersCollection;
+        return usersList;
     }
 
-    public void setUsersCollection(Collection<Users> usersCollection)
+    public void setUsersList(List<Users> usersList)
     {
-        this.usersCollection = usersCollection;
+        this.usersList = usersList;
     }
 
     @Override

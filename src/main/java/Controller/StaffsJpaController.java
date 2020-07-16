@@ -15,7 +15,6 @@ import Model.Countries;
 import Model.Staffs;
 import Model.Users;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -41,9 +40,9 @@ public class StaffsJpaController implements Serializable
 
     public void create(Staffs staffs)
     {
-        if (staffs.getUsersCollection() == null)
+        if (staffs.getUsersList() == null)
         {
-            staffs.setUsersCollection(new ArrayList<Users>());
+            staffs.setUsersList(new ArrayList<Users>());
         }
         EntityManager em = null;
         try
@@ -56,28 +55,28 @@ public class StaffsJpaController implements Serializable
                 countryId = em.getReference(countryId.getClass(), countryId.getId());
                 staffs.setCountryId(countryId);
             }
-            Collection<Users> attachedUsersCollection = new ArrayList<Users>();
-            for (Users usersCollectionUsersToAttach : staffs.getUsersCollection())
+            List<Users> attachedUsersList = new ArrayList<Users>();
+            for (Users usersListUsersToAttach : staffs.getUsersList())
             {
-                usersCollectionUsersToAttach = em.getReference(usersCollectionUsersToAttach.getClass(), usersCollectionUsersToAttach.getId());
-                attachedUsersCollection.add(usersCollectionUsersToAttach);
+                usersListUsersToAttach = em.getReference(usersListUsersToAttach.getClass(), usersListUsersToAttach.getId());
+                attachedUsersList.add(usersListUsersToAttach);
             }
-            staffs.setUsersCollection(attachedUsersCollection);
+            staffs.setUsersList(attachedUsersList);
             em.persist(staffs);
             if (countryId != null)
             {
-                countryId.getStaffsCollection().add(staffs);
+                countryId.getStaffsList().add(staffs);
                 countryId = em.merge(countryId);
             }
-            for (Users usersCollectionUsers : staffs.getUsersCollection())
+            for (Users usersListUsers : staffs.getUsersList())
             {
-                Staffs oldStaffIdOfUsersCollectionUsers = usersCollectionUsers.getStaffId();
-                usersCollectionUsers.setStaffId(staffs);
-                usersCollectionUsers = em.merge(usersCollectionUsers);
-                if (oldStaffIdOfUsersCollectionUsers != null)
+                Staffs oldStaffIdOfUsersListUsers = usersListUsers.getStaffId();
+                usersListUsers.setStaffId(staffs);
+                usersListUsers = em.merge(usersListUsers);
+                if (oldStaffIdOfUsersListUsers != null)
                 {
-                    oldStaffIdOfUsersCollectionUsers.getUsersCollection().remove(usersCollectionUsers);
-                    oldStaffIdOfUsersCollectionUsers = em.merge(oldStaffIdOfUsersCollectionUsers);
+                    oldStaffIdOfUsersListUsers.getUsersList().remove(usersListUsers);
+                    oldStaffIdOfUsersListUsers = em.merge(oldStaffIdOfUsersListUsers);
                 }
             }
             em.getTransaction().commit();
@@ -101,51 +100,51 @@ public class StaffsJpaController implements Serializable
             Staffs persistentStaffs = em.find(Staffs.class, staffs.getId());
             Countries countryIdOld = persistentStaffs.getCountryId();
             Countries countryIdNew = staffs.getCountryId();
-            Collection<Users> usersCollectionOld = persistentStaffs.getUsersCollection();
-            Collection<Users> usersCollectionNew = staffs.getUsersCollection();
+            List<Users> usersListOld = persistentStaffs.getUsersList();
+            List<Users> usersListNew = staffs.getUsersList();
             if (countryIdNew != null)
             {
                 countryIdNew = em.getReference(countryIdNew.getClass(), countryIdNew.getId());
                 staffs.setCountryId(countryIdNew);
             }
-            Collection<Users> attachedUsersCollectionNew = new ArrayList<Users>();
-            for (Users usersCollectionNewUsersToAttach : usersCollectionNew)
+            List<Users> attachedUsersListNew = new ArrayList<Users>();
+            for (Users usersListNewUsersToAttach : usersListNew)
             {
-                usersCollectionNewUsersToAttach = em.getReference(usersCollectionNewUsersToAttach.getClass(), usersCollectionNewUsersToAttach.getId());
-                attachedUsersCollectionNew.add(usersCollectionNewUsersToAttach);
+                usersListNewUsersToAttach = em.getReference(usersListNewUsersToAttach.getClass(), usersListNewUsersToAttach.getId());
+                attachedUsersListNew.add(usersListNewUsersToAttach);
             }
-            usersCollectionNew = attachedUsersCollectionNew;
-            staffs.setUsersCollection(usersCollectionNew);
+            usersListNew = attachedUsersListNew;
+            staffs.setUsersList(usersListNew);
             staffs = em.merge(staffs);
             if (countryIdOld != null && !countryIdOld.equals(countryIdNew))
             {
-                countryIdOld.getStaffsCollection().remove(staffs);
+                countryIdOld.getStaffsList().remove(staffs);
                 countryIdOld = em.merge(countryIdOld);
             }
             if (countryIdNew != null && !countryIdNew.equals(countryIdOld))
             {
-                countryIdNew.getStaffsCollection().add(staffs);
+                countryIdNew.getStaffsList().add(staffs);
                 countryIdNew = em.merge(countryIdNew);
             }
-            for (Users usersCollectionOldUsers : usersCollectionOld)
+            for (Users usersListOldUsers : usersListOld)
             {
-                if (!usersCollectionNew.contains(usersCollectionOldUsers))
+                if (!usersListNew.contains(usersListOldUsers))
                 {
-                    usersCollectionOldUsers.setStaffId(null);
-                    usersCollectionOldUsers = em.merge(usersCollectionOldUsers);
+                    usersListOldUsers.setStaffId(null);
+                    usersListOldUsers = em.merge(usersListOldUsers);
                 }
             }
-            for (Users usersCollectionNewUsers : usersCollectionNew)
+            for (Users usersListNewUsers : usersListNew)
             {
-                if (!usersCollectionOld.contains(usersCollectionNewUsers))
+                if (!usersListOld.contains(usersListNewUsers))
                 {
-                    Staffs oldStaffIdOfUsersCollectionNewUsers = usersCollectionNewUsers.getStaffId();
-                    usersCollectionNewUsers.setStaffId(staffs);
-                    usersCollectionNewUsers = em.merge(usersCollectionNewUsers);
-                    if (oldStaffIdOfUsersCollectionNewUsers != null && !oldStaffIdOfUsersCollectionNewUsers.equals(staffs))
+                    Staffs oldStaffIdOfUsersListNewUsers = usersListNewUsers.getStaffId();
+                    usersListNewUsers.setStaffId(staffs);
+                    usersListNewUsers = em.merge(usersListNewUsers);
+                    if (oldStaffIdOfUsersListNewUsers != null && !oldStaffIdOfUsersListNewUsers.equals(staffs))
                     {
-                        oldStaffIdOfUsersCollectionNewUsers.getUsersCollection().remove(usersCollectionNewUsers);
-                        oldStaffIdOfUsersCollectionNewUsers = em.merge(oldStaffIdOfUsersCollectionNewUsers);
+                        oldStaffIdOfUsersListNewUsers.getUsersList().remove(usersListNewUsers);
+                        oldStaffIdOfUsersListNewUsers = em.merge(oldStaffIdOfUsersListNewUsers);
                     }
                 }
             }
@@ -193,14 +192,14 @@ public class StaffsJpaController implements Serializable
             Countries countryId = staffs.getCountryId();
             if (countryId != null)
             {
-                countryId.getStaffsCollection().remove(staffs);
+                countryId.getStaffsList().remove(staffs);
                 countryId = em.merge(countryId);
             }
-            Collection<Users> usersCollection = staffs.getUsersCollection();
-            for (Users usersCollectionUsers : usersCollection)
+            List<Users> usersList = staffs.getUsersList();
+            for (Users usersListUsers : usersList)
             {
-                usersCollectionUsers.setStaffId(null);
-                usersCollectionUsers = em.merge(usersCollectionUsers);
+                usersListUsers.setStaffId(null);
+                usersListUsers = em.merge(usersListUsers);
             }
             em.remove(staffs);
             em.getTransaction().commit();
