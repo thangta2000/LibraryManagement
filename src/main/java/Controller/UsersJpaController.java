@@ -21,9 +21,10 @@ import javax.persistence.TypedQuery;
 
 /**
  *
- * @author tkang_85a
+ * @author admin
  */
-public class UsersJpaController implements Serializable {
+public class UsersJpaController implements Serializable
+{
 
 //    public UsersJpaController(EntityManagerFactory emf)
 //    {
@@ -36,40 +37,48 @@ public class UsersJpaController implements Serializable {
 //    {
 //        return emf.createEntityManager();
 //    }
-    
+
     public static EntityManager getEntityManager()
     {
         return Factory.getEntityManager();
     }
-
+    
     public static void create(Users users)
     {
         EntityManager em = null;
-        try {
+        try
+        {
             em = getEntityManager();
             em.getTransaction().begin();
             Roles roleId = users.getRoleId();
-            if (roleId != null) {
+            if (roleId != null)
+            {
                 roleId = em.getReference(roleId.getClass(), roleId.getId());
                 users.setRoleId(roleId);
             }
             Staffs staffId = users.getStaffId();
-            if (staffId != null) {
+            if (staffId != null)
+            {
                 staffId = em.getReference(staffId.getClass(), staffId.getId());
                 users.setStaffId(staffId);
             }
             em.persist(users);
-            if (roleId != null) {
+            if (roleId != null)
+            {
                 roleId.getUsersList().add(users);
                 roleId = em.merge(roleId);
             }
-            if (staffId != null) {
+            if (staffId != null)
+            {
                 staffId.getUsersList().add(users);
                 staffId = em.merge(staffId);
             }
             em.getTransaction().commit();
-        } finally {
-            if (em != null) {
+        }
+        finally
+        {
+            if (em != null)
+            {
                 em.close();
             }
         }
@@ -78,7 +87,8 @@ public class UsersJpaController implements Serializable {
     public static void edit(Users users) throws NonexistentEntityException, Exception
     {
         EntityManager em = null;
-        try {
+        try
+        {
             em = getEntityManager();
             em.getTransaction().begin();
             Users persistentUsers = em.find(Users.class, users.getId());
@@ -86,43 +96,56 @@ public class UsersJpaController implements Serializable {
             Roles roleIdNew = users.getRoleId();
             Staffs staffIdOld = persistentUsers.getStaffId();
             Staffs staffIdNew = users.getStaffId();
-            if (roleIdNew != null) {
+            if (roleIdNew != null)
+            {
                 roleIdNew = em.getReference(roleIdNew.getClass(), roleIdNew.getId());
                 users.setRoleId(roleIdNew);
             }
-            if (staffIdNew != null) {
+            if (staffIdNew != null)
+            {
                 staffIdNew = em.getReference(staffIdNew.getClass(), staffIdNew.getId());
                 users.setStaffId(staffIdNew);
             }
             users = em.merge(users);
-            if (roleIdOld != null && !roleIdOld.equals(roleIdNew)) {
+            if (roleIdOld != null && !roleIdOld.equals(roleIdNew))
+            {
                 roleIdOld.getUsersList().remove(users);
                 roleIdOld = em.merge(roleIdOld);
             }
-            if (roleIdNew != null && !roleIdNew.equals(roleIdOld)) {
+            if (roleIdNew != null && !roleIdNew.equals(roleIdOld))
+            {
                 roleIdNew.getUsersList().add(users);
                 roleIdNew = em.merge(roleIdNew);
             }
-            if (staffIdOld != null && !staffIdOld.equals(staffIdNew)) {
+            if (staffIdOld != null && !staffIdOld.equals(staffIdNew))
+            {
                 staffIdOld.getUsersList().remove(users);
                 staffIdOld = em.merge(staffIdOld);
             }
-            if (staffIdNew != null && !staffIdNew.equals(staffIdOld)) {
+            if (staffIdNew != null && !staffIdNew.equals(staffIdOld))
+            {
                 staffIdNew.getUsersList().add(users);
                 staffIdNew = em.merge(staffIdNew);
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
+            if (msg == null || msg.length() == 0)
+            {
                 Integer id = users.getId();
-                if (findUsers(id) == null) {
+                if (findUsers(id) == null)
+                {
                     throw new NonexistentEntityException("The users with id " + id + " no longer exists.");
                 }
             }
             throw ex;
-        } finally {
-            if (em != null) {
+        }
+        finally
+        {
+            if (em != null)
+            {
                 em.close();
             }
         }
@@ -131,30 +154,39 @@ public class UsersJpaController implements Serializable {
     public static void destroy(Integer id) throws NonexistentEntityException
     {
         EntityManager em = null;
-        try {
+        try
+        {
             em = getEntityManager();
             em.getTransaction().begin();
             Users users;
-            try {
+            try
+            {
                 users = em.getReference(Users.class, id);
                 users.getId();
-            } catch (EntityNotFoundException enfe) {
+            }
+            catch (EntityNotFoundException enfe)
+            {
                 throw new NonexistentEntityException("The users with id " + id + " no longer exists.", enfe);
             }
             Roles roleId = users.getRoleId();
-            if (roleId != null) {
+            if (roleId != null)
+            {
                 roleId.getUsersList().remove(users);
                 roleId = em.merge(roleId);
             }
             Staffs staffId = users.getStaffId();
-            if (staffId != null) {
+            if (staffId != null)
+            {
                 staffId.getUsersList().remove(users);
                 staffId = em.merge(staffId);
             }
             em.remove(users);
             em.getTransaction().commit();
-        } finally {
-            if (em != null) {
+        }
+        finally
+        {
+            if (em != null)
+            {
                 em.close();
             }
         }
@@ -173,16 +205,20 @@ public class UsersJpaController implements Serializable {
     private static List<Users> findUsersEntities(boolean all, int maxResults, int firstResult)
     {
         EntityManager em = getEntityManager();
-        try {
+        try
+        {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Users.class));
             Query q = em.createQuery(cq);
-            if (!all) {
+            if (!all)
+            {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
-        } finally {
+        }
+        finally
+        {
             em.close();
         }
     }
@@ -190,9 +226,12 @@ public class UsersJpaController implements Serializable {
     public static Users findUsers(Integer id)
     {
         EntityManager em = getEntityManager();
-        try {
+        try
+        {
             return em.find(Users.class, id);
-        } finally {
+        }
+        finally
+        {
             em.close();
         }
     }
@@ -200,13 +239,16 @@ public class UsersJpaController implements Serializable {
     public static int getUsersCount()
     {
         EntityManager em = getEntityManager();
-        try {
+        try
+        {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Users> rt = cq.from(Users.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
-        } finally {
+        }
+        finally
+        {
             em.close();
         }
     }

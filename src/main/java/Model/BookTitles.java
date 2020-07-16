@@ -22,19 +22,22 @@ import javax.persistence.Table;
 
 /**
  *
- * @author tkang_85a
+ * @author admin
  */
 @Entity
 @Table(name = "BookTitles", catalog = "booktique", schema = "dbo")
-@NamedQueries({
+@NamedQueries(
+{
     @NamedQuery(name = "BookTitles.findAll", query = "SELECT b FROM BookTitles b"),
     @NamedQuery(name = "BookTitles.findById", query = "SELECT b FROM BookTitles b WHERE b.id = :id"),
     @NamedQuery(name = "BookTitles.findByTitle", query = "SELECT b FROM BookTitles b WHERE b.title = :title"),
     @NamedQuery(name = "BookTitles.findByPublishYear", query = "SELECT b FROM BookTitles b WHERE b.publishYear = :publishYear"),
     @NamedQuery(name = "BookTitles.findByPages", query = "SELECT b FROM BookTitles b WHERE b.pages = :pages"),
     @NamedQuery(name = "BookTitles.findByWidth", query = "SELECT b FROM BookTitles b WHERE b.width = :width"),
-    @NamedQuery(name = "BookTitles.findByIbsn", query = "SELECT b FROM BookTitles b WHERE b.ibsn = :ibsn")})
-public class BookTitles implements Serializable {
+    @NamedQuery(name = "BookTitles.findByIbsn", query = "SELECT b FROM BookTitles b WHERE b.ibsn = :ibsn")
+})
+public class BookTitles implements Serializable
+{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -67,123 +70,152 @@ public class BookTitles implements Serializable {
     @OneToMany(mappedBy = "bookTitleId")
     private List<BooksByAuthors> booksByAuthorsList;
 
-    public BookTitles() {
+    public BookTitles()
+    {
     }
 
-    public BookTitles(Integer id) {
+    public BookTitles(Integer id)
+    {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Integer getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Integer id)
+    {
         this.id = id;
     }
 
-    public String getTitle() {
+    public String getTitle()
+    {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title)
+    {
         this.title = title;
     }
 
-    public Integer getPublishYear() {
+    public Integer getPublishYear()
+    {
         return publishYear;
     }
 
-    public void setPublishYear(Integer publishYear) {
+    public void setPublishYear(Integer publishYear)
+    {
         this.publishYear = publishYear;
     }
 
-    public Integer getPages() {
+    public Integer getPages()
+    {
         return pages;
     }
 
-    public void setPages(Integer pages) {
+    public void setPages(Integer pages)
+    {
         this.pages = pages;
     }
 
-    public Double getWidth() {
+    public Double getWidth()
+    {
         return width;
     }
 
-    public void setWidth(Double width) {
+    public void setWidth(Double width)
+    {
         this.width = width;
     }
 
-    public String getIbsn() {
+    public String getIbsn()
+    {
         return ibsn;
     }
 
-    public void setIbsn(String ibsn) {
+    public void setIbsn(String ibsn)
+    {
         this.ibsn = ibsn;
     }
 
-    public Categories getCategoryId() {
+    public Categories getCategoryId()
+    {
         return categoryId;
     }
 
-    public void setCategoryId(Categories categoryId) {
+    public void setCategoryId(Categories categoryId)
+    {
         this.categoryId = categoryId;
     }
 
-    public Countries getCountryId() {
+    public Countries getCountryId()
+    {
         return countryId;
     }
 
-    public void setCountryId(Countries countryId) {
+    public void setCountryId(Countries countryId)
+    {
         this.countryId = countryId;
     }
 
-    public Publishers getPublisherId() {
+    public Publishers getPublisherId()
+    {
         return publisherId;
     }
 
-    public void setPublisherId(Publishers publisherId) {
+    public void setPublisherId(Publishers publisherId)
+    {
         this.publisherId = publisherId;
     }
 
-    public List<Books> getBooksList() {
+    public List<Books> getBooksList()
+    {
         return booksList;
     }
 
-    public void setBooksList(List<Books> booksList) {
+    public void setBooksList(List<Books> booksList)
+    {
         this.booksList = booksList;
     }
 
-    public List<BooksByAuthors> getBooksByAuthorsList() {
+    public List<BooksByAuthors> getBooksByAuthorsList()
+    {
         return booksByAuthorsList;
     }
 
-    public void setBooksByAuthorsList(List<BooksByAuthors> booksByAuthorsList) {
+    public void setBooksByAuthorsList(List<BooksByAuthors> booksByAuthorsList)
+    {
         this.booksByAuthorsList = booksByAuthorsList;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof BookTitles)) {
+        if (!(object instanceof BookTitles))
+        {
             return false;
         }
         BookTitles other = (BookTitles) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Model.BookTitles[ id=" + id + " ]";
     }
     

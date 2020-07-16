@@ -21,63 +21,80 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author tkang_85a
+ * @author admin
  */
-public class AuthorsJpaController implements Serializable {
+public class AuthorsJpaController implements Serializable
+{
 
-    public AuthorsJpaController(EntityManagerFactory emf) {
+    public AuthorsJpaController(EntityManagerFactory emf)
+    {
         this.emf = emf;
     }
+
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    public EntityManager getEntityManager()
+    {
         return emf.createEntityManager();
     }
 
-    public void create(Authors authors) {
-        if (authors.getBooksByAuthorsList() == null) {
+    public void create(Authors authors)
+    {
+        if (authors.getBooksByAuthorsList() == null)
+        {
             authors.setBooksByAuthorsList(new ArrayList<BooksByAuthors>());
         }
         EntityManager em = null;
-        try {
+        try
+        {
             em = getEntityManager();
             em.getTransaction().begin();
             Countries countryId = authors.getCountryId();
-            if (countryId != null) {
+            if (countryId != null)
+            {
                 countryId = em.getReference(countryId.getClass(), countryId.getId());
                 authors.setCountryId(countryId);
             }
             List<BooksByAuthors> attachedBooksByAuthorsList = new ArrayList<BooksByAuthors>();
-            for (BooksByAuthors booksByAuthorsListBooksByAuthorsToAttach : authors.getBooksByAuthorsList()) {
+            for (BooksByAuthors booksByAuthorsListBooksByAuthorsToAttach : authors.getBooksByAuthorsList())
+            {
                 booksByAuthorsListBooksByAuthorsToAttach = em.getReference(booksByAuthorsListBooksByAuthorsToAttach.getClass(), booksByAuthorsListBooksByAuthorsToAttach.getId());
                 attachedBooksByAuthorsList.add(booksByAuthorsListBooksByAuthorsToAttach);
             }
             authors.setBooksByAuthorsList(attachedBooksByAuthorsList);
             em.persist(authors);
-            if (countryId != null) {
+            if (countryId != null)
+            {
                 countryId.getAuthorsList().add(authors);
                 countryId = em.merge(countryId);
             }
-            for (BooksByAuthors booksByAuthorsListBooksByAuthors : authors.getBooksByAuthorsList()) {
+            for (BooksByAuthors booksByAuthorsListBooksByAuthors : authors.getBooksByAuthorsList())
+            {
                 Authors oldAuthorIdOfBooksByAuthorsListBooksByAuthors = booksByAuthorsListBooksByAuthors.getAuthorId();
                 booksByAuthorsListBooksByAuthors.setAuthorId(authors);
                 booksByAuthorsListBooksByAuthors = em.merge(booksByAuthorsListBooksByAuthors);
-                if (oldAuthorIdOfBooksByAuthorsListBooksByAuthors != null) {
+                if (oldAuthorIdOfBooksByAuthorsListBooksByAuthors != null)
+                {
                     oldAuthorIdOfBooksByAuthorsListBooksByAuthors.getBooksByAuthorsList().remove(booksByAuthorsListBooksByAuthors);
                     oldAuthorIdOfBooksByAuthorsListBooksByAuthors = em.merge(oldAuthorIdOfBooksByAuthorsListBooksByAuthors);
                 }
             }
             em.getTransaction().commit();
-        } finally {
-            if (em != null) {
+        }
+        finally
+        {
+            if (em != null)
+            {
                 em.close();
             }
         }
     }
 
-    public void edit(Authors authors) throws NonexistentEntityException, Exception {
+    public void edit(Authors authors) throws NonexistentEntityException, Exception
+    {
         EntityManager em = null;
-        try {
+        try
+        {
             em = getEntityManager();
             em.getTransaction().begin();
             Authors persistentAuthors = em.find(Authors.class, authors.getId());
@@ -85,133 +102,174 @@ public class AuthorsJpaController implements Serializable {
             Countries countryIdNew = authors.getCountryId();
             List<BooksByAuthors> booksByAuthorsListOld = persistentAuthors.getBooksByAuthorsList();
             List<BooksByAuthors> booksByAuthorsListNew = authors.getBooksByAuthorsList();
-            if (countryIdNew != null) {
+            if (countryIdNew != null)
+            {
                 countryIdNew = em.getReference(countryIdNew.getClass(), countryIdNew.getId());
                 authors.setCountryId(countryIdNew);
             }
             List<BooksByAuthors> attachedBooksByAuthorsListNew = new ArrayList<BooksByAuthors>();
-            for (BooksByAuthors booksByAuthorsListNewBooksByAuthorsToAttach : booksByAuthorsListNew) {
+            for (BooksByAuthors booksByAuthorsListNewBooksByAuthorsToAttach : booksByAuthorsListNew)
+            {
                 booksByAuthorsListNewBooksByAuthorsToAttach = em.getReference(booksByAuthorsListNewBooksByAuthorsToAttach.getClass(), booksByAuthorsListNewBooksByAuthorsToAttach.getId());
                 attachedBooksByAuthorsListNew.add(booksByAuthorsListNewBooksByAuthorsToAttach);
             }
             booksByAuthorsListNew = attachedBooksByAuthorsListNew;
             authors.setBooksByAuthorsList(booksByAuthorsListNew);
             authors = em.merge(authors);
-            if (countryIdOld != null && !countryIdOld.equals(countryIdNew)) {
+            if (countryIdOld != null && !countryIdOld.equals(countryIdNew))
+            {
                 countryIdOld.getAuthorsList().remove(authors);
                 countryIdOld = em.merge(countryIdOld);
             }
-            if (countryIdNew != null && !countryIdNew.equals(countryIdOld)) {
+            if (countryIdNew != null && !countryIdNew.equals(countryIdOld))
+            {
                 countryIdNew.getAuthorsList().add(authors);
                 countryIdNew = em.merge(countryIdNew);
             }
-            for (BooksByAuthors booksByAuthorsListOldBooksByAuthors : booksByAuthorsListOld) {
-                if (!booksByAuthorsListNew.contains(booksByAuthorsListOldBooksByAuthors)) {
+            for (BooksByAuthors booksByAuthorsListOldBooksByAuthors : booksByAuthorsListOld)
+            {
+                if (!booksByAuthorsListNew.contains(booksByAuthorsListOldBooksByAuthors))
+                {
                     booksByAuthorsListOldBooksByAuthors.setAuthorId(null);
                     booksByAuthorsListOldBooksByAuthors = em.merge(booksByAuthorsListOldBooksByAuthors);
                 }
             }
-            for (BooksByAuthors booksByAuthorsListNewBooksByAuthors : booksByAuthorsListNew) {
-                if (!booksByAuthorsListOld.contains(booksByAuthorsListNewBooksByAuthors)) {
+            for (BooksByAuthors booksByAuthorsListNewBooksByAuthors : booksByAuthorsListNew)
+            {
+                if (!booksByAuthorsListOld.contains(booksByAuthorsListNewBooksByAuthors))
+                {
                     Authors oldAuthorIdOfBooksByAuthorsListNewBooksByAuthors = booksByAuthorsListNewBooksByAuthors.getAuthorId();
                     booksByAuthorsListNewBooksByAuthors.setAuthorId(authors);
                     booksByAuthorsListNewBooksByAuthors = em.merge(booksByAuthorsListNewBooksByAuthors);
-                    if (oldAuthorIdOfBooksByAuthorsListNewBooksByAuthors != null && !oldAuthorIdOfBooksByAuthorsListNewBooksByAuthors.equals(authors)) {
+                    if (oldAuthorIdOfBooksByAuthorsListNewBooksByAuthors != null && !oldAuthorIdOfBooksByAuthorsListNewBooksByAuthors.equals(authors))
+                    {
                         oldAuthorIdOfBooksByAuthorsListNewBooksByAuthors.getBooksByAuthorsList().remove(booksByAuthorsListNewBooksByAuthors);
                         oldAuthorIdOfBooksByAuthorsListNewBooksByAuthors = em.merge(oldAuthorIdOfBooksByAuthorsListNewBooksByAuthors);
                     }
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
+            if (msg == null || msg.length() == 0)
+            {
                 Integer id = authors.getId();
-                if (findAuthors(id) == null) {
+                if (findAuthors(id) == null)
+                {
                     throw new NonexistentEntityException("The authors with id " + id + " no longer exists.");
                 }
             }
             throw ex;
-        } finally {
-            if (em != null) {
+        }
+        finally
+        {
+            if (em != null)
+            {
                 em.close();
             }
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException
+    {
         EntityManager em = null;
-        try {
+        try
+        {
             em = getEntityManager();
             em.getTransaction().begin();
             Authors authors;
-            try {
+            try
+            {
                 authors = em.getReference(Authors.class, id);
                 authors.getId();
-            } catch (EntityNotFoundException enfe) {
+            }
+            catch (EntityNotFoundException enfe)
+            {
                 throw new NonexistentEntityException("The authors with id " + id + " no longer exists.", enfe);
             }
             Countries countryId = authors.getCountryId();
-            if (countryId != null) {
+            if (countryId != null)
+            {
                 countryId.getAuthorsList().remove(authors);
                 countryId = em.merge(countryId);
             }
             List<BooksByAuthors> booksByAuthorsList = authors.getBooksByAuthorsList();
-            for (BooksByAuthors booksByAuthorsListBooksByAuthors : booksByAuthorsList) {
+            for (BooksByAuthors booksByAuthorsListBooksByAuthors : booksByAuthorsList)
+            {
                 booksByAuthorsListBooksByAuthors.setAuthorId(null);
                 booksByAuthorsListBooksByAuthors = em.merge(booksByAuthorsListBooksByAuthors);
             }
             em.remove(authors);
             em.getTransaction().commit();
-        } finally {
-            if (em != null) {
+        }
+        finally
+        {
+            if (em != null)
+            {
                 em.close();
             }
         }
     }
 
-    public List<Authors> findAuthorsEntities() {
+    public List<Authors> findAuthorsEntities()
+    {
         return findAuthorsEntities(true, -1, -1);
     }
 
-    public List<Authors> findAuthorsEntities(int maxResults, int firstResult) {
+    public List<Authors> findAuthorsEntities(int maxResults, int firstResult)
+    {
         return findAuthorsEntities(false, maxResults, firstResult);
     }
 
-    private List<Authors> findAuthorsEntities(boolean all, int maxResults, int firstResult) {
+    private List<Authors> findAuthorsEntities(boolean all, int maxResults, int firstResult)
+    {
         EntityManager em = getEntityManager();
-        try {
+        try
+        {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Authors.class));
             Query q = em.createQuery(cq);
-            if (!all) {
+            if (!all)
+            {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
-        } finally {
+        }
+        finally
+        {
             em.close();
         }
     }
 
-    public Authors findAuthors(Integer id) {
+    public Authors findAuthors(Integer id)
+    {
         EntityManager em = getEntityManager();
-        try {
+        try
+        {
             return em.find(Authors.class, id);
-        } finally {
+        }
+        finally
+        {
             em.close();
         }
     }
 
-    public int getAuthorsCount() {
+    public int getAuthorsCount()
+    {
         EntityManager em = getEntityManager();
-        try {
+        try
+        {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Authors> rt = cq.from(Authors.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
-        } finally {
+        }
+        finally
+        {
             em.close();
         }
     }

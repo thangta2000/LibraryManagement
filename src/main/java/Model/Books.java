@@ -25,17 +25,20 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author tkang_85a
+ * @author admin
  */
 @Entity
 @Table(name = "Books", catalog = "booktique", schema = "dbo")
-@NamedQueries({
+@NamedQueries(
+{
     @NamedQuery(name = "Books.findAll", query = "SELECT b FROM Books b"),
     @NamedQuery(name = "Books.findById", query = "SELECT b FROM Books b WHERE b.id = :id"),
     @NamedQuery(name = "Books.findByCode", query = "SELECT b FROM Books b WHERE b.code = :code"),
     @NamedQuery(name = "Books.findByCreatedDate", query = "SELECT b FROM Books b WHERE b.createdDate = :createdDate"),
-    @NamedQuery(name = "Books.findByStatus", query = "SELECT b FROM Books b WHERE b.status = :status")})
-public class Books implements Serializable {
+    @NamedQuery(name = "Books.findByStatus", query = "SELECT b FROM Books b WHERE b.status = :status")
+})
+public class Books implements Serializable
+{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -56,83 +59,102 @@ public class Books implements Serializable {
     @OneToMany(mappedBy = "bookId")
     private List<Borrows> borrowsList;
 
-    public Books() {
+    public Books()
+    {
     }
 
-    public Books(Long id) {
+    public Books(Long id)
+    {
         this.id = id;
     }
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    public String getCode() {
+    public String getCode()
+    {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(String code)
+    {
         this.code = code;
     }
 
-    public Date getCreatedDate() {
+    public Date getCreatedDate()
+    {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(Date createdDate)
+    {
         this.createdDate = createdDate;
     }
 
-    public Integer getStatus() {
+    public Integer getStatus()
+    {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Integer status)
+    {
         this.status = status;
     }
 
-    public BookTitles getBookTitleId() {
+    public BookTitles getBookTitleId()
+    {
         return bookTitleId;
     }
 
-    public void setBookTitleId(BookTitles bookTitleId) {
+    public void setBookTitleId(BookTitles bookTitleId)
+    {
         this.bookTitleId = bookTitleId;
     }
 
-    public List<Borrows> getBorrowsList() {
+    public List<Borrows> getBorrowsList()
+    {
         return borrowsList;
     }
 
-    public void setBorrowsList(List<Borrows> borrowsList) {
+    public void setBorrowsList(List<Borrows> borrowsList)
+    {
         this.borrowsList = borrowsList;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Books)) {
+        if (!(object instanceof Books))
+        {
             return false;
         }
         Books other = (Books) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Model.Books[ id=" + id + " ]";
     }
     
