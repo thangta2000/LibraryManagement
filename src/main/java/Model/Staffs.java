@@ -6,7 +6,8 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -30,6 +33,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "Staffs.findAll", query = "SELECT s FROM Staffs s"),
     @NamedQuery(name = "Staffs.findById", query = "SELECT s FROM Staffs s WHERE s.id = :id"),
     @NamedQuery(name = "Staffs.findByFullName", query = "SELECT s FROM Staffs s WHERE s.fullName = :fullName"),
+    @NamedQuery(name = "Staffs.findByBirthDate", query = "SELECT s FROM Staffs s WHERE s.birthDate = :birthDate"),
     @NamedQuery(name = "Staffs.findByPhone", query = "SELECT s FROM Staffs s WHERE s.phone = :phone"),
     @NamedQuery(name = "Staffs.findByAddress", query = "SELECT s FROM Staffs s WHERE s.address = :address"),
     @NamedQuery(name = "Staffs.findByEmail", query = "SELECT s FROM Staffs s WHERE s.email = :email"),
@@ -46,6 +50,9 @@ public class Staffs implements Serializable {
     private Integer id;
     @Column(name = "FullName")
     private String fullName;
+    @Column(name = "BirthDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date birthDate;
     @Column(name = "Phone")
     private String phone;
     @Column(name = "Address")
@@ -87,7 +94,18 @@ public class Staffs implements Serializable {
         this.fullName = fullName;
     }
 
-    public String getPhone() {
+    public Date getBirthDate()
+    {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate)
+    {
+        this.birthDate = birthDate;
+    }
+
+    public String getPhone()
+    {
         return phone;
     }
 

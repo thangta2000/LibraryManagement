@@ -14,6 +14,7 @@ import javax.persistence.criteria.Root;
 import Model.BookTitles;
 import Model.Books;
 import Model.Borrows;
+import Utility.Factory;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -33,10 +34,12 @@ public class BooksJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-
-    public void create(Books books) {
-        if (books.getBorrowsList() == null) {
-            books.setBorrowsList(new ArrayList<Borrows>());
+    
+    public void create(Books books)
+    {
+        if (books.getBorrowsCollection() == null)
+        {
+            books.setBorrowsCollection(new ArrayList<Borrows>());
         }
         EntityManager em = null;
         try {

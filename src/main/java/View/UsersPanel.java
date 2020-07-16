@@ -5,28 +5,29 @@
  */
 package View;
 
-/**
- *
- * @author tkang_85a
- */
-import Controller.BookTitlesJpaController;
-import Model.*;
+import Controller.UsersJpaController;
+import Model.Users;
 import Utility.CustomTableModel;
 import java.awt.BorderLayout;
-import java.util.*;
+import java.awt.Color;
+import java.util.ArrayList;
+import javax.swing.table.JTableHeader;
 
-public class BookTitlePanel extends javax.swing.JPanel
+/**
+ *
+ * @author admin
+ */
+public class UsersPanel extends javax.swing.JPanel
 {
 
     /**
-     * Creates new form BookTitlePanel
+     * Creates new form UsersPanel
      */
-    private ArrayList<BookTitles> bookTitles;
+    private ArrayList<Users> userList;
 
-    public BookTitlePanel()
+    public UsersPanel()
     {
         initComponents();
-
         customizePalette();
 
         populateTable();
@@ -50,7 +51,7 @@ public class BookTitlePanel extends javax.swing.JPanel
         jComboBox1 = new javax.swing.JComboBox<>();
         btnAdd = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(255, 255, 255));
+        setOpaque(false);
 
         jPanelTable.setBackground(new java.awt.Color(255, 255, 255));
         jPanelTable.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -65,13 +66,13 @@ public class BookTitlePanel extends javax.swing.JPanel
             },
             new String []
             {
-                "No.", "Title", "Pages", "Publish Year"
+                "No.", "Full Name", "Position", "Username", "Role"
             }
         )
         {
             boolean[] canEdit = new boolean []
             {
-                false, false, false, false
+                false, false, true, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex)
@@ -99,7 +100,7 @@ public class BookTitlePanel extends javax.swing.JPanel
             jPanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTableLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -108,34 +109,12 @@ public class BookTitlePanel extends javax.swing.JPanel
         jLabel1.setText("Tên đầu sách");
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        bookTitleName.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                bookTitleNameActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Tên tác giả");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
 
         btnAdd.setText("Thêm mới");
         btnAdd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnAdd.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                btnAddActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanelTopLayout = new javax.swing.GroupLayout(jPanelTop);
         jPanelTop.setLayout(jPanelTopLayout);
@@ -150,7 +129,7 @@ public class BookTitlePanel extends javax.swing.JPanel
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -175,7 +154,7 @@ public class BookTitlePanel extends javax.swing.JPanel
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelTop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -184,22 +163,10 @@ public class BookTitlePanel extends javax.swing.JPanel
                 .addComponent(jPanelTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(14, 14, 14))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void bookTitleNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookTitleNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bookTitleNameActionPerformed
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-//        BookTitleCreate bookTitleCreate = new BookTitleCreate();
-//        bookTitleCreate.setVisible(true);
-    }//GEN-LAST:event_btnAddActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bookTitleName;
@@ -218,36 +185,52 @@ public class BookTitlePanel extends javax.swing.JPanel
         btnAdd.setBorderPainted(true);
         btnAdd.setFocusPainted(false);
         btnAdd.setContentAreaFilled(false);
-
+        
         jTable1.getTableHeader().setOpaque(false);
     }
 
     private void populateTable()
     {
-        bookTitles = new ArrayList<>(BookTitlesJpaController.findBookTitlesEntities());
+        userList = new ArrayList<>(UsersJpaController.findUsersEntities());
+
         String[] columnName =
         {
-            "No.", "Tên sách", "Số trang", "Năm xuất bản"
+            "No.", "Tên", "Chức vụ", "Tên tài khoản", "Phân Quyền"
         };
-        
+
         // Create model booktitles by creating anonymous nest class of CustomTableModel<T>
-        CustomTableModel<BookTitles> model = new CustomTableModel<BookTitles>(bookTitles, columnName)
+        CustomTableModel<Users> model = new CustomTableModel<Users>(userList, columnName)
         {
             @Override
             public Object getValueAt(int rowIndex, int columnIndex)
             {
                 Object temp = null;
-                BookTitles bookTitle = getDataObject(rowIndex);
+                Users user = getDataObject(rowIndex);
                 switch (columnIndex)
                 {
                     case 0:
                         return temp = rowIndex + 1;
                     case 1:
-                        return temp = bookTitle.getTitle();
+                        return temp = user.getStaffId().getFullName();
                     case 2:
-                        return temp = bookTitle.getPages();
+                        var position = user.getStaffId().getPosition();
+                        if (position == 0)
+                        {
+                            temp = "Giám đốc";
+                        }
+                        else if (position == 1)
+                        {
+                            temp = "Quản lý";
+                        }
+                        else if(position == 2)
+                        {
+                            temp = "Thủ thư";
+                        }
+                        return temp;
                     case 3:
-                        return temp = bookTitle.getPublishYear();
+                        return temp = user.getUsername();
+                    case 4:
+                        return temp = user.getRoleId().getRoleName();
                     default:
                         throw new ArrayIndexOutOfBoundsException(columnIndex);
                 }

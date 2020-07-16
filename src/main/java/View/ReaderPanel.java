@@ -7,29 +7,17 @@ package View;
 
 /**
  *
- * @author tkang_85a
+ * @author admin
  */
-import Controller.BookTitlesJpaController;
-import Model.*;
-import Utility.CustomTableModel;
-import java.awt.BorderLayout;
-import java.util.*;
-
-public class BookTitlePanel extends javax.swing.JPanel
+public class ReaderPanel extends javax.swing.JPanel
 {
 
     /**
-     * Creates new form BookTitlePanel
+     * Creates new form ReaderPanel
      */
-    private ArrayList<BookTitles> bookTitles;
-
-    public BookTitlePanel()
+    public ReaderPanel()
     {
         initComponents();
-
-        customizePalette();
-
-        populateTable();
     }
 
     /**
@@ -40,68 +28,17 @@ public class BookTitlePanel extends javax.swing.JPanel
     private void initComponents()
     {
 
-        jPanelTable = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanelTop = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         bookTitleName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         btnAdd = new javax.swing.JButton();
+        jPanelTable = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
-
-        jPanelTable.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelTable.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-
-        jTable1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
-
-            },
-            new String []
-            {
-                "No.", "Title", "Pages", "Publish Year"
-            }
-        )
-        {
-            boolean[] canEdit = new boolean []
-            {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex)
-            {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable1.setFillsViewportHeight(true);
-        jTable1.setGridColor(new java.awt.Color(33, 115, 247));
-        jTable1.setRowHeight(28);
-        jTable1.setShowGrid(true);
-        jTable1.setShowVerticalLines(false);
-        jScrollPane1.setViewportView(jTable1);
-
-        javax.swing.GroupLayout jPanelTableLayout = new javax.swing.GroupLayout(jPanelTable);
-        jPanelTable.setLayout(jPanelTableLayout);
-        jPanelTableLayout.setHorizontalGroup(
-            jPanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTableLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-        );
-        jPanelTableLayout.setVerticalGroup(
-            jPanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelTableLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
-                .addContainerGap())
-        );
 
         jPanelTop.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -150,7 +87,7 @@ public class BookTitlePanel extends javax.swing.JPanel
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -167,6 +104,58 @@ public class BookTitlePanel extends javax.swing.JPanel
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanelTable.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelTable.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jPanelTable.setPreferredSize(new java.awt.Dimension(466, 484));
+
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        jTable1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][]
+            {
+
+            },
+            new String []
+            {
+                "No.", "Độc giả", "Số thẻ", "Số CCCD", "Ngày sinh", "Giới tính", "Địa chỉ", "Điện thoại", "Quốc tịch", "Nghề nghiệp", "Cơ quan"
+            }
+        )
+        {
+            boolean[] canEdit = new boolean []
+            {
+                false, false, false, false, false, false, false, false, false, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setFillsViewportHeight(true);
+        jTable1.setGridColor(new java.awt.Color(33, 115, 247));
+        jTable1.setRowHeight(28);
+        jTable1.setShowGrid(true);
+        jTable1.setShowVerticalLines(false);
+        jScrollPane1.setViewportView(jTable1);
+
+        javax.swing.GroupLayout jPanelTableLayout = new javax.swing.GroupLayout(jPanelTable);
+        jPanelTable.setLayout(jPanelTableLayout);
+        jPanelTableLayout.setHorizontalGroup(
+            jPanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTableLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+        );
+        jPanelTableLayout.setVerticalGroup(
+            jPanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTableLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -175,7 +164,7 @@ public class BookTitlePanel extends javax.swing.JPanel
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelTop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelTable, javax.swing.GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -183,23 +172,27 @@ public class BookTitlePanel extends javax.swing.JPanel
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanelTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanelTable, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void bookTitleNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookTitleNameActionPerformed
+    private void bookTitleNameActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_bookTitleNameActionPerformed
+    {//GEN-HEADEREND:event_bookTitleNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bookTitleNameActionPerformed
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-//        BookTitleCreate bookTitleCreate = new BookTitleCreate();
-//        bookTitleCreate.setVisible(true);
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jComboBox1ActionPerformed
+    {//GEN-HEADEREND:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnAddActionPerformed
+    {//GEN-HEADEREND:event_btnAddActionPerformed
+        //        BookTitleCreate bookTitleCreate = new BookTitleCreate();
+        //        bookTitleCreate.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bookTitleName;
@@ -212,57 +205,4 @@ public class BookTitlePanel extends javax.swing.JPanel
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
-
-    private void customizePalette()
-    {
-        btnAdd.setBorderPainted(true);
-        btnAdd.setFocusPainted(false);
-        btnAdd.setContentAreaFilled(false);
-
-        jTable1.getTableHeader().setOpaque(false);
-    }
-
-    private void populateTable()
-    {
-        bookTitles = new ArrayList<>(BookTitlesJpaController.findBookTitlesEntities());
-        String[] columnName =
-        {
-            "No.", "Tên sách", "Số trang", "Năm xuất bản"
-        };
-        
-        // Create model booktitles by creating anonymous nest class of CustomTableModel<T>
-        CustomTableModel<BookTitles> model = new CustomTableModel<BookTitles>(bookTitles, columnName)
-        {
-            @Override
-            public Object getValueAt(int rowIndex, int columnIndex)
-            {
-                Object temp = null;
-                BookTitles bookTitle = getDataObject(rowIndex);
-                switch (columnIndex)
-                {
-                    case 0:
-                        return temp = rowIndex + 1;
-                    case 1:
-                        return temp = bookTitle.getTitle();
-                    case 2:
-                        return temp = bookTitle.getPages();
-                    case 3:
-                        return temp = bookTitle.getPublishYear();
-                    default:
-                        throw new ArrayIndexOutOfBoundsException(columnIndex);
-                }
-            }
-
-        };
-
-        jTable1.setModel(model);
-
-        jScrollPane1.getViewport().add(jTable1);
-        jPanelTable.setLayout(new BorderLayout());
-        jPanelTable.add(jScrollPane1);
-        jPanelTable.validate();
-
-        jPanelTable.setVisible(true);
-    }
-
 }

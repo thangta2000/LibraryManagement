@@ -14,9 +14,10 @@ import javax.persistence.criteria.Root;
 import Model.Roles;
 import Model.Staffs;
 import Model.Users;
+import Utility.Factory;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -24,16 +25,25 @@ import javax.persistence.EntityManagerFactory;
  */
 public class UsersJpaController implements Serializable {
 
-    public UsersJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+//    public UsersJpaController(EntityManagerFactory emf)
+//    {
+//        this.emf = emf;
+//    }
+//
+//    private EntityManagerFactory emf = null;
+//
+//    public EntityManager getEntityManager()
+//    {
+//        return emf.createEntityManager();
+//    }
+    
+    public static EntityManager getEntityManager()
+    {
+        return Factory.getEntityManager();
     }
-    private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
-
-    public void create(Users users) {
+    public static void create(Users users)
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -65,7 +75,8 @@ public class UsersJpaController implements Serializable {
         }
     }
 
-    public void edit(Users users) throws NonexistentEntityException, Exception {
+    public static void edit(Users users) throws NonexistentEntityException, Exception
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -117,7 +128,8 @@ public class UsersJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public static void destroy(Integer id) throws NonexistentEntityException
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -148,15 +160,18 @@ public class UsersJpaController implements Serializable {
         }
     }
 
-    public List<Users> findUsersEntities() {
+    public static List<Users> findUsersEntities()
+    {
         return findUsersEntities(true, -1, -1);
     }
 
-    public List<Users> findUsersEntities(int maxResults, int firstResult) {
+    public static List<Users> findUsersEntities(int maxResults, int firstResult)
+    {
         return findUsersEntities(false, maxResults, firstResult);
     }
 
-    private List<Users> findUsersEntities(boolean all, int maxResults, int firstResult) {
+    private static List<Users> findUsersEntities(boolean all, int maxResults, int firstResult)
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -172,7 +187,8 @@ public class UsersJpaController implements Serializable {
         }
     }
 
-    public Users findUsers(Integer id) {
+    public static Users findUsers(Integer id)
+    {
         EntityManager em = getEntityManager();
         try {
             return em.find(Users.class, id);
@@ -181,7 +197,8 @@ public class UsersJpaController implements Serializable {
         }
     }
 
-    public int getUsersCount() {
+    public static int getUsersCount()
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -190,6 +207,37 @@ public class UsersJpaController implements Serializable {
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } finally {
+            em.close();
+        }
+    }
+    
+    public static Users findLogin(String username, String password)
+    {
+        EntityManager em = getEntityManager();
+        try
+        {
+            TypedQuery<Users> query = em.createNamedQuery("Users.findLogin", Users.class);
+            
+            query.setParameter("password", password);
+            query.setParameter("username", username);
+            
+            Users obj;
+            
+            var result = query.getSingleResult();
+            
+            if (result != null)
+            {
+                obj = result;
+            }
+            else
+            {
+                obj = null;
+            }
+            
+            return obj;
+        }
+        finally
+        {
             em.close();
         }
     }

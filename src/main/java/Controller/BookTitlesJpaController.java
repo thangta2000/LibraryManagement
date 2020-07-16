@@ -17,6 +17,9 @@ import Model.Countries;
 import Model.Publishers;
 import Model.Books;
 import java.util.ArrayList;
+import java.util.Collection;
+import Model.BooksByAuthors;
+import Utility.Factory;
 import java.util.List;
 import Model.BooksByAuthors;
 import javax.persistence.EntityManager;
@@ -28,18 +31,28 @@ import javax.persistence.EntityManagerFactory;
  */
 public class BookTitlesJpaController implements Serializable {
 
-    public BookTitlesJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+//    public BookTitlesJpaController(EntityManagerFactory emf)
+//    {
+//        this.emf = emf;
+//    }
+//
+//    private EntityManagerFactory emf = null;
+//
+//    public EntityManager getEntityManager()
+//    {
+//        return emf.createEntityManager();
+//    }
+    
+    public static EntityManager getEntityManager()
+    {
+        return Factory.getEntityManager();
     }
-    private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
-
-    public void create(BookTitles bookTitles) {
-        if (bookTitles.getBooksList() == null) {
-            bookTitles.setBooksList(new ArrayList<Books>());
+    public static void create(BookTitles bookTitles)
+    {
+        if (bookTitles.getBooksCollection() == null)
+        {
+            bookTitles.setBooksCollection(new ArrayList<Books>());
         }
         if (bookTitles.getBooksByAuthorsList() == null) {
             bookTitles.setBooksByAuthorsList(new ArrayList<BooksByAuthors>());
@@ -114,7 +127,8 @@ public class BookTitlesJpaController implements Serializable {
         }
     }
 
-    public void edit(BookTitles bookTitles) throws NonexistentEntityException, Exception {
+    public static void edit(BookTitles bookTitles) throws NonexistentEntityException, Exception
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -232,7 +246,8 @@ public class BookTitlesJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public static void destroy(Integer id) throws NonexistentEntityException
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -278,15 +293,18 @@ public class BookTitlesJpaController implements Serializable {
         }
     }
 
-    public List<BookTitles> findBookTitlesEntities() {
+    public static List<BookTitles> findBookTitlesEntities()
+    {
         return findBookTitlesEntities(true, -1, -1);
     }
 
-    public List<BookTitles> findBookTitlesEntities(int maxResults, int firstResult) {
+    public static List<BookTitles> findBookTitlesEntities(int maxResults, int firstResult)
+    {
         return findBookTitlesEntities(false, maxResults, firstResult);
     }
 
-    private List<BookTitles> findBookTitlesEntities(boolean all, int maxResults, int firstResult) {
+    private static List<BookTitles> findBookTitlesEntities(boolean all, int maxResults, int firstResult)
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -302,7 +320,8 @@ public class BookTitlesJpaController implements Serializable {
         }
     }
 
-    public BookTitles findBookTitles(Integer id) {
+    public static BookTitles findBookTitles(Integer id)
+    {
         EntityManager em = getEntityManager();
         try {
             return em.find(BookTitles.class, id);
@@ -311,7 +330,8 @@ public class BookTitlesJpaController implements Serializable {
         }
     }
 
-    public int getBookTitlesCount() {
+    public static int getBookTitlesCount()
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
