@@ -6,7 +6,7 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -66,9 +66,9 @@ public class BookTitles implements Serializable
     @ManyToOne
     private Publishers publisherId;
     @OneToMany(mappedBy = "bookTitleId")
-    private List<Books> booksList;
+    private Collection<Books> booksCollection;
     @OneToMany(mappedBy = "bookTitleId")
-    private List<BooksByAuthors> booksByAuthorsList;
+    private Collection<BooksByAuthors> booksByAuthorsCollection;
 
     public BookTitles()
     {
@@ -169,24 +169,24 @@ public class BookTitles implements Serializable
         this.publisherId = publisherId;
     }
 
-    public List<Books> getBooksList()
+    public Collection<Books> getBooksCollection()
     {
-        return booksList;
+        return booksCollection;
     }
 
-    public void setBooksList(List<Books> booksList)
+    public void setBooksCollection(Collection<Books> booksCollection)
     {
-        this.booksList = booksList;
+        this.booksCollection = booksCollection;
     }
 
-    public List<BooksByAuthors> getBooksByAuthorsList()
+    public Collection<BooksByAuthors> getBooksByAuthorsCollection()
     {
-        return booksByAuthorsList;
+        return booksByAuthorsCollection;
     }
 
-    public void setBooksByAuthorsList(List<BooksByAuthors> booksByAuthorsList)
+    public void setBooksByAuthorsCollection(Collection<BooksByAuthors> booksByAuthorsCollection)
     {
-        this.booksByAuthorsList = booksByAuthorsList;
+        this.booksByAuthorsCollection = booksByAuthorsCollection;
     }
 
     @Override

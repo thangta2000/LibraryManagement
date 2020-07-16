@@ -14,16 +14,17 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author admin
  */
-public class CustomTableModel extends AbstractTableModel
+
+// Make CustomTableModel abstract with undefined T class => donot have to recreate CustomTableModel for different T
+public abstract class CustomTableModel<T> extends AbstractTableModel
 {
+    private final String[] columnNames;
+    private final List<T> list;
 
-    private String[] columnNames = {"No.", "Title", "Pages", "Publish Year"};
-    private ArrayList<BookTitles> list = new ArrayList<>();
-
-    public CustomTableModel(ArrayList<BookTitles> list)
+    public CustomTableModel(ArrayList<T> list, String[] columnNames)
     {
         this.list = list;
-        //this.columnNames = columnNames;
+        this.columnNames = columnNames;
     }
 
     @Override
@@ -43,31 +44,8 @@ public class CustomTableModel extends AbstractTableModel
     {
         return columnNames[col];
     }
-
-    @Override
-    public Object getValueAt(int rowIndex, int columnIndex)
-    {
-
-        Object temp = null;
-
-        switch (columnIndex)
-        {
-            case 0:
-                temp = rowIndex + 1;
-                break;
-            case 1:
-                temp = list.get(rowIndex).getTitle();
-                break;
-            case 2:
-                temp = list.get(rowIndex).getPages();
-                break;
-            case 3:
-                temp = list.get(rowIndex).getPublishYear();
-                break;
-            default:
-                break;
-        }
-        return temp;
+    
+    public T getDataObject(int rowIndex) {
+        return this.list.get(rowIndex);
     }
-
 }

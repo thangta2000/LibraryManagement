@@ -10,22 +10,10 @@ package View;
  * @author tkang_85a
  */
 import Controller.BookTitlesJpaController;
-import View.BookTitleCreate;
 import Model.*;
 import Utility.CustomTableModel;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.util.*;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.swing.BorderFactory;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.border.EmptyBorder;
 
 public class BookTitlePanel extends javax.swing.JPanel
 {
@@ -33,30 +21,15 @@ public class BookTitlePanel extends javax.swing.JPanel
     /**
      * Creates new form BookTitlePanel
      */
-    private EntityManagerFactory emf;
-
-    private CustomTableModel tableModel;
     private ArrayList<BookTitles> bookTitles;
-    private BookTitlesJpaController controller;
 
     public BookTitlePanel()
     {
         initComponents();
-        
+
         customizePalette();
-        
-        emf = Persistence.createEntityManagerFactory("com.mycompany_LibraryManagement_jar_1.0-SNAPSHOTPU");
-        controller = new BookTitlesJpaController(emf);
-        bookTitles = new ArrayList<>(controller.findBookTitlesEntities());
-        tableModel = new CustomTableModel(bookTitles);
-        jTable1.setModel(tableModel);
-        
-        jScrollPane1.getViewport().add(jTable1);
-        jPanelTable.setLayout(new BorderLayout());
-        jPanelTable.add(jScrollPane1);
-        jPanelTable.validate();
-        
-        jPanelTable.setVisible(true);
+
+        populateTable();
     }
 
     /**
@@ -224,26 +197,9 @@ public class BookTitlePanel extends javax.swing.JPanel
     }//GEN-LAST:event_bookTitleNameActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        BookTitleCreate bookTitleCreate = new BookTitleCreate();
-        bookTitleCreate.setVisible(true);
+//        BookTitleCreate bookTitleCreate = new BookTitleCreate();
+//        bookTitleCreate.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
-    
-    //Test
-//    public static void main(String[] args)
-//    {
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                //new BookTitlePanel().setVisible(true);
-//                BookTitlePanel panel = new BookTitlePanel();
-//                JFrame frame = new JFrame();
-//                //panel.jTable1.setGridColor(Color.red);
-//                frame.add(panel);
-//                frame.pack();
-//                frame.validate();
-//                frame.setVisible(true);
-//            }
-//        });
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bookTitleName;
@@ -262,7 +218,51 @@ public class BookTitlePanel extends javax.swing.JPanel
         btnAdd.setBorderPainted(true);
         btnAdd.setFocusPainted(false);
         btnAdd.setContentAreaFilled(false);
-        
+
         jTable1.getTableHeader().setOpaque(false);
     }
+
+    private void populateTable()
+    {
+        bookTitles = new ArrayList<>(BookTitlesJpaController.findBookTitlesEntities());
+        String[] columnName =
+        {
+            "No.", "Tên sách", "Số trang", "Năm xuất bản"
+        };
+        
+        // Create model booktitles by creating anonymous nest class of CustomTableModel<T>
+        CustomTableModel<BookTitles> model = new CustomTableModel<BookTitles>(bookTitles, columnName)
+        {
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex)
+            {
+                Object temp = null;
+                BookTitles bookTitle = getDataObject(rowIndex);
+                switch (columnIndex)
+                {
+                    case 0:
+                        return temp = rowIndex + 1;
+                    case 1:
+                        return temp = bookTitle.getTitle();
+                    case 2:
+                        return temp = bookTitle.getPages();
+                    case 3:
+                        return temp = bookTitle.getPublishYear();
+                    default:
+                        throw new ArrayIndexOutOfBoundsException(columnIndex);
+                }
+            }
+
+        };
+
+        jTable1.setModel(model);
+
+        jScrollPane1.getViewport().add(jTable1);
+        jPanelTable.setLayout(new BorderLayout());
+        jPanelTable.add(jScrollPane1);
+        jPanelTable.validate();
+
+        jPanelTable.setVisible(true);
+    }
+
 }

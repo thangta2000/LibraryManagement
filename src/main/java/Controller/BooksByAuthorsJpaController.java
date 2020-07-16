@@ -59,12 +59,12 @@ public class BooksByAuthorsJpaController implements Serializable
             em.persist(booksByAuthors);
             if (authorId != null)
             {
-                authorId.getBooksByAuthorsList().add(booksByAuthors);
+                authorId.getBooksByAuthorsCollection().add(booksByAuthors);
                 authorId = em.merge(authorId);
             }
             if (bookTitleId != null)
             {
-                bookTitleId.getBooksByAuthorsList().add(booksByAuthors);
+                bookTitleId.getBooksByAuthorsCollection().add(booksByAuthors);
                 bookTitleId = em.merge(bookTitleId);
             }
             em.getTransaction().commit();
@@ -103,22 +103,22 @@ public class BooksByAuthorsJpaController implements Serializable
             booksByAuthors = em.merge(booksByAuthors);
             if (authorIdOld != null && !authorIdOld.equals(authorIdNew))
             {
-                authorIdOld.getBooksByAuthorsList().remove(booksByAuthors);
+                authorIdOld.getBooksByAuthorsCollection().remove(booksByAuthors);
                 authorIdOld = em.merge(authorIdOld);
             }
             if (authorIdNew != null && !authorIdNew.equals(authorIdOld))
             {
-                authorIdNew.getBooksByAuthorsList().add(booksByAuthors);
+                authorIdNew.getBooksByAuthorsCollection().add(booksByAuthors);
                 authorIdNew = em.merge(authorIdNew);
             }
             if (bookTitleIdOld != null && !bookTitleIdOld.equals(bookTitleIdNew))
             {
-                bookTitleIdOld.getBooksByAuthorsList().remove(booksByAuthors);
+                bookTitleIdOld.getBooksByAuthorsCollection().remove(booksByAuthors);
                 bookTitleIdOld = em.merge(bookTitleIdOld);
             }
             if (bookTitleIdNew != null && !bookTitleIdNew.equals(bookTitleIdOld))
             {
-                bookTitleIdNew.getBooksByAuthorsList().add(booksByAuthors);
+                bookTitleIdNew.getBooksByAuthorsCollection().add(booksByAuthors);
                 bookTitleIdNew = em.merge(bookTitleIdNew);
             }
             em.getTransaction().commit();
@@ -165,13 +165,13 @@ public class BooksByAuthorsJpaController implements Serializable
             Authors authorId = booksByAuthors.getAuthorId();
             if (authorId != null)
             {
-                authorId.getBooksByAuthorsList().remove(booksByAuthors);
+                authorId.getBooksByAuthorsCollection().remove(booksByAuthors);
                 authorId = em.merge(authorId);
             }
             BookTitles bookTitleId = booksByAuthors.getBookTitleId();
             if (bookTitleId != null)
             {
-                bookTitleId.getBooksByAuthorsList().remove(booksByAuthors);
+                bookTitleId.getBooksByAuthorsCollection().remove(booksByAuthors);
                 bookTitleId = em.merge(bookTitleId);
             }
             em.remove(booksByAuthors);

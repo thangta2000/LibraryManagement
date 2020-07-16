@@ -6,7 +6,7 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,17 +42,17 @@ public class Countries implements Serializable
     @Column(name = "Name")
     private String name;
     @OneToMany(mappedBy = "countryId")
-    private List<Staffs> staffsList;
+    private Collection<Staffs> staffsCollection;
     @OneToMany(mappedBy = "countryId")
-    private List<Authors> authorsList;
+    private Collection<Authors> authorsCollection;
     @OneToMany(mappedBy = "countryId")
-    private List<BookTitles> bookTitlesList;
+    private Collection<BookTitles> bookTitlesCollection;
     @OneToMany(mappedBy = "countryId")
-    private List<Readers> readersList;
+    private Collection<Readers> readersCollection;
     @OneToMany(mappedBy = "countryId")
-    private List<Publishers> publishersList;
+    private Collection<Publishers> publishersCollection;
     @OneToMany(mappedBy = "countryId")
-    private List<BookRequests> bookRequestsList;
+    private Collection<BookRequests> bookRequestsCollection;
 
     public Countries()
     {
@@ -83,64 +83,64 @@ public class Countries implements Serializable
         this.name = name;
     }
 
-    public List<Staffs> getStaffsList()
+    public Collection<Staffs> getStaffsCollection()
     {
-        return staffsList;
+        return staffsCollection;
     }
 
-    public void setStaffsList(List<Staffs> staffsList)
+    public void setStaffsCollection(Collection<Staffs> staffsCollection)
     {
-        this.staffsList = staffsList;
+        this.staffsCollection = staffsCollection;
     }
 
-    public List<Authors> getAuthorsList()
+    public Collection<Authors> getAuthorsCollection()
     {
-        return authorsList;
+        return authorsCollection;
     }
 
-    public void setAuthorsList(List<Authors> authorsList)
+    public void setAuthorsCollection(Collection<Authors> authorsCollection)
     {
-        this.authorsList = authorsList;
+        this.authorsCollection = authorsCollection;
     }
 
-    public List<BookTitles> getBookTitlesList()
+    public Collection<BookTitles> getBookTitlesCollection()
     {
-        return bookTitlesList;
+        return bookTitlesCollection;
     }
 
-    public void setBookTitlesList(List<BookTitles> bookTitlesList)
+    public void setBookTitlesCollection(Collection<BookTitles> bookTitlesCollection)
     {
-        this.bookTitlesList = bookTitlesList;
+        this.bookTitlesCollection = bookTitlesCollection;
     }
 
-    public List<Readers> getReadersList()
+    public Collection<Readers> getReadersCollection()
     {
-        return readersList;
+        return readersCollection;
     }
 
-    public void setReadersList(List<Readers> readersList)
+    public void setReadersCollection(Collection<Readers> readersCollection)
     {
-        this.readersList = readersList;
+        this.readersCollection = readersCollection;
     }
 
-    public List<Publishers> getPublishersList()
+    public Collection<Publishers> getPublishersCollection()
     {
-        return publishersList;
+        return publishersCollection;
     }
 
-    public void setPublishersList(List<Publishers> publishersList)
+    public void setPublishersCollection(Collection<Publishers> publishersCollection)
     {
-        this.publishersList = publishersList;
+        this.publishersCollection = publishersCollection;
     }
 
-    public List<BookRequests> getBookRequestsList()
+    public Collection<BookRequests> getBookRequestsCollection()
     {
-        return bookRequestsList;
+        return bookRequestsCollection;
     }
 
-    public void setBookRequestsList(List<BookRequests> bookRequestsList)
+    public void setBookRequestsCollection(Collection<BookRequests> bookRequestsCollection)
     {
-        this.bookRequestsList = bookRequestsList;
+        this.bookRequestsCollection = bookRequestsCollection;
     }
 
     @Override

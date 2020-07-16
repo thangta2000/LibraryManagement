@@ -14,9 +14,10 @@ import javax.persistence.criteria.Root;
 import Model.Countries;
 import Model.BookRequests;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import Model.Borrows;
 import Model.Readers;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -41,13 +42,13 @@ public class ReadersJpaController implements Serializable
 
     public void create(Readers readers)
     {
-        if (readers.getBookRequestsList() == null)
+        if (readers.getBookRequestsCollection() == null)
         {
-            readers.setBookRequestsList(new ArrayList<BookRequests>());
+            readers.setBookRequestsCollection(new ArrayList<BookRequests>());
         }
-        if (readers.getBorrowsList() == null)
+        if (readers.getBorrowsCollection() == null)
         {
-            readers.setBorrowsList(new ArrayList<Borrows>());
+            readers.setBorrowsCollection(new ArrayList<Borrows>());
         }
         EntityManager em = null;
         try
@@ -60,46 +61,46 @@ public class ReadersJpaController implements Serializable
                 countryId = em.getReference(countryId.getClass(), countryId.getId());
                 readers.setCountryId(countryId);
             }
-            List<BookRequests> attachedBookRequestsList = new ArrayList<BookRequests>();
-            for (BookRequests bookRequestsListBookRequestsToAttach : readers.getBookRequestsList())
+            Collection<BookRequests> attachedBookRequestsCollection = new ArrayList<BookRequests>();
+            for (BookRequests bookRequestsCollectionBookRequestsToAttach : readers.getBookRequestsCollection())
             {
-                bookRequestsListBookRequestsToAttach = em.getReference(bookRequestsListBookRequestsToAttach.getClass(), bookRequestsListBookRequestsToAttach.getId());
-                attachedBookRequestsList.add(bookRequestsListBookRequestsToAttach);
+                bookRequestsCollectionBookRequestsToAttach = em.getReference(bookRequestsCollectionBookRequestsToAttach.getClass(), bookRequestsCollectionBookRequestsToAttach.getId());
+                attachedBookRequestsCollection.add(bookRequestsCollectionBookRequestsToAttach);
             }
-            readers.setBookRequestsList(attachedBookRequestsList);
-            List<Borrows> attachedBorrowsList = new ArrayList<Borrows>();
-            for (Borrows borrowsListBorrowsToAttach : readers.getBorrowsList())
+            readers.setBookRequestsCollection(attachedBookRequestsCollection);
+            Collection<Borrows> attachedBorrowsCollection = new ArrayList<Borrows>();
+            for (Borrows borrowsCollectionBorrowsToAttach : readers.getBorrowsCollection())
             {
-                borrowsListBorrowsToAttach = em.getReference(borrowsListBorrowsToAttach.getClass(), borrowsListBorrowsToAttach.getId());
-                attachedBorrowsList.add(borrowsListBorrowsToAttach);
+                borrowsCollectionBorrowsToAttach = em.getReference(borrowsCollectionBorrowsToAttach.getClass(), borrowsCollectionBorrowsToAttach.getId());
+                attachedBorrowsCollection.add(borrowsCollectionBorrowsToAttach);
             }
-            readers.setBorrowsList(attachedBorrowsList);
+            readers.setBorrowsCollection(attachedBorrowsCollection);
             em.persist(readers);
             if (countryId != null)
             {
-                countryId.getReadersList().add(readers);
+                countryId.getReadersCollection().add(readers);
                 countryId = em.merge(countryId);
             }
-            for (BookRequests bookRequestsListBookRequests : readers.getBookRequestsList())
+            for (BookRequests bookRequestsCollectionBookRequests : readers.getBookRequestsCollection())
             {
-                Readers oldReaderIdOfBookRequestsListBookRequests = bookRequestsListBookRequests.getReaderId();
-                bookRequestsListBookRequests.setReaderId(readers);
-                bookRequestsListBookRequests = em.merge(bookRequestsListBookRequests);
-                if (oldReaderIdOfBookRequestsListBookRequests != null)
+                Readers oldReaderIdOfBookRequestsCollectionBookRequests = bookRequestsCollectionBookRequests.getReaderId();
+                bookRequestsCollectionBookRequests.setReaderId(readers);
+                bookRequestsCollectionBookRequests = em.merge(bookRequestsCollectionBookRequests);
+                if (oldReaderIdOfBookRequestsCollectionBookRequests != null)
                 {
-                    oldReaderIdOfBookRequestsListBookRequests.getBookRequestsList().remove(bookRequestsListBookRequests);
-                    oldReaderIdOfBookRequestsListBookRequests = em.merge(oldReaderIdOfBookRequestsListBookRequests);
+                    oldReaderIdOfBookRequestsCollectionBookRequests.getBookRequestsCollection().remove(bookRequestsCollectionBookRequests);
+                    oldReaderIdOfBookRequestsCollectionBookRequests = em.merge(oldReaderIdOfBookRequestsCollectionBookRequests);
                 }
             }
-            for (Borrows borrowsListBorrows : readers.getBorrowsList())
+            for (Borrows borrowsCollectionBorrows : readers.getBorrowsCollection())
             {
-                Readers oldReaderIdOfBorrowsListBorrows = borrowsListBorrows.getReaderId();
-                borrowsListBorrows.setReaderId(readers);
-                borrowsListBorrows = em.merge(borrowsListBorrows);
-                if (oldReaderIdOfBorrowsListBorrows != null)
+                Readers oldReaderIdOfBorrowsCollectionBorrows = borrowsCollectionBorrows.getReaderId();
+                borrowsCollectionBorrows.setReaderId(readers);
+                borrowsCollectionBorrows = em.merge(borrowsCollectionBorrows);
+                if (oldReaderIdOfBorrowsCollectionBorrows != null)
                 {
-                    oldReaderIdOfBorrowsListBorrows.getBorrowsList().remove(borrowsListBorrows);
-                    oldReaderIdOfBorrowsListBorrows = em.merge(oldReaderIdOfBorrowsListBorrows);
+                    oldReaderIdOfBorrowsCollectionBorrows.getBorrowsCollection().remove(borrowsCollectionBorrows);
+                    oldReaderIdOfBorrowsCollectionBorrows = em.merge(oldReaderIdOfBorrowsCollectionBorrows);
                 }
             }
             em.getTransaction().commit();
@@ -123,83 +124,83 @@ public class ReadersJpaController implements Serializable
             Readers persistentReaders = em.find(Readers.class, readers.getId());
             Countries countryIdOld = persistentReaders.getCountryId();
             Countries countryIdNew = readers.getCountryId();
-            List<BookRequests> bookRequestsListOld = persistentReaders.getBookRequestsList();
-            List<BookRequests> bookRequestsListNew = readers.getBookRequestsList();
-            List<Borrows> borrowsListOld = persistentReaders.getBorrowsList();
-            List<Borrows> borrowsListNew = readers.getBorrowsList();
+            Collection<BookRequests> bookRequestsCollectionOld = persistentReaders.getBookRequestsCollection();
+            Collection<BookRequests> bookRequestsCollectionNew = readers.getBookRequestsCollection();
+            Collection<Borrows> borrowsCollectionOld = persistentReaders.getBorrowsCollection();
+            Collection<Borrows> borrowsCollectionNew = readers.getBorrowsCollection();
             if (countryIdNew != null)
             {
                 countryIdNew = em.getReference(countryIdNew.getClass(), countryIdNew.getId());
                 readers.setCountryId(countryIdNew);
             }
-            List<BookRequests> attachedBookRequestsListNew = new ArrayList<BookRequests>();
-            for (BookRequests bookRequestsListNewBookRequestsToAttach : bookRequestsListNew)
+            Collection<BookRequests> attachedBookRequestsCollectionNew = new ArrayList<BookRequests>();
+            for (BookRequests bookRequestsCollectionNewBookRequestsToAttach : bookRequestsCollectionNew)
             {
-                bookRequestsListNewBookRequestsToAttach = em.getReference(bookRequestsListNewBookRequestsToAttach.getClass(), bookRequestsListNewBookRequestsToAttach.getId());
-                attachedBookRequestsListNew.add(bookRequestsListNewBookRequestsToAttach);
+                bookRequestsCollectionNewBookRequestsToAttach = em.getReference(bookRequestsCollectionNewBookRequestsToAttach.getClass(), bookRequestsCollectionNewBookRequestsToAttach.getId());
+                attachedBookRequestsCollectionNew.add(bookRequestsCollectionNewBookRequestsToAttach);
             }
-            bookRequestsListNew = attachedBookRequestsListNew;
-            readers.setBookRequestsList(bookRequestsListNew);
-            List<Borrows> attachedBorrowsListNew = new ArrayList<Borrows>();
-            for (Borrows borrowsListNewBorrowsToAttach : borrowsListNew)
+            bookRequestsCollectionNew = attachedBookRequestsCollectionNew;
+            readers.setBookRequestsCollection(bookRequestsCollectionNew);
+            Collection<Borrows> attachedBorrowsCollectionNew = new ArrayList<Borrows>();
+            for (Borrows borrowsCollectionNewBorrowsToAttach : borrowsCollectionNew)
             {
-                borrowsListNewBorrowsToAttach = em.getReference(borrowsListNewBorrowsToAttach.getClass(), borrowsListNewBorrowsToAttach.getId());
-                attachedBorrowsListNew.add(borrowsListNewBorrowsToAttach);
+                borrowsCollectionNewBorrowsToAttach = em.getReference(borrowsCollectionNewBorrowsToAttach.getClass(), borrowsCollectionNewBorrowsToAttach.getId());
+                attachedBorrowsCollectionNew.add(borrowsCollectionNewBorrowsToAttach);
             }
-            borrowsListNew = attachedBorrowsListNew;
-            readers.setBorrowsList(borrowsListNew);
+            borrowsCollectionNew = attachedBorrowsCollectionNew;
+            readers.setBorrowsCollection(borrowsCollectionNew);
             readers = em.merge(readers);
             if (countryIdOld != null && !countryIdOld.equals(countryIdNew))
             {
-                countryIdOld.getReadersList().remove(readers);
+                countryIdOld.getReadersCollection().remove(readers);
                 countryIdOld = em.merge(countryIdOld);
             }
             if (countryIdNew != null && !countryIdNew.equals(countryIdOld))
             {
-                countryIdNew.getReadersList().add(readers);
+                countryIdNew.getReadersCollection().add(readers);
                 countryIdNew = em.merge(countryIdNew);
             }
-            for (BookRequests bookRequestsListOldBookRequests : bookRequestsListOld)
+            for (BookRequests bookRequestsCollectionOldBookRequests : bookRequestsCollectionOld)
             {
-                if (!bookRequestsListNew.contains(bookRequestsListOldBookRequests))
+                if (!bookRequestsCollectionNew.contains(bookRequestsCollectionOldBookRequests))
                 {
-                    bookRequestsListOldBookRequests.setReaderId(null);
-                    bookRequestsListOldBookRequests = em.merge(bookRequestsListOldBookRequests);
+                    bookRequestsCollectionOldBookRequests.setReaderId(null);
+                    bookRequestsCollectionOldBookRequests = em.merge(bookRequestsCollectionOldBookRequests);
                 }
             }
-            for (BookRequests bookRequestsListNewBookRequests : bookRequestsListNew)
+            for (BookRequests bookRequestsCollectionNewBookRequests : bookRequestsCollectionNew)
             {
-                if (!bookRequestsListOld.contains(bookRequestsListNewBookRequests))
+                if (!bookRequestsCollectionOld.contains(bookRequestsCollectionNewBookRequests))
                 {
-                    Readers oldReaderIdOfBookRequestsListNewBookRequests = bookRequestsListNewBookRequests.getReaderId();
-                    bookRequestsListNewBookRequests.setReaderId(readers);
-                    bookRequestsListNewBookRequests = em.merge(bookRequestsListNewBookRequests);
-                    if (oldReaderIdOfBookRequestsListNewBookRequests != null && !oldReaderIdOfBookRequestsListNewBookRequests.equals(readers))
+                    Readers oldReaderIdOfBookRequestsCollectionNewBookRequests = bookRequestsCollectionNewBookRequests.getReaderId();
+                    bookRequestsCollectionNewBookRequests.setReaderId(readers);
+                    bookRequestsCollectionNewBookRequests = em.merge(bookRequestsCollectionNewBookRequests);
+                    if (oldReaderIdOfBookRequestsCollectionNewBookRequests != null && !oldReaderIdOfBookRequestsCollectionNewBookRequests.equals(readers))
                     {
-                        oldReaderIdOfBookRequestsListNewBookRequests.getBookRequestsList().remove(bookRequestsListNewBookRequests);
-                        oldReaderIdOfBookRequestsListNewBookRequests = em.merge(oldReaderIdOfBookRequestsListNewBookRequests);
+                        oldReaderIdOfBookRequestsCollectionNewBookRequests.getBookRequestsCollection().remove(bookRequestsCollectionNewBookRequests);
+                        oldReaderIdOfBookRequestsCollectionNewBookRequests = em.merge(oldReaderIdOfBookRequestsCollectionNewBookRequests);
                     }
                 }
             }
-            for (Borrows borrowsListOldBorrows : borrowsListOld)
+            for (Borrows borrowsCollectionOldBorrows : borrowsCollectionOld)
             {
-                if (!borrowsListNew.contains(borrowsListOldBorrows))
+                if (!borrowsCollectionNew.contains(borrowsCollectionOldBorrows))
                 {
-                    borrowsListOldBorrows.setReaderId(null);
-                    borrowsListOldBorrows = em.merge(borrowsListOldBorrows);
+                    borrowsCollectionOldBorrows.setReaderId(null);
+                    borrowsCollectionOldBorrows = em.merge(borrowsCollectionOldBorrows);
                 }
             }
-            for (Borrows borrowsListNewBorrows : borrowsListNew)
+            for (Borrows borrowsCollectionNewBorrows : borrowsCollectionNew)
             {
-                if (!borrowsListOld.contains(borrowsListNewBorrows))
+                if (!borrowsCollectionOld.contains(borrowsCollectionNewBorrows))
                 {
-                    Readers oldReaderIdOfBorrowsListNewBorrows = borrowsListNewBorrows.getReaderId();
-                    borrowsListNewBorrows.setReaderId(readers);
-                    borrowsListNewBorrows = em.merge(borrowsListNewBorrows);
-                    if (oldReaderIdOfBorrowsListNewBorrows != null && !oldReaderIdOfBorrowsListNewBorrows.equals(readers))
+                    Readers oldReaderIdOfBorrowsCollectionNewBorrows = borrowsCollectionNewBorrows.getReaderId();
+                    borrowsCollectionNewBorrows.setReaderId(readers);
+                    borrowsCollectionNewBorrows = em.merge(borrowsCollectionNewBorrows);
+                    if (oldReaderIdOfBorrowsCollectionNewBorrows != null && !oldReaderIdOfBorrowsCollectionNewBorrows.equals(readers))
                     {
-                        oldReaderIdOfBorrowsListNewBorrows.getBorrowsList().remove(borrowsListNewBorrows);
-                        oldReaderIdOfBorrowsListNewBorrows = em.merge(oldReaderIdOfBorrowsListNewBorrows);
+                        oldReaderIdOfBorrowsCollectionNewBorrows.getBorrowsCollection().remove(borrowsCollectionNewBorrows);
+                        oldReaderIdOfBorrowsCollectionNewBorrows = em.merge(oldReaderIdOfBorrowsCollectionNewBorrows);
                     }
                 }
             }
@@ -247,20 +248,20 @@ public class ReadersJpaController implements Serializable
             Countries countryId = readers.getCountryId();
             if (countryId != null)
             {
-                countryId.getReadersList().remove(readers);
+                countryId.getReadersCollection().remove(readers);
                 countryId = em.merge(countryId);
             }
-            List<BookRequests> bookRequestsList = readers.getBookRequestsList();
-            for (BookRequests bookRequestsListBookRequests : bookRequestsList)
+            Collection<BookRequests> bookRequestsCollection = readers.getBookRequestsCollection();
+            for (BookRequests bookRequestsCollectionBookRequests : bookRequestsCollection)
             {
-                bookRequestsListBookRequests.setReaderId(null);
-                bookRequestsListBookRequests = em.merge(bookRequestsListBookRequests);
+                bookRequestsCollectionBookRequests.setReaderId(null);
+                bookRequestsCollectionBookRequests = em.merge(bookRequestsCollectionBookRequests);
             }
-            List<Borrows> borrowsList = readers.getBorrowsList();
-            for (Borrows borrowsListBorrows : borrowsList)
+            Collection<Borrows> borrowsCollection = readers.getBorrowsCollection();
+            for (Borrows borrowsCollectionBorrows : borrowsCollection)
             {
-                borrowsListBorrows.setReaderId(null);
-                borrowsListBorrows = em.merge(borrowsListBorrows);
+                borrowsCollectionBorrows.setReaderId(null);
+                borrowsCollectionBorrows = em.merge(borrowsCollectionBorrows);
             }
             em.remove(readers);
             em.getTransaction().commit();

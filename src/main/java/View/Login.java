@@ -23,15 +23,13 @@ public class Login extends javax.swing.JFrame
     /**
      * Creates new form Login
      */
-    private EntityManagerFactory emf;
     private UsersJpaController controller;
 
     public Login()
     {
         //super("Login");
         initComponents();
-        emf = Persistence.createEntityManagerFactory("com.mycompany_LibraryManagement_jar_1.0-SNAPSHOTPU");
-        controller = new UsersJpaController(emf);
+        controller = new UsersJpaController();
     }
 
     /**
@@ -137,8 +135,8 @@ public class Login extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(18, 18, 0, 111);
         jPanel1.add(jPasswordField_Pasword, gridBagConstraints);
 
-        jLabel_ErrorName.setForeground(new java.awt.Color(214, 217, 223));
-        jLabel_ErrorName.setText("Please type in username.");
+        jLabel_ErrorName.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel_ErrorName.setText("Bạn cần nhập tài khoản");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -147,8 +145,8 @@ public class Login extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(3, 24, 0, 0);
         jPanel1.add(jLabel_ErrorName, gridBagConstraints);
 
-        jLabel_ErrorPassword.setForeground(new java.awt.Color(214, 217, 223));
-        jLabel_ErrorPassword.setText("Please type in password.");
+        jLabel_ErrorPassword.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel_ErrorPassword.setText("Bạn cần nhập password.");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
@@ -201,7 +199,7 @@ public class Login extends javax.swing.JFrame
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "User not found!", "Information", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(null, "Không tìm thấy tài khoản!", "Thông báo", JOptionPane.OK_OPTION);
             }
         }
     }//GEN-LAST:event_jButton_LoginActionPerformed
@@ -218,7 +216,7 @@ public class Login extends javax.swing.JFrame
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

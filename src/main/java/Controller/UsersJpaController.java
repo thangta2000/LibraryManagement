@@ -14,10 +14,9 @@ import javax.persistence.criteria.Root;
 import Model.Roles;
 import Model.Staffs;
 import Model.Users;
+import Utility.Factory;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 /**
@@ -27,19 +26,24 @@ import javax.persistence.TypedQuery;
 public class UsersJpaController implements Serializable
 {
 
-    public UsersJpaController(EntityManagerFactory emf)
+//    public UsersJpaController(EntityManagerFactory emf)
+//    {
+//        this.emf = emf;
+//    }
+//
+//    private EntityManagerFactory emf = null;
+//
+//    public EntityManager getEntityManager()
+//    {
+//        return emf.createEntityManager();
+//    }
+    
+    public static EntityManager getEntityManager()
     {
-        this.emf = emf;
+        return Factory.getEntityManager();
     }
 
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager()
-    {
-        return emf.createEntityManager();
-    }
-
-    public void create(Users users)
+    public static void create(Users users)
     {
         EntityManager em = null;
         try
@@ -61,12 +65,12 @@ public class UsersJpaController implements Serializable
             em.persist(users);
             if (roleId != null)
             {
-                roleId.getUsersList().add(users);
+                roleId.getUsersCollection().add(users);
                 roleId = em.merge(roleId);
             }
             if (staffId != null)
             {
-                staffId.getUsersList().add(users);
+                staffId.getUsersCollection().add(users);
                 staffId = em.merge(staffId);
             }
             em.getTransaction().commit();
@@ -80,7 +84,7 @@ public class UsersJpaController implements Serializable
         }
     }
 
-    public void edit(Users users) throws NonexistentEntityException, Exception
+    public static void edit(Users users) throws NonexistentEntityException, Exception
     {
         EntityManager em = null;
         try
@@ -105,22 +109,22 @@ public class UsersJpaController implements Serializable
             users = em.merge(users);
             if (roleIdOld != null && !roleIdOld.equals(roleIdNew))
             {
-                roleIdOld.getUsersList().remove(users);
+                roleIdOld.getUsersCollection().remove(users);
                 roleIdOld = em.merge(roleIdOld);
             }
             if (roleIdNew != null && !roleIdNew.equals(roleIdOld))
             {
-                roleIdNew.getUsersList().add(users);
+                roleIdNew.getUsersCollection().add(users);
                 roleIdNew = em.merge(roleIdNew);
             }
             if (staffIdOld != null && !staffIdOld.equals(staffIdNew))
             {
-                staffIdOld.getUsersList().remove(users);
+                staffIdOld.getUsersCollection().remove(users);
                 staffIdOld = em.merge(staffIdOld);
             }
             if (staffIdNew != null && !staffIdNew.equals(staffIdOld))
             {
-                staffIdNew.getUsersList().add(users);
+                staffIdNew.getUsersCollection().add(users);
                 staffIdNew = em.merge(staffIdNew);
             }
             em.getTransaction().commit();
@@ -147,7 +151,7 @@ public class UsersJpaController implements Serializable
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
+    public static void destroy(Integer id) throws NonexistentEntityException
     {
         EntityManager em = null;
         try
@@ -167,13 +171,13 @@ public class UsersJpaController implements Serializable
             Roles roleId = users.getRoleId();
             if (roleId != null)
             {
-                roleId.getUsersList().remove(users);
+                roleId.getUsersCollection().remove(users);
                 roleId = em.merge(roleId);
             }
             Staffs staffId = users.getStaffId();
             if (staffId != null)
             {
-                staffId.getUsersList().remove(users);
+                staffId.getUsersCollection().remove(users);
                 staffId = em.merge(staffId);
             }
             em.remove(users);
@@ -188,17 +192,17 @@ public class UsersJpaController implements Serializable
         }
     }
 
-    public List<Users> findUsersEntities()
+    public static List<Users> findUsersEntities()
     {
         return findUsersEntities(true, -1, -1);
     }
 
-    public List<Users> findUsersEntities(int maxResults, int firstResult)
+    public static List<Users> findUsersEntities(int maxResults, int firstResult)
     {
         return findUsersEntities(false, maxResults, firstResult);
     }
 
-    private List<Users> findUsersEntities(boolean all, int maxResults, int firstResult)
+    private static List<Users> findUsersEntities(boolean all, int maxResults, int firstResult)
     {
         EntityManager em = getEntityManager();
         try
@@ -219,7 +223,7 @@ public class UsersJpaController implements Serializable
         }
     }
 
-    public Users findUsers(Integer id)
+    public static Users findUsers(Integer id)
     {
         EntityManager em = getEntityManager();
         try
@@ -232,7 +236,7 @@ public class UsersJpaController implements Serializable
         }
     }
 
-    public int getUsersCount()
+    public static int getUsersCount()
     {
         EntityManager em = getEntityManager();
         try
@@ -248,26 +252,36 @@ public class UsersJpaController implements Serializable
             em.close();
         }
     }
-
-    public Users findLogin(String username, String password)
+    
+    public static Users findLogin(String username, String password)
     {
         EntityManager em = getEntityManager();
         try
         {
             TypedQuery<Users> query = em.createNamedQuery("Users.findLogin", Users.class);
-            query.setParameter("username", username);
+            
             query.setParameter("password", password);
-
-            return query.getSingleResult();
-        }
-        catch (NoResultException e)
-        {
-            return null;
+            query.setParameter("username", username);
+            
+            Users obj;
+            
+            var result = query.getSingleResult();
+            
+            if (result != null)
+            {
+                obj = result;
+            }
+            else
+            {
+                obj = null;
+            }
+            
+            return obj;
         }
         finally
         {
             em.close();
         }
     }
-
+    
 }

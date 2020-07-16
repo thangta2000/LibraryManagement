@@ -6,7 +6,7 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,7 +45,7 @@ public class Roles implements Serializable
     @Column(name = "Description")
     private String description;
     @OneToMany(mappedBy = "roleId")
-    private List<Users> usersList;
+    private Collection<Users> usersCollection;
 
     public Roles()
     {
@@ -86,14 +86,14 @@ public class Roles implements Serializable
         this.description = description;
     }
 
-    public List<Users> getUsersList()
+    public Collection<Users> getUsersCollection()
     {
-        return usersList;
+        return usersCollection;
     }
 
-    public void setUsersList(List<Users> usersList)
+    public void setUsersCollection(Collection<Users> usersCollection)
     {
-        this.usersList = usersList;
+        this.usersCollection = usersCollection;
     }
 
     @Override

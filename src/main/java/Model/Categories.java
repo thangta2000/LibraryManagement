@@ -6,7 +6,7 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,7 +42,7 @@ public class Categories implements Serializable
     @Column(name = "Name")
     private String name;
     @OneToMany(mappedBy = "categoryId")
-    private List<BookTitles> bookTitlesList;
+    private Collection<BookTitles> bookTitlesCollection;
 
     public Categories()
     {
@@ -73,14 +73,14 @@ public class Categories implements Serializable
         this.name = name;
     }
 
-    public List<BookTitles> getBookTitlesList()
+    public Collection<BookTitles> getBookTitlesCollection()
     {
-        return bookTitlesList;
+        return bookTitlesCollection;
     }
 
-    public void setBookTitlesList(List<BookTitles> bookTitlesList)
+    public void setBookTitlesCollection(Collection<BookTitles> bookTitlesCollection)
     {
-        this.bookTitlesList = bookTitlesList;
+        this.bookTitlesCollection = bookTitlesCollection;
     }
 
     @Override

@@ -133,9 +133,9 @@
         <Component class="javax.swing.JLabel" name="jLabel_ErrorName">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="df" green="d9" red="d6" type="rgb"/>
+              <Color blue="f0" green="f0" red="f0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Please type in username."/>
+            <Property name="text" type="java.lang.String" value="B&#x1ea1;n c&#x1ea7;n nh&#x1ead;p t&#xe0;i kho&#x1ea3;n"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -146,9 +146,9 @@
         <Component class="javax.swing.JLabel" name="jLabel_ErrorPassword">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="df" green="d9" red="d6" type="rgb"/>
+              <Color blue="f0" green="f0" red="f0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Please type in password."/>
+            <Property name="text" type="java.lang.String" value="B&#x1ea1;n c&#x1ea7;n nh&#x1ead;p password."/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
