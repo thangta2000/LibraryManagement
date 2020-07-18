@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import Model.Borrows;
 import Model.Readers;
+import Utility.Factory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -27,19 +28,24 @@ import javax.persistence.EntityManagerFactory;
 public class ReadersJpaController implements Serializable
 {
 
-    public ReadersJpaController(EntityManagerFactory emf)
+//    public ReadersJpaController(EntityManagerFactory emf)
+//    {
+//        this.emf = emf;
+//    }
+//
+//    private EntityManagerFactory emf = null;
+//
+//    public EntityManager getEntityManager()
+//    {
+//        return emf.createEntityManager();
+//    }
+
+    public static EntityManager getEntityManager()
     {
-        this.emf = emf;
+        return Factory.getEntityManager();
     }
-
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager()
-    {
-        return emf.createEntityManager();
-    }
-
-    public void create(Readers readers)
+    
+    public static void create(Readers readers)
     {
         if (readers.getBookRequestsList() == null)
         {
@@ -113,7 +119,7 @@ public class ReadersJpaController implements Serializable
         }
     }
 
-    public void edit(Readers readers) throws NonexistentEntityException, Exception
+    public static void edit(Readers readers) throws NonexistentEntityException, Exception
     {
         EntityManager em = null;
         try
@@ -227,7 +233,7 @@ public class ReadersJpaController implements Serializable
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
+    public static void destroy(Integer id) throws NonexistentEntityException
     {
         EntityManager em = null;
         try
@@ -274,17 +280,17 @@ public class ReadersJpaController implements Serializable
         }
     }
 
-    public List<Readers> findReadersEntities()
+    public static List<Readers> findReadersEntities()
     {
         return findReadersEntities(true, -1, -1);
     }
 
-    public List<Readers> findReadersEntities(int maxResults, int firstResult)
+    public static List<Readers> findReadersEntities(int maxResults, int firstResult)
     {
         return findReadersEntities(false, maxResults, firstResult);
     }
 
-    private List<Readers> findReadersEntities(boolean all, int maxResults, int firstResult)
+    private static List<Readers> findReadersEntities(boolean all, int maxResults, int firstResult)
     {
         EntityManager em = getEntityManager();
         try
@@ -305,7 +311,7 @@ public class ReadersJpaController implements Serializable
         }
     }
 
-    public Readers findReaders(Integer id)
+    public static Readers findReaders(Integer id)
     {
         EntityManager em = getEntityManager();
         try
@@ -318,7 +324,7 @@ public class ReadersJpaController implements Serializable
         }
     }
 
-    public int getReadersCount()
+    public static int getReadersCount()
     {
         EntityManager em = getEntityManager();
         try
