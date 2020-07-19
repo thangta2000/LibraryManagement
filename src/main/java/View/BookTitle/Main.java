@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package View;
+package View.BookTitle;
 
 /**
  *
@@ -15,15 +15,15 @@ import Utility.CustomTableModel;
 import java.awt.BorderLayout;
 import java.util.*;
 
-public class BookTitlePanel extends javax.swing.JPanel
+public class Main extends javax.swing.JPanel
 {
 
     /**
-     * Creates new form BookTitlePanel
+     * Creates new form Main
      */
     private ArrayList<BookTitles> bookTitles;
 
-    public BookTitlePanel()
+    public Main()
     {
         initComponents();
 
@@ -37,8 +37,7 @@ public class BookTitlePanel extends javax.swing.JPanel
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jPanelTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -59,23 +58,18 @@ public class BookTitlePanel extends javax.swing.JPanel
 
         jTable1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
 
             },
-            new String []
-            {
+            new String [] {
                 "No.", "Title", "Pages", "Publish Year"
             }
-        )
-        {
-            boolean[] canEdit = new boolean []
-            {
+        ) {
+            boolean[] canEdit = new boolean [] {
                 false, false, false, false
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex)
-            {
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
@@ -108,10 +102,8 @@ public class BookTitlePanel extends javax.swing.JPanel
         jLabel1.setText("Tên đầu sách");
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        bookTitleName.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        bookTitleName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bookTitleNameActionPerformed(evt);
             }
         });
@@ -119,20 +111,16 @@ public class BookTitlePanel extends javax.swing.JPanel
         jLabel2.setText("Tên tác giả");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
             }
         });
 
         btnAdd.setText("Thêm mới");
         btnAdd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnAdd.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
             }
         });
@@ -197,8 +185,8 @@ public class BookTitlePanel extends javax.swing.JPanel
     }//GEN-LAST:event_bookTitleNameActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-//        BookTitleCreate bookTitleCreate = new BookTitleCreate();
-//        bookTitleCreate.setVisible(true);
+        Create bookTitleCreate = new Create();
+        bookTitleCreate.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

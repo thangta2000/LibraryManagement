@@ -5,6 +5,7 @@
  */
 package View;
 
+import View.BookTitle.Main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -454,7 +455,7 @@ public class Home extends javax.swing.JFrame
         // Đổ vào mainview
         mainView.removeAll();
         mainView.setLayout(new BorderLayout());
-        mainView.add(new BookTitlePanel());
+        mainView.add(new Main());
         mainView.validate();
     }//GEN-LAST:event_jPanel_TitleMouseClicked
 
