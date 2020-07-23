@@ -13,6 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Model.BookTitles;
 import Model.Categories;
+import Utility.Factory;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -25,16 +26,21 @@ import javax.persistence.EntityManagerFactory;
 public class CategoriesJpaController implements Serializable
 {
 
-    public CategoriesJpaController(EntityManagerFactory emf)
+//    public CategoriesJpaController(EntityManagerFactory emf)
+//    {
+//        this.emf = emf;
+//    }
+//
+//    private EntityManagerFactory emf = null;
+//
+//    public EntityManager getEntityManager()
+//    {
+//        return emf.createEntityManager();
+//    }
+    
+    public static EntityManager getEntityManager()
     {
-        this.emf = emf;
-    }
-
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager()
-    {
-        return emf.createEntityManager();
+        return Factory.getEntityManager();
     }
 
     public void create(Categories categories)
@@ -178,17 +184,17 @@ public class CategoriesJpaController implements Serializable
         }
     }
 
-    public List<Categories> findCategoriesEntities()
+    public static List<Categories> findCategoriesEntities()
     {
         return findCategoriesEntities(true, -1, -1);
     }
 
-    public List<Categories> findCategoriesEntities(int maxResults, int firstResult)
+    public static List<Categories> findCategoriesEntities(int maxResults, int firstResult)
     {
         return findCategoriesEntities(false, maxResults, firstResult);
     }
 
-    private List<Categories> findCategoriesEntities(boolean all, int maxResults, int firstResult)
+    private static List<Categories> findCategoriesEntities(boolean all, int maxResults, int firstResult)
     {
         EntityManager em = getEntityManager();
         try

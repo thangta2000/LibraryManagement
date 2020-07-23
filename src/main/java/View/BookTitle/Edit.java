@@ -21,28 +21,41 @@ import View.BookTitle.Main;
  *
  * @author Admin
  */
-public class Create extends javax.swing.JFrame {
+public class Edit extends javax.swing.JFrame {
 
     private ArrayList<Categories> categories;
     private ArrayList<Countries> countries;
     private ArrayList<Publishers> publishers;
     private Main parent;
+    private int id;
 
-    public Create() {
+    public Edit() {
         initComponents();
+        BookTitles bookTitles = BookTitlesJpaController.findBookTitles(2);
+        System.out.println(bookTitles);
     }
 
-    Create(ArrayList<Categories> categories, ArrayList<Countries> countries, ArrayList<Publishers> publishers, Main main) {
+    Edit(ArrayList<Categories> categories, ArrayList<Countries> countries, ArrayList<Publishers> publishers, Main main, int id) {
         initComponents();
 
         this.categories = categories;
         this.countries = countries;
         this.publishers = publishers;
         this.parent = main;
+        this.id = 1;
         categories.forEach(item -> categoryId.addItem(item.getName()));
         countries.forEach(item -> countryId.addItem(item.getName()));
         publishers.forEach(item -> publisherId.addItem(item.getName()));
-        
+
+        BookTitles bookTitles = BookTitlesJpaController.findBookTitles(id);
+        categoryId.setSelectedIndex((categories.get(bookTitles.getCategoryId().getId())));
+        countryId.setSelectedIndex((countries.get(bookTitles.getCountryId().getId())));
+        ibsn.setText(bookTitles.getIbsn());
+        pages.setValue(bookTitles.getPages());
+        publishYear.setValue(bookTitles.getPublishYear());
+        publisherId.setSelectedIndex((publishers.get(bookTitles.getPublisherId().getId())));
+        title.setText(bookTitles.getTitle());
+        width.setText(bookTitles.getWidth().toString());
     }
 
     @SuppressWarnings("unchecked")
@@ -184,7 +197,7 @@ public class Create extends javax.swing.JFrame {
 //        String SoTrang = "";
 //        SoTrang = categoryId.getSelectedItem().toString();
 //        String []stringsSQL = {title.getText().toString(), txtTenSach.getText(), txtTheLoai.getText(), txtNXB.getText(), SoTrang, width.getText() };
-        
+
         BookTitles booktitles = new BookTitles();
         booktitles.setCategoryId(categories.get(categoryId.getSelectedIndex()));
         booktitles.setCountryId(countries.get(countryId.getSelectedIndex()));
@@ -198,7 +211,7 @@ public class Create extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Thêm dữ liệu thành công");
         this.setVisible(false);
         this.parent.populateTable();
-        
+
 //        int isInsert = con.ExcuteSQLInsert(stringsSQL);
 //        if(isInsert > 0){
 //            JOptionPane.showMessageDialog(this, "Thêm dữ liệu thành công");
@@ -225,21 +238,23 @@ public class Create extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Create.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Edit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Create.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Edit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Create.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Edit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Create.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Edit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Create().setVisible(true);
+                new Edit().setVisible(true);
             }
         });
     }

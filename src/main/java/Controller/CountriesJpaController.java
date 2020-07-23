@@ -20,6 +20,7 @@ import Model.Readers;
 import Model.Publishers;
 import Model.BookRequests;
 import Model.Countries;
+import Utility.Factory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -30,16 +31,20 @@ import javax.persistence.EntityManagerFactory;
 public class CountriesJpaController implements Serializable
 {
 
-    public CountriesJpaController(EntityManagerFactory emf)
+//    public CountriesJpaController(EntityManagerFactory emf)
+//    {
+//        this.emf = emf;
+//    }
+//
+//    private EntityManagerFactory emf = null;
+//
+//    public EntityManager getEntityManager()
+//    {
+//        return emf.createEntityManager();
+//    }
+    public static EntityManager getEntityManager()
     {
-        this.emf = emf;
-    }
-
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager()
-    {
-        return emf.createEntityManager();
+        return Factory.getEntityManager();
     }
 
     public void create(Countries countries)
@@ -483,17 +488,17 @@ public class CountriesJpaController implements Serializable
         }
     }
 
-    public List<Countries> findCountriesEntities()
+    public static List<Countries> findCountriesEntities()
     {
         return findCountriesEntities(true, -1, -1);
     }
 
-    public List<Countries> findCountriesEntities(int maxResults, int firstResult)
+    public static List<Countries> findCountriesEntities(int maxResults, int firstResult)
     {
         return findCountriesEntities(false, maxResults, firstResult);
     }
 
-    private List<Countries> findCountriesEntities(boolean all, int maxResults, int firstResult)
+    private static List<Countries> findCountriesEntities(boolean all, int maxResults, int firstResult)
     {
         EntityManager em = getEntityManager();
         try
