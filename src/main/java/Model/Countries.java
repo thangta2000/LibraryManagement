@@ -33,6 +33,15 @@ import javax.persistence.Table;
 public class Countries implements Serializable
 {
 
+    @Column(name = "ISO")
+    private String iso;
+    @Column(name = "PrintableName")
+    private String printableName;
+    @Column(name = "ISO3")
+    private String iso3;
+    @Column(name = "NumCode")
+    private Short numCode;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -171,6 +180,46 @@ public class Countries implements Serializable
     public String toString()
     {
         return "Model.Countries[ id=" + id + " ]";
+    }
+
+    public String getIso()
+    {
+        return iso;
+    }
+
+    public void setIso(String iso)
+    {
+        this.iso = iso;
+    }
+
+    public String getPrintableName()
+    {
+        return printableName;
+    }
+
+    public void setPrintableName(String printableName)
+    {
+        this.printableName = printableName;
+    }
+
+    public String getIso3()
+    {
+        return iso3;
+    }
+
+    public void setIso3(String iso3)
+    {
+        this.iso3 = iso3;
+    }
+
+    public Short getNumCode()
+    {
+        return numCode;
+    }
+
+    public void setNumCode(Short numCode)
+    {
+        this.numCode = numCode;
     }
     
 }

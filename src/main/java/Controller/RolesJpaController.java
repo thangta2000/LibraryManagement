@@ -13,6 +13,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Model.Users;
+import Utility.Factory;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -25,19 +26,24 @@ import javax.persistence.EntityManagerFactory;
 public class RolesJpaController implements Serializable
 {
 
-    public RolesJpaController(EntityManagerFactory emf)
+//    public RolesJpaController(EntityManagerFactory emf)
+//    {
+//        this.emf = emf;
+//    }
+//
+//    private EntityManagerFactory emf = null;
+//
+//    public EntityManager getEntityManager()
+//    {
+//        return emf.createEntityManager();
+//    }
+    
+    public static EntityManager getEntityManager()
     {
-        this.emf = emf;
+        return Factory.getEntityManager();
     }
 
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager()
-    {
-        return emf.createEntityManager();
-    }
-
-    public void create(Roles roles)
+    public static void create(Roles roles)
     {
         if (roles.getUsersList() == null)
         {
@@ -78,7 +84,7 @@ public class RolesJpaController implements Serializable
         }
     }
 
-    public void edit(Roles roles) throws NonexistentEntityException, Exception
+    public static void  edit(Roles roles) throws NonexistentEntityException, Exception
     {
         EntityManager em = null;
         try
@@ -143,7 +149,7 @@ public class RolesJpaController implements Serializable
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
+    public static void destroy(Integer id) throws NonexistentEntityException
     {
         EntityManager em = null;
         try
@@ -178,17 +184,17 @@ public class RolesJpaController implements Serializable
         }
     }
 
-    public List<Roles> findRolesEntities()
+    public static List<Roles> findRolesEntities()
     {
         return findRolesEntities(true, -1, -1);
     }
 
-    public List<Roles> findRolesEntities(int maxResults, int firstResult)
+    public static List<Roles> findRolesEntities(int maxResults, int firstResult)
     {
         return findRolesEntities(false, maxResults, firstResult);
     }
 
-    private List<Roles> findRolesEntities(boolean all, int maxResults, int firstResult)
+    private static List<Roles> findRolesEntities(boolean all, int maxResults, int firstResult)
     {
         EntityManager em = getEntityManager();
         try
@@ -209,7 +215,7 @@ public class RolesJpaController implements Serializable
         }
     }
 
-    public Roles findRoles(Integer id)
+    public static Roles findRoles(Integer id)
     {
         EntityManager em = getEntityManager();
         try
@@ -222,7 +228,7 @@ public class RolesJpaController implements Serializable
         }
     }
 
-    public int getRolesCount()
+    public static int getRolesCount()
     {
         EntityManager em = getEntityManager();
         try

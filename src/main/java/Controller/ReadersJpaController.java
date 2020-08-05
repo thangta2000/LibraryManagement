@@ -20,6 +20,7 @@ import Model.Readers;
 import Utility.Factory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -341,4 +342,32 @@ public class ReadersJpaController implements Serializable
         }
     }
     
+    public static Readers findReaders(String memberCard)
+    {
+        EntityManager em = getEntityManager();
+        try
+        {
+            TypedQuery<Readers> query = em.createNamedQuery("Readers.findByMemberCard", Readers.class);
+            query.setParameter("memberCard", memberCard);
+            
+            Readers obj;
+            
+            var result = query.getSingleResult();
+            
+            if (result != null)
+            {
+                obj = result;
+            }
+            else
+            {
+                obj = null;
+            }
+            
+            return obj;
+        }
+        finally
+        {
+            em.close();
+        }
+    }
 }

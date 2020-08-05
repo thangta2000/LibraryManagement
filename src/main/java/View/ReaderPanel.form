@@ -5,6 +5,7 @@
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="ff" red="ff" type="rgb"/>
     </Property>
+    <Property name="name" type="java.lang.String" value="B&#x1ea1;n &#x111;&#x1ecd;c" noResource="true"/>
   </Properties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -170,7 +171,7 @@
                     <Column editable="false" title="&#x110;&#x1ecb;a ch&#x1ec9;" type="java.lang.Object"/>
                     <Column editable="false" title="&#x110;i&#x1ec7;n tho&#x1ea1;i" type="java.lang.Object"/>
                     <Column editable="false" title="Qu&#x1ed1;c t&#x1ecb;ch" type="java.lang.Object"/>
-                    <Column editable="true" title="Ngh&#x1ec1; nghi&#x1ec7;p" type="java.lang.Object"/>
+                    <Column editable="false" title="Ngh&#x1ec1; nghi&#x1ec7;p" type="java.lang.Object"/>
                     <Column editable="false" title="C&#x1a1; quan" type="java.lang.Object"/>
                   </Table>
                 </Property>

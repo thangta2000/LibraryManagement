@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * S
  *
  * @author admin
  */
@@ -24,7 +25,7 @@ public class ReaderPanel extends javax.swing.JPanel
     /**
      * Creates new form ReaderPanel
      */
-    ArrayList<Readers> readers = new ArrayList<>();
+    List<Readers> readers;
 
     public ReaderPanel()
     {
@@ -53,6 +54,7 @@ public class ReaderPanel extends javax.swing.JPanel
         jTable1 = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setName("Bạn đọc"); // NOI18N
 
         jPanelTop.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -113,7 +115,7 @@ public class ReaderPanel extends javax.swing.JPanel
         {
             boolean[] canEdit = new boolean []
             {
-                false, false, false, false, false, false, false, false, false, true, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex)
@@ -168,8 +170,11 @@ public class ReaderPanel extends javax.swing.JPanel
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnAddActionPerformed
     {//GEN-HEADEREND:event_btnAddActionPerformed
-        //        BookTitleCreate bookTitleCreate = new BookTitleCreate();
-        //        bookTitleCreate.setVisible(true);
+        ReaderAddPanel readerAdd = new ReaderAddPanel();
+        Home topFrame = (Home) this.getTopLevelAncestor();
+        topFrame.addCard(readerAdd);
+        topFrame.showPanel(readerAdd.getName());
+        topFrame.addTab(readerAdd.getName());
     }//GEN-LAST:event_btnAddActionPerformed
 
 

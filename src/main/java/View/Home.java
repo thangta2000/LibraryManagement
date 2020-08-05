@@ -6,12 +6,16 @@
 package View;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -26,12 +30,13 @@ public class Home extends javax.swing.JFrame
      */
     List<JPanel> panes = new ArrayList<>();
     List<JPanel> indicators = new ArrayList<>();
+    List<TabPanel> tabList = new ArrayList<>();
 
     public Home()
     {
         initComponents();
         customizeFrame();
-        
+
         panes.addAll(Arrays.asList(jPanel_Title, jPanel_Store, jPanel_Reader, jPanel_Borrow, jPanel_Report, jPanel_Users));
         indicators.addAll(Arrays.asList(ind_1, ind_2, ind_3, ind_4, ind_5, ind_6));
 
@@ -39,8 +44,8 @@ public class Home extends javax.swing.JFrame
         ind_1.setOpaque(true);
 
         decolorUnselected(jPanel_Title, ind_1);
-        
-        setTitle("LIBRARY MANAGEMENT");
+
+        setTitle("PHẦN MỀM QUẢN LÝ THƯ VIỆN");
     }
 
     /**
@@ -71,11 +76,16 @@ public class Home extends javax.swing.JFrame
         ind_2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         mainView = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel_TabPane = new javax.swing.JPanel();
+        jPanel_Content = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Library Management");
         setBackground(new java.awt.Color(255, 255, 255));
         setLocationByPlatform(true);
+        setUndecorated(true);
 
         side_pane.setBackground(new java.awt.Color(23, 35, 51));
         side_pane.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -377,15 +387,65 @@ public class Home extends javax.swing.JFrame
 
         side_pane.add(jPanel_Report, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 180, -1));
 
+        mainView.setPreferredSize(new java.awt.Dimension(1009, 590));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1009, 40));
+
+        jPanel4.setBackground(new java.awt.Color(51, 255, 204));
+        jPanel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jPanel4.setPreferredSize(new java.awt.Dimension(102, 34));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 128, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 32, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jPanel_TabPane.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel_TabPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jPanel_TabPane.setPreferredSize(new java.awt.Dimension(1009, 27));
+        jPanel_TabPane.setLayout(new javax.swing.BoxLayout(jPanel_TabPane, javax.swing.BoxLayout.LINE_AXIS));
+
+        jPanel_Content.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel_Content.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 239, 241)));
+        jPanel_Content.setPreferredSize(new java.awt.Dimension(1009, 451));
+        jPanel_Content.setLayout(new java.awt.CardLayout());
+
         javax.swing.GroupLayout mainViewLayout = new javax.swing.GroupLayout(mainView);
         mainView.setLayout(mainViewLayout);
         mainViewLayout.setHorizontalGroup(
             mainViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1231, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1015, Short.MAX_VALUE)
+            .addComponent(jPanel_TabPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1015, Short.MAX_VALUE)
+            .addComponent(jPanel_Content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         mainViewLayout.setVerticalGroup(
             mainViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 492, Short.MAX_VALUE)
+            .addGroup(mainViewLayout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel_TabPane, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel_Content, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -395,12 +455,15 @@ public class Home extends javax.swing.JFrame
             .addGroup(layout.createSequentialGroup()
                 .addComponent(side_pane, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(mainView, 1015, 1015, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(side_pane, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(mainView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(side_pane, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mainView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -411,11 +474,17 @@ public class Home extends javax.swing.JFrame
         setColor(jPanel_Store);
         ind_3.setOpaque(true);
         decolorUnselected(jPanel_Store, ind_3);
-        
-        // Đổ vào mainview
-        mainView.removeAll();
-        mainView.revalidate();
-        mainView.repaint();
+
+        // Add to Jpanel_Content
+        BookStockPanel stockPanel = new BookStockPanel();
+        var name = stockPanel.getName();
+        jPanel_Content.removeAll();
+        jPanel_Content.add(stockPanel, name);
+        showPanel(name);
+
+        jPanel_TabPane.removeAll();
+        tabList.clear();
+        addTab(name);
     }//GEN-LAST:event_jPanel_StoreMousePressed
 
     private void jPanel_BorrowMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel_BorrowMousePressed
@@ -423,24 +492,30 @@ public class Home extends javax.swing.JFrame
         setColor(jPanel_Borrow);
         ind_4.setOpaque(true);
         decolorUnselected(jPanel_Borrow, ind_4);
-        
-        // Đổ vào mainview
-        mainView.removeAll();
-        mainView.revalidate();
-        mainView.repaint();
+
+        // Add to Jpanel_Content
+        BorrowPanel borrowPanel = new BorrowPanel();
+        var name = borrowPanel.getName();
+        jPanel_Content.removeAll();
+        jPanel_Content.add(borrowPanel, name);
+        showPanel(name);
+
+        jPanel_TabPane.removeAll();
+        tabList.clear();
+        addTab(name);
     }//GEN-LAST:event_jPanel_BorrowMousePressed
 
     private void jPanel_ReportMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel_ReportMouseReleased
         // TODO add your handling code here:
         setColor(jPanel_Report);
         ind_2.setOpaque(true);
-        
+
         decolorUnselected(jPanel_Report, ind_2);
-        
-        // Đổ vào mainview
-        mainView.removeAll();
-        mainView.revalidate();
-        mainView.repaint();
+
+        // Add to Jpanel_Content
+//        mainView.removeAll();
+//        mainView.revalidate();
+//        mainView.repaint();
     }//GEN-LAST:event_jPanel_ReportMouseReleased
 
     private void jPanel_TitleMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jPanel_TitleMouseClicked
@@ -448,14 +523,19 @@ public class Home extends javax.swing.JFrame
         // TODO add your handling code here:
         setColor(jPanel_Title);
         ind_1.setOpaque(true);
-        
+
         decolorUnselected(jPanel_Title, ind_1);
 
-        // Đổ vào mainview
-        mainView.removeAll();
-        mainView.setLayout(new BorderLayout());
-        mainView.add(new BookTitlePanel());
-        mainView.validate();
+        // Add to Jpanel_Content
+        BookTitlePanel bookTitlePanel = new BookTitlePanel();
+        var name = bookTitlePanel.getName();
+        jPanel_Content.removeAll();
+        jPanel_Content.add(bookTitlePanel, name);
+        showPanel(name);
+
+        jPanel_TabPane.removeAll();
+        tabList.clear();
+        addTab(name);
     }//GEN-LAST:event_jPanel_TitleMouseClicked
 
     private void jPanel_UsersMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jPanel_UsersMouseClicked
@@ -463,14 +543,19 @@ public class Home extends javax.swing.JFrame
         // TODO add your handling code here:
         setColor(jPanel_Users);
         ind_5.setOpaque(true);
-        
+
         decolorUnselected(jPanel_Users, ind_5);
-        
-        // Đổ vào mainview
-        mainView.removeAll();
-        mainView.setLayout(new BorderLayout());
-        mainView.add(new UsersPanel());
-        mainView.validate();
+
+        // Add to Jpanel_Content
+        UsersPanel usersPanel = new UsersPanel();
+        var name = usersPanel.getName();
+        jPanel_Content.removeAll();
+        jPanel_Content.add(usersPanel, name);
+        showPanel(name);
+
+        jPanel_TabPane.removeAll();
+        tabList.clear();
+        addTab(name);
     }//GEN-LAST:event_jPanel_UsersMouseClicked
 
     private void jPanel_ReaderMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jPanel_ReaderMouseClicked
@@ -478,17 +563,20 @@ public class Home extends javax.swing.JFrame
         // TODO add your handling code here:
         setColor(jPanel_Reader);
         ind_6.setOpaque(true);
-        
-        decolorUnselected(jPanel_Reader, ind_6);
-        
-        // Đổ vào mainview
-        mainView.removeAll();
-        mainView.setLayout(new BorderLayout());
-        mainView.add(new ReaderPanel());
-        mainView.validate();
-    }//GEN-LAST:event_jPanel_ReaderMouseClicked
 
-    int xx, xy;
+        decolorUnselected(jPanel_Reader, ind_6);
+
+        // Add to Jpanel_Content
+        ReaderPanel readerPanel = new ReaderPanel();
+        var name = readerPanel.getName();
+        jPanel_Content.removeAll();
+        jPanel_Content.add(readerPanel, name);
+        showPanel(name);
+
+        jPanel_TabPane.removeAll();
+        tabList.clear();
+        addTab(name);
+    }//GEN-LAST:event_jPanel_ReaderMouseClicked
 
     /**
      * @param args the command line arguments
@@ -541,7 +629,6 @@ public class Home extends javax.swing.JFrame
         });
     }
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ind_1;
     private javax.swing.JPanel ind_2;
@@ -552,10 +639,14 @@ public class Home extends javax.swing.JFrame
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel_Users;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel_Borrow;
+    private javax.swing.JPanel jPanel_Content;
     private javax.swing.JPanel jPanel_Reader;
     private javax.swing.JPanel jPanel_Report;
     private javax.swing.JPanel jPanel_Store;
+    private javax.swing.JPanel jPanel_TabPane;
     private javax.swing.JPanel jPanel_Title;
     private javax.swing.JPanel jPanel_Users;
     private javax.swing.JLabel jlbBook;
@@ -582,7 +673,7 @@ public class Home extends javax.swing.JFrame
             indicator.setOpaque(false);
         });
     }
-    
+
     private void decolorUnselected(JPanel pane, JPanel indicator)
     {
         var subPanes = panes.stream().filter(obj -> obj != pane).collect(Collectors.toList());
@@ -592,8 +683,92 @@ public class Home extends javax.swing.JFrame
 
     private void customizeFrame()
     {
+        setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
         setLayout(new BorderLayout());
         add(side_pane, BorderLayout.LINE_START);
         add(mainView, BorderLayout.CENTER);
+    }
+
+    private void tab_MouseClick(MouseEvent evt)
+    {
+        showPanel(evt.getComponent().getName());
+    }
+
+    public void showPanel(String name)
+    {
+        CardLayout c1 = (CardLayout) jPanel_Content.getLayout();
+
+        c1.show(jPanel_Content, name);
+    }
+
+    public void addTab(String name)
+    {
+        TabPanel newTab = new TabPanel(name);
+        // add click event to switch among tabs
+        newTab.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent evt)
+            {
+                tab_MouseClick(evt);
+            }
+
+        });
+
+        jPanel_TabPane.add(newTab);
+        jPanel_TabPane.revalidate();
+        tabList.add(newTab);
+    }
+
+    public void addCard(JPanel jPanel)
+    {
+        jPanel_Content.add(jPanel, jPanel.getName());
+    }
+
+    class TabPanel extends JPanel
+    {
+
+        JLabel label_Title = new JLabel();
+
+        public TabPanel(String title)
+        {
+            super();
+            customizePanel(title);
+        }
+
+        private void customizePanel(String title)
+        {
+            this.setName(title);
+            if (tabList.isEmpty())
+            {
+                label_Title.setText(title);
+            }
+            else
+            {
+                label_Title.setText(" / " + title);
+            }
+
+            this.setBackground(new java.awt.Color(255, 255, 255));
+            this.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+            this.setPreferredSize(new java.awt.Dimension(130, 25));
+
+            javax.swing.GroupLayout jPanel_TabLayout = new javax.swing.GroupLayout(this);
+            this.setLayout(jPanel_TabLayout);
+            jPanel_TabLayout.setHorizontalGroup(jPanel_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_TabLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(label_Title, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(1, 1, 1)
+                            .addContainerGap())
+            );
+            jPanel_TabLayout.setVerticalGroup(jPanel_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_TabLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(label_Title, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
+                            .addContainerGap())
+            );
+        }
+
     }
 }

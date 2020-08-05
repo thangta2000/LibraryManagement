@@ -14,6 +14,7 @@ import javax.persistence.criteria.Root;
 import Model.Countries;
 import Model.Staffs;
 import Model.Users;
+import Utility.Factory;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -26,19 +27,24 @@ import javax.persistence.EntityManagerFactory;
 public class StaffsJpaController implements Serializable
 {
 
-    public StaffsJpaController(EntityManagerFactory emf)
+//    public StaffsJpaController(EntityManagerFactory emf)
+//    {
+//        this.emf = emf;
+//    }
+//
+//    private EntityManagerFactory emf = null;
+//
+//    public EntityManager getEntityManager()
+//    {
+//        return emf.createEntityManager();
+//    }
+    
+    public static EntityManager getEntityManager()
     {
-        this.emf = emf;
+        return Factory.getEntityManager();
     }
 
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager()
-    {
-        return emf.createEntityManager();
-    }
-
-    public void create(Staffs staffs)
+    public static void create(Staffs staffs)
     {
         if (staffs.getUsersList() == null)
         {
@@ -90,7 +96,7 @@ public class StaffsJpaController implements Serializable
         }
     }
 
-    public void edit(Staffs staffs) throws NonexistentEntityException, Exception
+    public static void edit(Staffs staffs) throws NonexistentEntityException, Exception
     {
         EntityManager em = null;
         try
@@ -172,7 +178,7 @@ public class StaffsJpaController implements Serializable
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
+    public static void destroy(Integer id) throws NonexistentEntityException
     {
         EntityManager em = null;
         try
@@ -213,17 +219,17 @@ public class StaffsJpaController implements Serializable
         }
     }
 
-    public List<Staffs> findStaffsEntities()
+    public static List<Staffs> findStaffsEntities()
     {
         return findStaffsEntities(true, -1, -1);
     }
 
-    public List<Staffs> findStaffsEntities(int maxResults, int firstResult)
+    public static List<Staffs> findStaffsEntities(int maxResults, int firstResult)
     {
         return findStaffsEntities(false, maxResults, firstResult);
     }
 
-    private List<Staffs> findStaffsEntities(boolean all, int maxResults, int firstResult)
+    private static List<Staffs> findStaffsEntities(boolean all, int maxResults, int firstResult)
     {
         EntityManager em = getEntityManager();
         try
@@ -244,7 +250,7 @@ public class StaffsJpaController implements Serializable
         }
     }
 
-    public Staffs findStaffs(Integer id)
+    public static Staffs findStaffs(Integer id)
     {
         EntityManager em = getEntityManager();
         try
@@ -257,7 +263,7 @@ public class StaffsJpaController implements Serializable
         }
     }
 
-    public int getStaffsCount()
+    public static int getStaffsCount()
     {
         EntityManager em = getEntityManager();
         try
@@ -272,6 +278,12 @@ public class StaffsJpaController implements Serializable
         {
             em.close();
         }
+    }
+    
+    public static Staffs add(Staffs staff)
+    {
+        create(staff);
+        return staff;
     }
     
 }

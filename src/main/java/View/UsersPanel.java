@@ -11,6 +11,7 @@ import Utility.CustomTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -23,7 +24,7 @@ public class UsersPanel extends javax.swing.JPanel
     /**
      * Creates new form UsersPanel
      */
-    private ArrayList<Users> userList;
+    private List<Users> userList;
 
     public UsersPanel()
     {
@@ -51,6 +52,7 @@ public class UsersPanel extends javax.swing.JPanel
         jComboBox1 = new javax.swing.JComboBox<>();
         btnAdd = new javax.swing.JButton();
 
+        setName("Tài khoản"); // NOI18N
         setOpaque(false);
 
         jPanelTable.setBackground(new java.awt.Color(255, 255, 255));
@@ -82,6 +84,7 @@ public class UsersPanel extends javax.swing.JPanel
         });
         jTable1.setFillsViewportHeight(true);
         jTable1.setGridColor(new java.awt.Color(33, 115, 247));
+        jTable1.setName("Tài khoản"); // NOI18N
         jTable1.setRowHeight(28);
         jTable1.setShowGrid(true);
         jTable1.setShowVerticalLines(false);
@@ -115,6 +118,13 @@ public class UsersPanel extends javax.swing.JPanel
 
         btnAdd.setText("Thêm mới");
         btnAdd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnAdd.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelTopLayout = new javax.swing.GroupLayout(jPanelTop);
         jPanelTop.setLayout(jPanelTopLayout);
@@ -166,6 +176,16 @@ public class UsersPanel extends javax.swing.JPanel
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnAddActionPerformed
+    {//GEN-HEADEREND:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        UserAddPanel userAdd = new UserAddPanel();
+        Home topFrame = (Home) this.getTopLevelAncestor();
+        topFrame.addCard(userAdd);
+        topFrame.showPanel(userAdd.getName());
+        topFrame.addTab(userAdd.getName());
+    }//GEN-LAST:event_btnAddActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

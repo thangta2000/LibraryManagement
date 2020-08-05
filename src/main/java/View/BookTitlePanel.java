@@ -21,7 +21,7 @@ public class BookTitlePanel extends javax.swing.JPanel
     /**
      * Creates new form BookTitlePanel
      */
-    private ArrayList<BookTitles> bookTitles;
+    private List<BookTitles> bookTitles;
 
     public BookTitlePanel()
     {
@@ -51,6 +51,7 @@ public class BookTitlePanel extends javax.swing.JPanel
         btnAdd = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setName("Danh mục sách"); // NOI18N
 
         jPanelTable.setBackground(new java.awt.Color(255, 255, 255));
         jPanelTable.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -227,9 +228,9 @@ public class BookTitlePanel extends javax.swing.JPanel
         bookTitles = new ArrayList<>(BookTitlesJpaController.findBookTitlesEntities());
         String[] columnName =
         {
-            "No.", "Tên sách", "Số trang", "Năm xuất bản"
+            "No.", "Tên sách", "Tác giả", "Lĩnh vực", "Nhà xuất bản", "Nơi xuất bản", "Số trang", "Năm xuất bản", "Khổ", "ISBN"
         };
-        
+
         // Create model booktitles by creating anonymous nest class of CustomTableModel<T>
         CustomTableModel<BookTitles> model = new CustomTableModel<BookTitles>(bookTitles, columnName)
         {
@@ -245,9 +246,30 @@ public class BookTitlePanel extends javax.swing.JPanel
                     case 1:
                         return temp = bookTitle.getTitle();
                     case 2:
-                        return temp = bookTitle.getPages();
+                        var list = bookTitle.getBooksByAuthorsList();
+                        
+                        List<String> strings = new ArrayList<>();
+                        
+                        list.forEach((authorBook) ->
+                        {
+                            strings.add(authorBook.getAuthorId().getFullName());
+                        });
+                        
+                        return temp = String.join(", ", strings);
                     case 3:
+                        return temp = bookTitle.getCategoryId().getName();
+                    case 4:
+                        return temp = bookTitle.getPublisherId().getName();
+                    case 5:
+                        return temp = bookTitle.getCountryId().getName();
+                    case 6:
+                        return temp = bookTitle.getPages();
+                    case 7:
                         return temp = bookTitle.getPublishYear();
+                    case 8:
+                        return temp = bookTitle.getWidth() + " cm";
+                    case 9:
+                        return temp = bookTitle.getIbsn();
                     default:
                         throw new ArrayIndexOutOfBoundsException(columnIndex);
                 }

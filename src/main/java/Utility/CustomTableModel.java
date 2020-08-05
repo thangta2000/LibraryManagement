@@ -18,10 +18,17 @@ import javax.swing.table.AbstractTableModel;
 // Make CustomTableModel abstract with undefined T class => donot have to recreate CustomTableModel for different T
 public abstract class CustomTableModel<T> extends AbstractTableModel
 {
-    private final String[] columnNames;
-    private final List<T> list;
+    private String[] columnNames;
+    private List<T> list;    
 
-    public CustomTableModel(ArrayList<T> list, String[] columnNames)
+    public CustomTableModel(String[] columnNames)
+    {
+        this.list = new ArrayList<>();
+        this.columnNames = columnNames;
+    }    
+    
+    
+    public CustomTableModel(List<T> list, String[] columnNames)
     {
         this.list = list;
         this.columnNames = columnNames;
@@ -47,5 +54,23 @@ public abstract class CustomTableModel<T> extends AbstractTableModel
     
     public T getDataObject(int rowIndex) {
         return this.list.get(rowIndex);
+    }
+    
+    public void insertRow(T data) 
+    {
+        int row = getColumnCount();
+        list.add(data);
+        fireTableRowsInserted(row, row);
+    }
+    
+    public List<T> getListDataObject()
+    {
+        return this.list;
+    }
+    
+    public void changeData(List<T> newList)
+    {
+        this.list = newList;
+        fireTableDataChanged();
     }
 }

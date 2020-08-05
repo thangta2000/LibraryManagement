@@ -20,8 +20,9 @@ import Model.Readers;
 import Model.Publishers;
 import Model.BookRequests;
 import Model.Countries;
+import Utility.Factory;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -30,19 +31,24 @@ import javax.persistence.EntityManagerFactory;
 public class CountriesJpaController implements Serializable
 {
 
-    public CountriesJpaController(EntityManagerFactory emf)
+//    public CountriesJpaController(EntityManagerFactory emf)
+//    {
+//        this.emf = emf;
+//    }
+//
+//    private EntityManagerFactory emf = null;
+//
+//    public EntityManager getEntityManager()
+//    {
+//        return emf.createEntityManager();
+//    }
+    
+    public static EntityManager getEntityManager()
     {
-        this.emf = emf;
+        return Factory.getEntityManager();
     }
 
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager()
-    {
-        return emf.createEntityManager();
-    }
-
-    public void create(Countries countries)
+    public static void create(Countries countries)
     {
         if (countries.getStaffsList() == null)
         {
@@ -193,7 +199,7 @@ public class CountriesJpaController implements Serializable
         }
     }
 
-    public void edit(Countries countries) throws NonexistentEntityException, Exception
+    public static void edit(Countries countries) throws NonexistentEntityException, Exception
     {
         EntityManager em = null;
         try
@@ -418,7 +424,7 @@ public class CountriesJpaController implements Serializable
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
+    public static void destroy(Integer id) throws NonexistentEntityException
     {
         EntityManager em = null;
         try
@@ -483,17 +489,17 @@ public class CountriesJpaController implements Serializable
         }
     }
 
-    public List<Countries> findCountriesEntities()
+    public static List<Countries> findCountriesEntities()
     {
         return findCountriesEntities(true, -1, -1);
     }
 
-    public List<Countries> findCountriesEntities(int maxResults, int firstResult)
+    public static List<Countries> findCountriesEntities(int maxResults, int firstResult)
     {
         return findCountriesEntities(false, maxResults, firstResult);
     }
 
-    private List<Countries> findCountriesEntities(boolean all, int maxResults, int firstResult)
+    private static List<Countries> findCountriesEntities(boolean all, int maxResults, int firstResult)
     {
         EntityManager em = getEntityManager();
         try
@@ -514,7 +520,7 @@ public class CountriesJpaController implements Serializable
         }
     }
 
-    public Countries findCountries(Integer id)
+    public static Countries findCountries(Integer id)
     {
         EntityManager em = getEntityManager();
         try
@@ -527,7 +533,7 @@ public class CountriesJpaController implements Serializable
         }
     }
 
-    public int getCountriesCount()
+    public static int getCountriesCount()
     {
         EntityManager em = getEntityManager();
         try
@@ -537,6 +543,36 @@ public class CountriesJpaController implements Serializable
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
+        }
+        finally
+        {
+            em.close();
+        }
+    }
+    
+    public static Countries findCountries(String name)
+    {
+        EntityManager em = getEntityManager();
+        try
+        {
+            TypedQuery<Countries> query = em.createNamedQuery("Countries.findByName", Countries.class);
+            
+            query.setParameter("name", name);
+            
+            Countries obj;
+            
+            var result = query.getSingleResult();
+            
+            if (result != null)
+            {
+                obj = result;
+            }
+            else
+            {
+                obj = null;
+            }
+            
+            return obj;
         }
         finally
         {

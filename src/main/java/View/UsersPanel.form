@@ -2,6 +2,7 @@
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
+    <Property name="name" type="java.lang.String" value="T&#xe0;i kho&#x1ea3;n" noResource="true"/>
     <Property name="opaque" type="boolean" value="false"/>
   </Properties>
   <AuxValues>
@@ -137,6 +138,7 @@
                 <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="f7" green="73" red="21" type="rgb"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="T&#xe0;i kho&#x1ea3;n" noResource="true"/>
                 <Property name="rowHeight" type="int" value="28"/>
                 <Property name="showGrid" type="boolean" value="true"/>
                 <Property name="showVerticalLines" type="boolean" value="false"/>
@@ -228,6 +230,9 @@
               </Border>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

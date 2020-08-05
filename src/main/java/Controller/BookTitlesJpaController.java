@@ -365,6 +365,8 @@ public class BookTitlesJpaController implements Serializable
         EntityManager em = getEntityManager();
         try
         {
+            List<BookTitles> result;
+            
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(BookTitles.class));
             Query q = em.createQuery(cq);
@@ -373,7 +375,7 @@ public class BookTitlesJpaController implements Serializable
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
             }
-            return q.getResultList();
+            return result = q.getResultList();
         }
         finally
         {

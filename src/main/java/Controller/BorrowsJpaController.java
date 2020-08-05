@@ -14,9 +14,11 @@ import javax.persistence.criteria.Root;
 import Model.Books;
 import Model.Borrows;
 import Model.Readers;
+import Utility.Factory;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -25,19 +27,24 @@ import javax.persistence.EntityManagerFactory;
 public class BorrowsJpaController implements Serializable
 {
 
-    public BorrowsJpaController(EntityManagerFactory emf)
+//    public BorrowsJpaController(EntityManagerFactory emf)
+//    {
+//        this.emf = emf;
+//    }
+//
+//    private EntityManagerFactory emf = null;
+//
+//    public EntityManager getEntityManager()
+//    {
+//        return emf.createEntityManager();
+//    }
+
+    public static EntityManager getEntityManager()
     {
-        this.emf = emf;
+        return Factory.getEntityManager();
     }
-
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager()
-    {
-        return emf.createEntityManager();
-    }
-
-    public void create(Borrows borrows)
+    
+    public static void create(Borrows borrows)
     {
         EntityManager em = null;
         try
@@ -78,7 +85,7 @@ public class BorrowsJpaController implements Serializable
         }
     }
 
-    public void edit(Borrows borrows) throws NonexistentEntityException, Exception
+    public static void edit(Borrows borrows) throws NonexistentEntityException, Exception
     {
         EntityManager em = null;
         try
@@ -145,7 +152,7 @@ public class BorrowsJpaController implements Serializable
         }
     }
 
-    public void destroy(Long id) throws NonexistentEntityException
+    public static void destroy(Long id) throws NonexistentEntityException
     {
         EntityManager em = null;
         try
@@ -186,17 +193,17 @@ public class BorrowsJpaController implements Serializable
         }
     }
 
-    public List<Borrows> findBorrowsEntities()
+    public static List<Borrows> findBorrowsEntities()
     {
         return findBorrowsEntities(true, -1, -1);
     }
 
-    public List<Borrows> findBorrowsEntities(int maxResults, int firstResult)
+    public static List<Borrows> findBorrowsEntities(int maxResults, int firstResult)
     {
         return findBorrowsEntities(false, maxResults, firstResult);
     }
 
-    private List<Borrows> findBorrowsEntities(boolean all, int maxResults, int firstResult)
+    private static List<Borrows> findBorrowsEntities(boolean all, int maxResults, int firstResult)
     {
         EntityManager em = getEntityManager();
         try
@@ -217,7 +224,7 @@ public class BorrowsJpaController implements Serializable
         }
     }
 
-    public Borrows findBorrows(Long id)
+    public static Borrows findBorrows(Long id)
     {
         EntityManager em = getEntityManager();
         try
@@ -230,7 +237,7 @@ public class BorrowsJpaController implements Serializable
         }
     }
 
-    public int getBorrowsCount()
+    public static int getBorrowsCount()
     {
         EntityManager em = getEntityManager();
         try
@@ -240,6 +247,35 @@ public class BorrowsJpaController implements Serializable
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
+        }
+        finally
+        {
+            em.close();
+        }
+    }
+    
+    public static Borrows findBorrow(Long bookId)
+    {
+        EntityManager em = getEntityManager();
+        try
+        {
+            TypedQuery<Borrows> query = em.createNamedQuery("Borrows.findByBookId", Borrows.class);
+            query.setParameter("bookId", bookId);
+            
+            Borrows obj;
+            
+            var result = query.getSingleResult();
+            
+            if (result != null)
+            {
+                obj = result;
+            }
+            else
+            {
+                obj = null;
+            }
+            
+            return obj;
         }
         finally
         {
