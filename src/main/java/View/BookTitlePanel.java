@@ -15,11 +15,14 @@ import Model.*;
 import Utility.CustomTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
@@ -40,6 +43,13 @@ public class BookTitlePanel extends javax.swing.JPanel
     private ArrayList<Publishers> publishers;
     private BookTitlePanel main;
 
+    int maxPage = 1;
+    int currentPage = 1;
+    int maxRow;
+
+    boolean nextListenerOnOff = true;
+    boolean backListenerOnOff = true;
+
     public BookTitlePanel(int width, int height)
     {
         initComponents();
@@ -49,7 +59,7 @@ public class BookTitlePanel extends javax.swing.JPanel
 
         customizePalette();
 
-        populateTable();
+        populateTable(currentPage);
     }
 
     public BookTitlePanel()
@@ -58,7 +68,7 @@ public class BookTitlePanel extends javax.swing.JPanel
 
         customizePalette();
 
-        populateTable();
+        populateTable(currentPage);
     }
 
     public BookTitlePanel(ArrayList<Categories> categories)
@@ -67,9 +77,10 @@ public class BookTitlePanel extends javax.swing.JPanel
 
         customizePalette();
 
-        populateTable();
+        populateTable(currentPage);
         this.categories = categories;
         this.main = this;
+
     }
 
     public BookTitlePanel(int width, int height, ArrayList<Categories> categories, ArrayList<Countries> countries, ArrayList<Publishers> publishers)
@@ -78,10 +89,14 @@ public class BookTitlePanel extends javax.swing.JPanel
 
         newHeight = height;
         newWidth = width;
-        
+
         customizePalette();
 
-        populateTable();
+        customizeTable();
+
+        populateTable(currentPage);
+        setPageNoColor();
+
         this.categories = categories;
         this.countries = countries;
         this.publishers = publishers;
@@ -95,6 +110,7 @@ public class BookTitlePanel extends javax.swing.JPanel
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents()
     {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanelTop = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -107,7 +123,17 @@ public class BookTitlePanel extends javax.swing.JPanel
         jPanelTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jPanel_Page = new javax.swing.JPanel();
+        jPanel_Paging = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel_First = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel_Back = new javax.swing.JLabel();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jPanel_PageNo = new javax.swing.JPanel();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel_Next = new javax.swing.JLabel();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel_Last = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -283,24 +309,90 @@ public class BookTitlePanel extends javax.swing.JPanel
             jPanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTableLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
 
-        jPanel_Page.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel_Page.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel_Page.setPreferredSize(new java.awt.Dimension(900, 40));
+        jPanel_Paging.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel_Paging.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jPanel_Paging.setPreferredSize(new java.awt.Dimension(100, 40));
+        jPanel_Paging.setLayout(new java.awt.GridBagLayout());
 
-        javax.swing.GroupLayout jPanel_PageLayout = new javax.swing.GroupLayout(jPanel_Page);
-        jPanel_Page.setLayout(jPanel_PageLayout);
-        jPanel_PageLayout.setHorizontalGroup(
-            jPanel_PageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel_PageLayout.setVerticalGroup(
-            jPanel_PageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 38, Short.MAX_VALUE)
-        );
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jPanel1.setPreferredSize(new java.awt.Dimension(300, 40));
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
+
+        jLabel_First.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_First.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        jLabel_First.setForeground(new java.awt.Color(0, 83, 156));
+        jLabel_First.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_First.setText("Đầu");
+        jLabel_First.setPreferredSize(new java.awt.Dimension(35, 30));
+        jLabel_First.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jLabel_FirstMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel_First);
+        jPanel1.add(filler1);
+
+        jLabel_Back.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_Back.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_Back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_less_than_16px.png"))); // NOI18N
+        jLabel_Back.setPreferredSize(new java.awt.Dimension(25, 30));
+        jLabel_Back.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jLabel_BackMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel_Back);
+        jPanel1.add(filler2);
+
+        jPanel_PageNo.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel_PageNo.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jPanel_PageNo.setPreferredSize(new java.awt.Dimension(117, 40));
+        jPanel_PageNo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 12, 8));
+        jPanel1.add(jPanel_PageNo);
+        jPanel1.add(filler5);
+
+        jLabel_Next.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_Next.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_more_than_16px.png"))); // NOI18N
+        jLabel_Next.setPreferredSize(new java.awt.Dimension(25, 30));
+        jLabel_Next.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jLabel_NextMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel_Next);
+        jPanel1.add(filler4);
+
+        jLabel_Last.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_Last.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        jLabel_Last.setForeground(new java.awt.Color(0, 83, 156));
+        jLabel_Last.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_Last.setText("Cuối");
+        jLabel_Last.setPreferredSize(new java.awt.Dimension(35, 30));
+        jLabel_Last.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jLabel_LastMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel_Last);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        jPanel_Paging.add(jPanel1, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -308,7 +400,7 @@ public class BookTitlePanel extends javax.swing.JPanel
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanelTop, javax.swing.GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
             .addComponent(jPanelTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel_Page, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel_Paging, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -316,9 +408,8 @@ public class BookTitlePanel extends javax.swing.JPanel
                 .addComponent(jPanelTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(jPanelTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel_Page, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel_Paging, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -347,13 +438,13 @@ public class BookTitlePanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         int id = (int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 10);
-        
+
         try
         {
             BookTitlesJpaController.destroy(id);
-            
-            populateTable();
-            
+
+            populateTable(currentPage);
+
             JOptionPane.showMessageDialog(null, "Xóa thông tin thành công", "Thông báo", JOptionPane.OK_OPTION);
         }
         catch (NonexistentEntityException ex)
@@ -362,17 +453,167 @@ public class BookTitlePanel extends javax.swing.JPanel
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void jLabel_FirstMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_FirstMouseClicked
+    {//GEN-HEADEREND:event_jLabel_FirstMouseClicked
+        // TODO add your handling code here:
+        currentPage = 1;
+
+        // Populate jtable
+        populateTable(currentPage);
+        setPageNoColor();
+
+        // Set page button
+        if (maxPage > 3)
+        {
+            jLabel_Back.setEnabled(false);
+            backListenerOnOff = false;
+
+            if (!nextListenerOnOff)
+            {
+                nextListenerOnOff = true;
+            }
+        }
+
+        // add page number
+        jPanel_PageNo.removeAll();
+        for (int i = 1; i < 4; i++)
+        {
+            JLabel label = createPageNumber(i);
+            jPanel_PageNo.add(label);
+        }
+        jPanel_PageNo.revalidate();
+    }//GEN-LAST:event_jLabel_FirstMouseClicked
+
+    private void jLabel_BackMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_BackMouseClicked
+    {//GEN-HEADEREND:event_jLabel_BackMouseClicked
+        // TODO add your handling code here:
+
+        if (backListenerOnOff)
+        {
+            if (!nextListenerOnOff)
+            {
+                nextListenerOnOff = true;
+            }
+
+            var firstNumber = Integer.parseInt(jPanel_PageNo.getComponents()[0].getName());
+            jPanel_PageNo.removeAll();
+
+            for (int i = 3; i > 0; i--)
+            {
+                int pageNumber = firstNumber - i;
+
+                if (pageNumber >= 1)
+                {
+                    JLabel label = createPageNumber(pageNumber);
+                    jPanel_PageNo.add(label);
+
+                    if (pageNumber == 1)
+                    {
+                        jLabel_Back.setEnabled(false);
+                        backListenerOnOff = false;
+                    }
+                }
+            }
+            jPanel_PageNo.revalidate();
+
+            currentPage = firstNumber - 3;
+            populateTable(currentPage);
+            setPageNoColor();
+        }
+    }//GEN-LAST:event_jLabel_BackMouseClicked
+
+    private void jLabel_NextMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_NextMouseClicked
+    {//GEN-HEADEREND:event_jLabel_NextMouseClicked
+        // TODO add your handling code here:
+
+        if (nextListenerOnOff)
+        {
+            if (!backListenerOnOff)
+            {
+                backListenerOnOff = true;
+            }
+
+            var lastNumber = Integer.parseInt(jPanel_PageNo.getComponents()[2].getName());
+            jPanel_PageNo.removeAll();
+
+            for (int i = 1; i < 4; i++)
+            {
+
+                int pageNumber = lastNumber + i;
+
+                if (pageNumber <= maxPage)
+                {
+                    JLabel label = createPageNumber(pageNumber);
+                    jPanel_PageNo.add(label);
+
+                    if (pageNumber == maxPage)
+                    {
+                        jLabel_Next.setEnabled(false);
+                        nextListenerOnOff = false;
+                    }
+                }
+            }
+
+            jPanel_PageNo.revalidate();
+
+            currentPage = lastNumber + 1;
+            populateTable(currentPage);
+            setPageNoColor();
+        }
+    }//GEN-LAST:event_jLabel_NextMouseClicked
+
+    private void jLabel_LastMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_LastMouseClicked
+    {//GEN-HEADEREND:event_jLabel_LastMouseClicked
+        // TODO add your handling code here:
+        currentPage = maxPage;
+
+        // Populate jtable
+        populateTable(currentPage);
+        setPageNoColor();
+
+        // Set page button
+        if (maxPage > 3)
+        {
+            jLabel_Next.setEnabled(false);
+            nextListenerOnOff = false;
+
+            if (!backListenerOnOff)
+            {
+                backListenerOnOff = true;
+            }
+        }
+
+        // add page number
+        jPanel_PageNo.removeAll();
+        for (int i = maxPage; i > maxPage - 3; i--)
+        {
+            JLabel label = createPageNumber(i);
+            jPanel_PageNo.add(label);
+        }
+        jPanel_PageNo.revalidate();
+    }//GEN-LAST:event_jLabel_LastMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bookTitleName;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel_Back;
+    private javax.swing.JLabel jLabel_First;
+    private javax.swing.JLabel jLabel_Last;
+    private javax.swing.JLabel jLabel_Next;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelTable;
     private javax.swing.JPanel jPanelTop;
-    private javax.swing.JPanel jPanel_Page;
+    private javax.swing.JPanel jPanel_PageNo;
+    private javax.swing.JPanel jPanel_Paging;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
@@ -393,10 +634,8 @@ public class BookTitlePanel extends javax.swing.JPanel
         header.setFont(new Font("sansserif", Font.PLAIN, 12));
     }
 
-    public void populateTable()
+    public void populateTable(int page)
     {
-        bookTitleList = new ArrayList<>(BookTitlesJpaController.findBookTitlesEntities());
-        var maxRow = (newHeight - this.getPreferredSize().height + jScrollPane1.getViewport().getPreferredSize().height) / 28;
 
         String[] columnName =
         {
@@ -483,6 +722,100 @@ public class BookTitlePanel extends javax.swing.JPanel
             column.setPreferredWidth(columnWidth[i]);
         }
 
+    }
+
+    private void customizeTable()
+    {
+        // Get data
+        bookTitleList = new ArrayList<>(BookTitlesJpaController.findBookTitlesEntities());
+        maxRow = (newHeight - this.getPreferredSize().height + jScrollPane1.getViewport().getPreferredSize().height) / 28;
+
+        // Get number of pages
+        if (bookTitleList.isEmpty())
+        {
+            maxPage = 1;
+        }
+        else
+        {
+            maxPage = bookTitleList.size() % maxRow == 0 ? bookTitleList.size() / maxRow : bookTitleList.size() / maxRow + 1;
+        }
+
+        // Create paging bar
+        for (int i = 1; i <= maxPage; i++)
+        {
+            jPanel_PageNo.add(createPageNumber(i));
+
+            if (i == 3)
+            {
+                break;
+            }
+        }
+
+        // Set page button
+        if (maxPage > 3)
+        {
+            jLabel_Back.setEnabled(false);
+            backListenerOnOff = false;
+        }
+        else
+        {
+            jLabel_Next.setEnabled(false);
+            nextListenerOnOff = false;
+            jLabel_Back.setEnabled(false);
+            backListenerOnOff = false;
+        }
+    }
+
+    private JLabel createPageNumber(int number)
+    {
+        JLabel pageLabel = new JLabel();
+        pageLabel.setName(String.valueOf(number));
+        pageLabel.setFont(new java.awt.Font("sansserif", 0, 16)); // NOI18N
+        pageLabel.setForeground(new java.awt.Color(0, 83, 156));
+        pageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pageLabel.setText(String.valueOf(number));
+        pageLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        pageLabel.setPreferredSize(new java.awt.Dimension(27, 24));
+
+        pageLabel.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                PageNumber_MouseClicked(evt);
+            }
+
+        });
+
+        return pageLabel;
+    }
+
+    private void PageNumber_MouseClicked(MouseEvent evt)
+    {
+        currentPage = Integer.parseInt(evt.getComponent().getName());
+        populateTable(currentPage);
+
+        // set color for selected pageNo
+        setPageNoColor();
+    }
+
+    private void setPageNoColor()
+    {
+        for (Component component : jPanel_PageNo.getComponents())
+        {
+            JLabel label = (JLabel) component;
+            if (Integer.parseInt(label.getName()) != currentPage)
+            {
+                label.setOpaque(false);
+                label.repaint();
+            }
+            else
+            {
+                label.setOpaque(true);
+                label.setBackground(Color.GREEN);
+                label.repaint();
+            }
+        }
     }
 
 }

@@ -11,6 +11,8 @@ import Model.Books;
 import Utility.CustomTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -41,6 +43,9 @@ public class BookStockPanel extends javax.swing.JPanel
     int currentPage = 1;
     int maxRow;
 
+    boolean nextListenerOnOff = true;
+    boolean backListenerOnOff = true;
+
     public BookStockPanel(int width, int height)
     {
         initComponents();
@@ -53,6 +58,7 @@ public class BookStockPanel extends javax.swing.JPanel
         customizeTable();
 
         populateTable(currentPage);
+        setPageNoColor();
     }
 
     /**
@@ -74,15 +80,15 @@ public class BookStockPanel extends javax.swing.JPanel
         jTable1 = new javax.swing.JTable();
         jPanel_Paging = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel_First = new javax.swing.JLabel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        jLabel3 = new javax.swing.JLabel();
+        jLabel_Back = new javax.swing.JLabel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jPanel_PageNo = new javax.swing.JPanel();
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jLabel_Next = new javax.swing.JLabel();
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        jLabel4 = new javax.swing.JLabel();
+        jLabel_Last = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -218,25 +224,39 @@ public class BookStockPanel extends javax.swing.JPanel
         jPanel_Paging.setPreferredSize(new java.awt.Dimension(100, 40));
         jPanel_Paging.setLayout(new java.awt.GridBagLayout());
 
-        jPanel1.setBackground(new java.awt.Color(102, 255, 102));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         jPanel1.setPreferredSize(new java.awt.Dimension(300, 40));
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 83, 156));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Đầu");
-        jLabel2.setPreferredSize(new java.awt.Dimension(35, 30));
-        jPanel1.add(jLabel2);
+        jLabel_First.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_First.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        jLabel_First.setForeground(new java.awt.Color(0, 83, 156));
+        jLabel_First.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_First.setText("Đầu");
+        jLabel_First.setPreferredSize(new java.awt.Dimension(35, 30));
+        jLabel_First.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jLabel_FirstMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel_First);
         jPanel1.add(filler1);
 
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_less_than_16px.png"))); // NOI18N
-        jLabel3.setPreferredSize(new java.awt.Dimension(25, 30));
-        jPanel1.add(jLabel3);
+        jLabel_Back.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_Back.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_Back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_less_than_16px.png"))); // NOI18N
+        jLabel_Back.setPreferredSize(new java.awt.Dimension(25, 30));
+        jLabel_Back.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jLabel_BackMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel_Back);
         jPanel1.add(filler2);
 
         jPanel_PageNo.setBackground(new java.awt.Color(255, 255, 255));
@@ -260,13 +280,20 @@ public class BookStockPanel extends javax.swing.JPanel
         jPanel1.add(jLabel_Next);
         jPanel1.add(filler4);
 
-        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 83, 156));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Cuối");
-        jLabel4.setPreferredSize(new java.awt.Dimension(35, 30));
-        jPanel1.add(jLabel4);
+        jLabel_Last.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_Last.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        jLabel_Last.setForeground(new java.awt.Color(0, 83, 156));
+        jLabel_Last.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_Last.setText("Cuối");
+        jLabel_Last.setPreferredSize(new java.awt.Dimension(35, 30));
+        jLabel_Last.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jLabel_LastMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel_Last);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -287,7 +314,7 @@ public class BookStockPanel extends javax.swing.JPanel
                 .addComponent(jPanelTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(jPanelTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel_Paging, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -319,28 +346,142 @@ public class BookStockPanel extends javax.swing.JPanel
     private void jLabel_NextMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_NextMouseClicked
     {//GEN-HEADEREND:event_jLabel_NextMouseClicked
         // TODO add your handling code here:
-        
-        currentPage += 1;
-        
-        if (currentPage % 3 != 1) // currentPage + 1 not 
+
+        if (nextListenerOnOff)
         {
-            populateTable(currentPage);
-        }
-        else
-        {
-            JLabel pageNo = createPageNumber(currentPage);
-        
-            if (jPanel_Paging.getComponentCount() == 3)
+            if (!backListenerOnOff)
             {
-                jPanel_Paging.remove(0);
+                backListenerOnOff = true;
             }
 
-            jPanel_Paging.add(pageNo);
-            jPanel_Paging.revalidate();
-            
+            var lastNumber = Integer.parseInt(jPanel_PageNo.getComponents()[2].getName());
+            jPanel_PageNo.removeAll();
+
+            for (int i = 1; i < 4; i++)
+            {
+
+                int pageNumber = lastNumber + i;
+
+                if (pageNumber <= maxPage)
+                {
+                    JLabel label = createPageNumber(pageNumber);
+                    jPanel_PageNo.add(label);
+
+                    if (pageNumber == maxPage)
+                    {
+                        jLabel_Next.setEnabled(false);
+                        nextListenerOnOff = false;
+                    }
+                }
+            }
+
+            jPanel_PageNo.revalidate();
+
+            currentPage = lastNumber + 1;
             populateTable(currentPage);
+            setPageNoColor();
         }
     }//GEN-LAST:event_jLabel_NextMouseClicked
+
+    private void jLabel_BackMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_BackMouseClicked
+    {//GEN-HEADEREND:event_jLabel_BackMouseClicked
+        // TODO add your handling code here:
+
+        if (backListenerOnOff)
+        {
+            if (!nextListenerOnOff)
+            {
+                nextListenerOnOff = true;
+            }
+
+            var firstNumber = Integer.parseInt(jPanel_PageNo.getComponents()[0].getName());
+            jPanel_PageNo.removeAll();
+
+            for (int i = 3; i > 0; i--)
+            {
+                int pageNumber = firstNumber - i;
+
+                if (pageNumber >= 1)
+                {
+                    JLabel label = createPageNumber(pageNumber);
+                    jPanel_PageNo.add(label);
+
+                    if (pageNumber == 1)
+                    {
+                        jLabel_Back.setEnabled(false);
+                        backListenerOnOff = false;
+                    }
+                }
+            }
+            jPanel_PageNo.revalidate();
+
+            currentPage = firstNumber - 3;
+            populateTable(currentPage);
+            setPageNoColor();
+        }
+    }//GEN-LAST:event_jLabel_BackMouseClicked
+
+    private void jLabel_FirstMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_FirstMouseClicked
+    {//GEN-HEADEREND:event_jLabel_FirstMouseClicked
+        // TODO add your handling code here:
+        currentPage = 1;
+
+        // Populate jtable
+        populateTable(currentPage);
+        setPageNoColor();
+
+        // Set page button
+        if (maxPage > 3)
+        {
+            jLabel_Back.setEnabled(false);
+            backListenerOnOff = false;
+
+            if (!nextListenerOnOff)
+            {
+                nextListenerOnOff = true;
+            }
+        }
+
+        // add page number
+        jPanel_PageNo.removeAll();
+        for (int i = 1; i < 4; i++)
+        {
+            JLabel label = createPageNumber(i);
+            jPanel_PageNo.add(label);
+        }
+        jPanel_PageNo.revalidate();
+    }//GEN-LAST:event_jLabel_FirstMouseClicked
+
+    private void jLabel_LastMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_LastMouseClicked
+    {//GEN-HEADEREND:event_jLabel_LastMouseClicked
+        // TODO add your handling code here:
+        currentPage = maxPage;
+
+        // Populate jtable
+        populateTable(currentPage);
+        setPageNoColor();
+
+        // Set page button
+        if (maxPage > 3)
+        {
+            jLabel_Next.setEnabled(false);
+            nextListenerOnOff = false;
+
+            if (!backListenerOnOff)
+            {
+                backListenerOnOff = true;
+            }
+        }
+
+        // add page number
+        jPanel_PageNo.removeAll();
+        for (int i = maxPage; i > maxPage - 3; i--)
+        {
+            JLabel label = createPageNumber(i);
+            jPanel_PageNo.add(label);
+        }
+        jPanel_PageNo.revalidate();
+    }//GEN-LAST:event_jLabel_LastMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -352,9 +493,9 @@ public class BookStockPanel extends javax.swing.JPanel
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel_Back;
+    private javax.swing.JLabel jLabel_First;
+    private javax.swing.JLabel jLabel_Last;
     private javax.swing.JLabel jLabel_Next;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelTable;
@@ -388,8 +529,19 @@ public class BookStockPanel extends javax.swing.JPanel
         };
 
         // Create model booktitles by creating anonymous nest class of CustomTableModel<T>
-        CustomTableModel<Books> model = new CustomTableModel<Books>(bookList.size() <= maxRow
-                ? bookList : bookList.subList(maxRow * page - maxRow, maxRow * page), columnName)
+        CustomTableModel<Books> model = new CustomTableModel<Books>
+                (
+                        bookList.size() <= maxRow? 
+                                bookList : 
+                                bookList.subList
+                                    (
+                                            maxRow * page - maxRow, 
+                                            maxRow * page < bookList.size()? 
+                                                    maxRow * page : 
+                                                    bookList.size()
+                                    ),
+                        columnName
+                )
         {
             @Override
             public Object getValueAt(int rowIndex, int columnIndex)
@@ -495,13 +647,16 @@ public class BookStockPanel extends javax.swing.JPanel
     {
         currentPage = Integer.parseInt(evt.getComponent().getName());
         populateTable(currentPage);
+
+        // set color for selected pageNo
+        setPageNoColor();
     }
 
     private void customizeTable()
     {
         // Get data
         bookList = new ArrayList<>(BooksJpaController.findBooksEntities());
-        maxRow = (newHeight - this.getPreferredSize().height + jScrollPane1.getViewport().getPreferredSize().height) / 28;
+        maxRow = (newHeight - this.getPreferredSize().height + jScrollPane1.getViewport().getPreferredSize().height) / 28 - 15;
 
         // Get number of pages
         if (bookList.isEmpty())
@@ -521,6 +676,39 @@ public class BookStockPanel extends javax.swing.JPanel
             if (i == 3)
             {
                 break;
+            }
+        }
+
+        // Set page button
+        if (maxPage > 3)
+        {
+            jLabel_Back.setEnabled(false);
+            backListenerOnOff = false;
+        }
+        else
+        {
+            jLabel_Next.setEnabled(false);
+            nextListenerOnOff = false;
+            jLabel_Back.setEnabled(false);
+            backListenerOnOff = false;
+        }
+    }
+
+    private void setPageNoColor()
+    {
+        for (Component component : jPanel_PageNo.getComponents())
+        {
+            JLabel label = (JLabel) component;
+            if (Integer.parseInt(label.getName()) != currentPage)
+            {
+                label.setOpaque(false);
+                label.repaint();
+            }
+            else
+            {
+                label.setOpaque(true);
+                label.setBackground(Color.GREEN);
+                label.repaint();
             }
         }
     }

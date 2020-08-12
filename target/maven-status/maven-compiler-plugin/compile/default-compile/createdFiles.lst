@@ -8,6 +8,7 @@ View\Home.class
 View\ReaderAddPanel.class
 View\BookTitlePanel$6.class
 View\Home$5.class
+View\BookStockPanel$7.class
 Model\Books.class
 View\Home$2.class
 View\ReaderPanel$3.class
@@ -45,6 +46,7 @@ Controller\exceptions\IllegalOrphanException.class
 View\BorrowAddPanel.class
 View\UsersPanel.class
 Data\Constants.class
+View\BookStockPanel$6.class
 Controller\PublishersJpaController.class
 Controller\CategoriesJpaController.class
 View\UsersPanel$1.class
@@ -80,6 +82,7 @@ View\Home$6.class
 Controller\UsersJpaController.class
 View\BorrowAddPanel$5.class
 View\BookTitleCreatePanel$1.class
+View\BookStockPanel$8.class
 View\BookTitlePanel$4.class
 View\Home$4.class
 View\ReaderEditPanel.class
@@ -91,6 +94,7 @@ View\BookStockPanel$2.class
 View\Login$3.class
 Controller\AuthorsJpaController.class
 Model\BookTitles.class
+View\BookStockPanel$9.class
 View\BorrowAddPanel$4.class
 View\UsersPanel$4.class
 View\UserAddPanel.class

@@ -14,10 +14,13 @@ import Model.Borrows;
 import Utility.CustomTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
@@ -30,6 +33,14 @@ public class BorrowPanel extends javax.swing.JPanel
     List<Borrows> borrowList;
     int newHeight;
     int newWidth;
+    
+    
+    int maxPage = 1;
+    int currentPage = 1;
+    int maxRow;
+
+    boolean nextListenerOnOff = true;
+    boolean backListenerOnOff = true;
 
     public BorrowPanel(int width, int height)
     {
@@ -39,8 +50,11 @@ public class BorrowPanel extends javax.swing.JPanel
         newWidth = width;
 
         customizePalette();
+        
+        customizeTable();
 
-        populateTable();
+        populateTable(currentPage);
+        setPageNoColor();
     }
 
     /**
@@ -50,75 +64,33 @@ public class BorrowPanel extends javax.swing.JPanel
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents()
     {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanelTable = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanelTop = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         bookTitleName = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        jPanelTable = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel_Paging = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel_First = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel_Back = new javax.swing.JLabel();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jPanel_PageNo = new javax.swing.JPanel();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel_Next = new javax.swing.JLabel();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel_Last = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         setName("Mượn sách"); // NOI18N
         setPreferredSize(new java.awt.Dimension(800, 550));
-
-        jPanelTable.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelTable.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanelTable.setPreferredSize(new java.awt.Dimension(466, 484));
-
-        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-
-        jTable1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
-
-            },
-            new String []
-            {
-                "No.", "Độc giả", "Tên sách", "Mã sách", "Ngày trả dự kiến", "Ngày trả"
-            }
-        )
-        {
-            boolean[] canEdit = new boolean []
-            {
-                false, false, false, false, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex)
-            {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable1.setFillsViewportHeight(true);
-        jTable1.setGridColor(new java.awt.Color(204, 204, 255));
-        jTable1.setRowHeight(28);
-        jTable1.setShowGrid(true);
-        jTable1.setShowVerticalLines(false);
-        jScrollPane1.setViewportView(jTable1);
-
-        javax.swing.GroupLayout jPanelTableLayout = new javax.swing.GroupLayout(jPanelTable);
-        jPanelTable.setLayout(jPanelTableLayout);
-        jPanelTableLayout.setHorizontalGroup(
-            jPanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTableLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jScrollPane1)
-                .addGap(0, 0, 0))
-        );
-        jPanelTableLayout.setVerticalGroup(
-            jPanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelTableLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
-                .addContainerGap())
-        );
 
         jPanelTop.setBackground(new java.awt.Color(255, 255, 255));
         jPanelTop.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -213,6 +185,141 @@ public class BorrowPanel extends javax.swing.JPanel
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
+        jPanelTable.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelTable.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jPanelTable.setPreferredSize(new java.awt.Dimension(466, 484));
+
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        jTable1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][]
+            {
+
+            },
+            new String []
+            {
+                "No.", "Độc giả", "Tên sách", "Mã sách", "Ngày trả dự kiến", "Ngày trả"
+            }
+        )
+        {
+            boolean[] canEdit = new boolean []
+            {
+                false, false, false, false, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setFillsViewportHeight(true);
+        jTable1.setGridColor(new java.awt.Color(204, 204, 255));
+        jTable1.setRowHeight(28);
+        jTable1.setShowGrid(true);
+        jTable1.setShowVerticalLines(false);
+        jScrollPane1.setViewportView(jTable1);
+
+        javax.swing.GroupLayout jPanelTableLayout = new javax.swing.GroupLayout(jPanelTable);
+        jPanelTable.setLayout(jPanelTableLayout);
+        jPanelTableLayout.setHorizontalGroup(
+            jPanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTableLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane1)
+                .addGap(0, 0, 0))
+        );
+        jPanelTableLayout.setVerticalGroup(
+            jPanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTableLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
+
+        jPanel_Paging.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel_Paging.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jPanel_Paging.setPreferredSize(new java.awt.Dimension(100, 40));
+        jPanel_Paging.setLayout(new java.awt.GridBagLayout());
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jPanel1.setPreferredSize(new java.awt.Dimension(300, 40));
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
+
+        jLabel_First.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_First.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        jLabel_First.setForeground(new java.awt.Color(0, 83, 156));
+        jLabel_First.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_First.setText("Đầu");
+        jLabel_First.setPreferredSize(new java.awt.Dimension(35, 30));
+        jLabel_First.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jLabel_FirstMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel_First);
+        jPanel1.add(filler1);
+
+        jLabel_Back.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_Back.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_Back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_less_than_16px.png"))); // NOI18N
+        jLabel_Back.setPreferredSize(new java.awt.Dimension(25, 30));
+        jLabel_Back.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jLabel_BackMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel_Back);
+        jPanel1.add(filler2);
+
+        jPanel_PageNo.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel_PageNo.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jPanel_PageNo.setPreferredSize(new java.awt.Dimension(117, 40));
+        jPanel_PageNo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 12, 8));
+        jPanel1.add(jPanel_PageNo);
+        jPanel1.add(filler5);
+
+        jLabel_Next.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_Next.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_more_than_16px.png"))); // NOI18N
+        jLabel_Next.setPreferredSize(new java.awt.Dimension(25, 30));
+        jLabel_Next.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jLabel_NextMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel_Next);
+        jPanel1.add(filler4);
+
+        jLabel_Last.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_Last.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        jLabel_Last.setForeground(new java.awt.Color(0, 83, 156));
+        jLabel_Last.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_Last.setText("Cuối");
+        jLabel_Last.setPreferredSize(new java.awt.Dimension(35, 30));
+        jLabel_Last.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jLabel_LastMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel_Last);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        jPanel_Paging.add(jPanel1, gridBagConstraints);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -221,7 +328,8 @@ public class BorrowPanel extends javax.swing.JPanel
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelTop, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
-                    .addComponent(jPanelTable, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE))
+                    .addComponent(jPanelTable, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+                    .addComponent(jPanel_Paging, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
@@ -229,8 +337,9 @@ public class BorrowPanel extends javax.swing.JPanel
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanelTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
-                .addComponent(jPanelTable, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanelTable, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel_Paging, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -255,15 +364,166 @@ public class BorrowPanel extends javax.swing.JPanel
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void jLabel_FirstMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_FirstMouseClicked
+    {//GEN-HEADEREND:event_jLabel_FirstMouseClicked
+        // TODO add your handling code here:
+        currentPage = 1;
+
+        // Populate jtable
+        populateTable(currentPage);
+        setPageNoColor();
+
+        // Set page button
+        if (maxPage > 3)
+        {
+            jLabel_Back.setEnabled(false);
+            backListenerOnOff = false;
+
+            if (!nextListenerOnOff)
+            {
+                nextListenerOnOff = true;
+            }
+        }
+
+        // add page number
+        jPanel_PageNo.removeAll();
+        for (int i = 1; i < 4; i++)
+        {
+            JLabel label = createPageNumber(i);
+            jPanel_PageNo.add(label);
+        }
+        jPanel_PageNo.revalidate();
+    }//GEN-LAST:event_jLabel_FirstMouseClicked
+
+    private void jLabel_BackMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_BackMouseClicked
+    {//GEN-HEADEREND:event_jLabel_BackMouseClicked
+        // TODO add your handling code here:
+
+        if (backListenerOnOff)
+        {
+            if (!nextListenerOnOff)
+            {
+                nextListenerOnOff = true;
+            }
+
+            var firstNumber = Integer.parseInt(jPanel_PageNo.getComponents()[0].getName());
+            jPanel_PageNo.removeAll();
+
+            for (int i = 3; i > 0; i--)
+            {
+                int pageNumber = firstNumber - i;
+
+                if (pageNumber >= 1)
+                {
+                    JLabel label = createPageNumber(pageNumber);
+                    jPanel_PageNo.add(label);
+
+                    if (pageNumber == 1)
+                    {
+                        jLabel_Back.setEnabled(false);
+                        backListenerOnOff = false;
+                    }
+                }
+            }
+            jPanel_PageNo.revalidate();
+
+            currentPage = firstNumber - 3;
+            populateTable(currentPage);
+            setPageNoColor();
+        }
+    }//GEN-LAST:event_jLabel_BackMouseClicked
+
+    private void jLabel_NextMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_NextMouseClicked
+    {//GEN-HEADEREND:event_jLabel_NextMouseClicked
+        // TODO add your handling code here:
+
+        if (nextListenerOnOff)
+        {
+            if (!backListenerOnOff)
+            {
+                backListenerOnOff = true;
+            }
+
+            var lastNumber = Integer.parseInt(jPanel_PageNo.getComponents()[2].getName());
+            jPanel_PageNo.removeAll();
+
+            for (int i = 1; i < 4; i++)
+            {
+
+                int pageNumber = lastNumber + i;
+
+                if (pageNumber <= maxPage)
+                {
+                    JLabel label = createPageNumber(pageNumber);
+                    jPanel_PageNo.add(label);
+
+                    if (pageNumber == maxPage)
+                    {
+                        jLabel_Next.setEnabled(false);
+                        nextListenerOnOff = false;
+                    }
+                }
+            }
+
+            jPanel_PageNo.revalidate();
+
+            currentPage = lastNumber + 1;
+            populateTable(currentPage);
+            setPageNoColor();
+        }
+    }//GEN-LAST:event_jLabel_NextMouseClicked
+
+    private void jLabel_LastMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_LastMouseClicked
+    {//GEN-HEADEREND:event_jLabel_LastMouseClicked
+        // TODO add your handling code here:
+        currentPage = maxPage;
+
+        // Populate jtable
+        populateTable(currentPage);
+        setPageNoColor();
+
+        // Set page button
+        if (maxPage > 3)
+        {
+            jLabel_Next.setEnabled(false);
+            nextListenerOnOff = false;
+
+            if (!backListenerOnOff)
+            {
+                backListenerOnOff = true;
+            }
+        }
+
+        // add page number
+        jPanel_PageNo.removeAll();
+        for (int i = maxPage; i > maxPage - 3; i--)
+        {
+            JLabel label = createPageNumber(i);
+            jPanel_PageNo.add(label);
+        }
+        jPanel_PageNo.revalidate();
+    }//GEN-LAST:event_jLabel_LastMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bookTitleName;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel_Back;
+    private javax.swing.JLabel jLabel_First;
+    private javax.swing.JLabel jLabel_Last;
+    private javax.swing.JLabel jLabel_Next;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelTable;
     private javax.swing.JPanel jPanelTop;
+    private javax.swing.JPanel jPanel_PageNo;
+    private javax.swing.JPanel jPanel_Paging;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
@@ -284,11 +544,8 @@ public class BorrowPanel extends javax.swing.JPanel
         header.setFont(new Font("sansserif", Font.PLAIN, 12));
     }
 
-    private void populateTable()
-    {
-        borrowList = new ArrayList<>(BorrowsJpaController.findBorrowsEntities());
-        var maxRow = (newHeight - this.getPreferredSize().height + jScrollPane1.getViewport().getPreferredSize().height) / 28;
-        
+    private void populateTable(int page)
+    {   
         String[] columnName =
         {
             "No.", "Họ và tên", "Tên sách", "Mã sách", "Ngày trả dự kiến", "Ngày trả"
@@ -360,6 +617,100 @@ public class BorrowPanel extends javax.swing.JPanel
             column.setMinWidth(columnWidth[i]);
             column.setMaxWidth(columnWidth[i]);
             column.setPreferredWidth(columnWidth[i]);
+        }
+    }
+    
+    private void customizeTable()
+    {
+        // Get data
+        borrowList = new ArrayList<>(BorrowsJpaController.findBorrowsEntities());
+        maxRow = (newHeight - this.getPreferredSize().height + jScrollPane1.getViewport().getPreferredSize().height) / 28;
+
+        // Get number of pages
+        if (borrowList.isEmpty())
+        {
+            maxPage = 1;
+        }
+        else
+        {
+            maxPage = borrowList.size() % maxRow == 0 ? borrowList.size() / maxRow : borrowList.size() / maxRow + 1;
+        }
+
+        // Create paging bar
+        for (int i = 1; i <= maxPage; i++)
+        {
+            jPanel_PageNo.add(createPageNumber(i));
+
+            if (i == 3)
+            {
+                break;
+            }
+        }
+
+        // Set page button
+        if (maxPage > 3)
+        {
+            jLabel_Back.setEnabled(false);
+            backListenerOnOff = false;
+        }
+        else
+        {
+            jLabel_Next.setEnabled(false);
+            nextListenerOnOff = false;
+            jLabel_Back.setEnabled(false);
+            backListenerOnOff = false;
+        }
+    }
+    
+    private JLabel createPageNumber(int number)
+    {
+        JLabel pageLabel = new JLabel();
+        pageLabel.setName(String.valueOf(number));
+        pageLabel.setFont(new java.awt.Font("sansserif", 0, 16)); // NOI18N
+        pageLabel.setForeground(new java.awt.Color(0, 83, 156));
+        pageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pageLabel.setText(String.valueOf(number));
+        pageLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        pageLabel.setPreferredSize(new java.awt.Dimension(27, 24));
+
+        pageLabel.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                PageNumber_MouseClicked(evt);
+            }
+
+        });
+
+        return pageLabel;
+    }
+
+    private void PageNumber_MouseClicked(MouseEvent evt)
+    {
+        currentPage = Integer.parseInt(evt.getComponent().getName());
+        populateTable(currentPage);
+
+        // set color for selected pageNo
+        setPageNoColor();
+    }
+
+    private void setPageNoColor()
+    {
+        for (Component component : jPanel_PageNo.getComponents())
+        {
+            JLabel label = (JLabel) component;
+            if (Integer.parseInt(label.getName()) != currentPage)
+            {
+                label.setOpaque(false);
+                label.repaint();
+            }
+            else
+            {
+                label.setOpaque(true);
+                label.setBackground(Color.GREEN);
+                label.repaint();
+            }
         }
     }
 
