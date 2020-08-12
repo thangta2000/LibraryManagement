@@ -13,6 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Model.BookTitles;
 import Model.Categories;
+import Utility.Factory;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -25,19 +26,24 @@ import javax.persistence.EntityManagerFactory;
 public class CategoriesJpaController implements Serializable
 {
 
-    public CategoriesJpaController(EntityManagerFactory emf)
+//    public CategoriesJpaController(EntityManagerFactory emf)
+//    {
+//        this.emf = emf;
+//    }
+//
+//    private EntityManagerFactory emf = null;
+//
+//    public EntityManager getEntityManager()
+//    {
+//        return emf.createEntityManager();
+//    }
+
+    public static EntityManager getEntityManager()
     {
-        this.emf = emf;
+        return Factory.getEntityManager();
     }
-
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager()
-    {
-        return emf.createEntityManager();
-    }
-
-    public void create(Categories categories)
+    
+    public static void create(Categories categories)
     {
         if (categories.getBookTitlesList() == null)
         {
@@ -78,7 +84,7 @@ public class CategoriesJpaController implements Serializable
         }
     }
 
-    public void edit(Categories categories) throws NonexistentEntityException, Exception
+    public static void edit(Categories categories) throws NonexistentEntityException, Exception
     {
         EntityManager em = null;
         try
@@ -143,7 +149,7 @@ public class CategoriesJpaController implements Serializable
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
+    public static void destroy(Integer id) throws NonexistentEntityException
     {
         EntityManager em = null;
         try
@@ -178,17 +184,17 @@ public class CategoriesJpaController implements Serializable
         }
     }
 
-    public List<Categories> findCategoriesEntities()
+    public static List<Categories> findCategoriesEntities()
     {
         return findCategoriesEntities(true, -1, -1);
     }
 
-    public List<Categories> findCategoriesEntities(int maxResults, int firstResult)
+    public static List<Categories> findCategoriesEntities(int maxResults, int firstResult)
     {
         return findCategoriesEntities(false, maxResults, firstResult);
     }
 
-    private List<Categories> findCategoriesEntities(boolean all, int maxResults, int firstResult)
+    private static List<Categories> findCategoriesEntities(boolean all, int maxResults, int firstResult)
     {
         EntityManager em = getEntityManager();
         try
@@ -209,7 +215,7 @@ public class CategoriesJpaController implements Serializable
         }
     }
 
-    public Categories findCategories(Integer id)
+    public static Categories findCategories(Integer id)
     {
         EntityManager em = getEntityManager();
         try
@@ -222,7 +228,7 @@ public class CategoriesJpaController implements Serializable
         }
     }
 
-    public int getCategoriesCount()
+    public static int getCategoriesCount()
     {
         EntityManager em = getEntityManager();
         try

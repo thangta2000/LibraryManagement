@@ -14,6 +14,7 @@ import javax.persistence.criteria.Root;
 import Model.Countries;
 import Model.BookTitles;
 import Model.Publishers;
+import Utility.Factory;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -26,19 +27,24 @@ import javax.persistence.EntityManagerFactory;
 public class PublishersJpaController implements Serializable
 {
 
-    public PublishersJpaController(EntityManagerFactory emf)
+//    public PublishersJpaController(EntityManagerFactory emf)
+//    {
+//        this.emf = emf;
+//    }
+//
+//    private EntityManagerFactory emf = null;
+//
+//    public EntityManager getEntityManager()
+//    {
+//        return emf.createEntityManager();
+//    }
+
+    public static EntityManager getEntityManager()
     {
-        this.emf = emf;
+        return Factory.getEntityManager();
     }
-
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager()
-    {
-        return emf.createEntityManager();
-    }
-
-    public void create(Publishers publishers)
+    
+    public static void create(Publishers publishers)
     {
         if (publishers.getBookTitlesList() == null)
         {
@@ -90,7 +96,7 @@ public class PublishersJpaController implements Serializable
         }
     }
 
-    public void edit(Publishers publishers) throws NonexistentEntityException, Exception
+    public static void edit(Publishers publishers) throws NonexistentEntityException, Exception
     {
         EntityManager em = null;
         try
@@ -172,7 +178,7 @@ public class PublishersJpaController implements Serializable
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
+    public static void destroy(Integer id) throws NonexistentEntityException
     {
         EntityManager em = null;
         try
@@ -213,17 +219,17 @@ public class PublishersJpaController implements Serializable
         }
     }
 
-    public List<Publishers> findPublishersEntities()
+    public static List<Publishers> findPublishersEntities()
     {
         return findPublishersEntities(true, -1, -1);
     }
 
-    public List<Publishers> findPublishersEntities(int maxResults, int firstResult)
+    public static List<Publishers> findPublishersEntities(int maxResults, int firstResult)
     {
         return findPublishersEntities(false, maxResults, firstResult);
     }
 
-    private List<Publishers> findPublishersEntities(boolean all, int maxResults, int firstResult)
+    private static List<Publishers> findPublishersEntities(boolean all, int maxResults, int firstResult)
     {
         EntityManager em = getEntityManager();
         try
@@ -244,7 +250,7 @@ public class PublishersJpaController implements Serializable
         }
     }
 
-    public Publishers findPublishers(Integer id)
+    public static Publishers findPublishers(Integer id)
     {
         EntityManager em = getEntityManager();
         try
@@ -257,7 +263,7 @@ public class PublishersJpaController implements Serializable
         }
     }
 
-    public int getPublishersCount()
+    public static int getPublishersCount()
     {
         EntityManager em = getEntityManager();
         try

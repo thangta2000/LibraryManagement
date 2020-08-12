@@ -3,7 +3,7 @@
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-      <Color blue="f9" green="f5" red="f3" type="rgb"/>
+      <Color blue="ff" green="ff" red="ff" type="rgb"/>
     </Property>
     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
       <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -248,7 +248,7 @@
               </Border>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[3, 28]"/>
+              <Dimension value="[200, 28]"/>
             </Property>
           </Properties>
         </Component>
@@ -266,7 +266,7 @@
               </Border>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[3, 28]"/>
+              <Dimension value="[200, 28]"/>
             </Property>
           </Properties>
         </Component>
@@ -288,7 +288,7 @@
               </Border>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[3, 28]"/>
+              <Dimension value="[200, 28]"/>
             </Property>
           </Properties>
         </Component>
@@ -305,7 +305,7 @@
               </Border>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[3, 28]"/>
+              <Dimension value="[200, 28]"/>
             </Property>
           </Properties>
         </Component>
@@ -323,7 +323,7 @@
               </Border>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[3, 28]"/>
+              <Dimension value="[200, 28]"/>
             </Property>
           </Properties>
         </Component>
@@ -341,7 +341,7 @@
               </Border>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[3, 28]"/>
+              <Dimension value="[200, 28]"/>
             </Property>
           </Properties>
         </Component>
@@ -446,10 +446,8 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
-            <MatteColorBorder bottom="4" left="4" right="4" top="4">
-              <Color PropertyName="color" blue="ff" green="e1" red="cc" type="rgb"/>
-            </MatteColorBorder>
+          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+            <EmptyBorder/>
           </Border>
         </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -472,7 +470,7 @@
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jLabel13" alignment="0" pref="202" max="32767" attributes="0"/>
-                      <Component id="jPasswordField2" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
+                      <Component id="jPasswordField2" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel17" alignment="0" pref="202" max="32767" attributes="0"/>
                       <Component id="jTextField_Name" alignment="0" max="32767" attributes="0"/>
                       <Component id="jPasswordField_Pass" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -482,7 +480,7 @@
                       <Component id="jLabel15" alignment="0" pref="202" max="32767" attributes="0"/>
                       <Component id="jComboBox_Position" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="89" max="32767" attributes="0"/>
+                  <EmptySpace pref="95" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -524,7 +522,7 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel15" min="-2" pref="26" max="-2" attributes="0"/>
-                  <EmptySpace pref="47" max="32767" attributes="0"/>
+                  <EmptySpace pref="53" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -543,7 +541,7 @@
               </Border>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[3, 28]"/>
+              <Dimension value="[200, 28]"/>
             </Property>
           </Properties>
         </Component>
@@ -565,7 +563,7 @@
               </Border>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[3, 28]"/>
+              <Dimension value="[200, 28]"/>
             </Property>
           </Properties>
         </Component>
@@ -577,6 +575,9 @@
         <Component class="javax.swing.JPasswordField" name="jPasswordField_Pass">
           <Properties>
             <Property name="text" type="java.lang.String" value="jPasswordField1"/>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[200, 28]"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel12">
@@ -587,6 +588,9 @@
         <Component class="javax.swing.JPasswordField" name="jPasswordField2">
           <Properties>
             <Property name="text" type="java.lang.String" value="jPasswordField1"/>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[200, 28]"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel13">
@@ -655,13 +659,13 @@
             </Property>
             <Property name="editable" type="boolean" value="true"/>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
+              <StringArray count="3">
+                <StringItem index="0" value="Gi&#xe1;m &#x111;&#x1ed1;c"/>
+                <StringItem index="1" value="Qu&#x1ea3;n l&#xfd;"/>
+                <StringItem index="2" value="Th&#x1ee7; th&#x1b0;"/>
               </StringArray>
             </Property>
+            <Property name="selectedIndex" type="int" value="2"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder/>
@@ -671,7 +675,7 @@
               <Dimension value="[66, 28]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[126, 28]"/>
+              <Dimension value="[200, 28]"/>
             </Property>
           </Properties>
           <AuxValues>

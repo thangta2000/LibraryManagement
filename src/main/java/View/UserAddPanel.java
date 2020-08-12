@@ -89,7 +89,7 @@ public class UserAddPanel extends javax.swing.JPanel
         jPanel3 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(243, 245, 249));
+        setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         setName("Thêm tài khoản"); // NOI18N
         setPreferredSize(new java.awt.Dimension(800, 550));
@@ -121,37 +121,37 @@ public class UserAddPanel extends javax.swing.JPanel
         jLabel2.setText("Ngày sinh:");
 
         jTextField_IdCard.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField_IdCard.setPreferredSize(new java.awt.Dimension(3, 28));
+        jTextField_IdCard.setPreferredSize(new java.awt.Dimension(200, 28));
 
         jLabel3.setText("Điện thoại:");
         jLabel3.setToolTipText("");
 
         jTextField_Tel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField_Tel.setPreferredSize(new java.awt.Dimension(3, 28));
+        jTextField_Tel.setPreferredSize(new java.awt.Dimension(200, 28));
 
         jLabel5.setText("Địa chỉ:");
 
         jLabel6.setText("Email:");
 
         jTextField_Address.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField_Address.setPreferredSize(new java.awt.Dimension(3, 28));
+        jTextField_Address.setPreferredSize(new java.awt.Dimension(200, 28));
 
         jLabel7.setText("Quốc tịch:");
 
         jTextField_Email.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField_Email.setPreferredSize(new java.awt.Dimension(3, 28));
+        jTextField_Email.setPreferredSize(new java.awt.Dimension(200, 28));
 
         jLabel8.setText("Giới tính:");
         jLabel8.setToolTipText("");
 
         jTextField_BirthDate.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField_BirthDate.setPreferredSize(new java.awt.Dimension(3, 28));
+        jTextField_BirthDate.setPreferredSize(new java.awt.Dimension(200, 28));
 
         jLabel9.setText("CCCD/Hộ chiếu:");
         jLabel9.setToolTipText("");
 
         jTextField_Country.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField_Country.setPreferredSize(new java.awt.Dimension(3, 28));
+        jTextField_Country.setPreferredSize(new java.awt.Dimension(200, 28));
 
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("Nhập căn cước công dân hoặc hộ chiếu");
@@ -276,28 +276,30 @@ public class UserAddPanel extends javax.swing.JPanel
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 4, 4, new java.awt.Color(204, 225, 255)));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jPanel2.setPreferredSize(new java.awt.Dimension(390, 391));
 
         jLabel1.setText("Họ và tên:");
 
         jTextField_Name.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField_Name.setPreferredSize(new java.awt.Dimension(3, 28));
+        jTextField_Name.setPreferredSize(new java.awt.Dimension(200, 28));
 
         jLabel4.setText("Chức vụ:");
 
         jLabel10.setText("Tài khoản:");
 
         jTextField_Username.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField_Username.setPreferredSize(new java.awt.Dimension(3, 28));
+        jTextField_Username.setPreferredSize(new java.awt.Dimension(200, 28));
 
         jLabel11.setText("Mật khẩu:");
 
         jPasswordField_Pass.setText("jPasswordField1");
+        jPasswordField_Pass.setPreferredSize(new java.awt.Dimension(200, 28));
 
         jLabel12.setText("Nhập lại MK:");
 
         jPasswordField2.setText("jPasswordField1");
+        jPasswordField2.setPreferredSize(new java.awt.Dimension(200, 28));
 
         jLabel13.setBackground(new java.awt.Color(255, 255, 255));
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
@@ -323,10 +325,11 @@ public class UserAddPanel extends javax.swing.JPanel
 
         jComboBox_Position.setBackground(new java.awt.Color(255, 255, 255));
         jComboBox_Position.setEditable(true);
-        jComboBox_Position.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_Position.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Giám đốc", "Quản lý", "Thủ thư" }));
+        jComboBox_Position.setSelectedIndex(2);
         jComboBox_Position.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jComboBox_Position.setMinimumSize(new java.awt.Dimension(66, 28));
-        jComboBox_Position.setPreferredSize(new java.awt.Dimension(126, 28));
+        jComboBox_Position.setPreferredSize(new java.awt.Dimension(200, 28));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -343,7 +346,7 @@ public class UserAddPanel extends javax.swing.JPanel
                 .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
                     .addComponent(jTextField_Name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPasswordField_Pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -352,7 +355,7 @@ public class UserAddPanel extends javax.swing.JPanel
                     .addComponent(jTextField_Username, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
                     .addComponent(jComboBox_Position, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -387,7 +390,7 @@ public class UserAddPanel extends javax.swing.JPanel
                     .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));

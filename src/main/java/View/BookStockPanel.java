@@ -6,11 +6,22 @@
 package View;
 
 import Controller.BooksJpaController;
+import Controller.exceptions.NonexistentEntityException;
 import Model.Books;
 import Utility.CustomTableModel;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -22,15 +33,26 @@ public class BookStockPanel extends javax.swing.JPanel
     /**
      * Creates new form BookStore
      */
-    ArrayList<Books> bookList = new ArrayList<>();
+    ArrayList<Books> bookList;
+    int newWidth;
+    int newHeight;
 
-    public BookStockPanel()
+    int maxPage = 1;
+    int currentPage = 1;
+    int maxRow;
+
+    public BookStockPanel(int width, int height)
     {
         initComponents();
 
+        newHeight = height;
+        newWidth = width;
+
         customizePalette();
 
-        populateTable();
+        customizeTable();
+
+        populateTable(currentPage);
     }
 
     /**
@@ -40,24 +62,110 @@ public class BookStockPanel extends javax.swing.JPanel
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents()
     {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanelTable = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanelTop = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         bookTitleName = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        btnDelete = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
+        jPanelTable = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel_Paging = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel3 = new javax.swing.JLabel();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jPanel_PageNo = new javax.swing.JPanel();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel_Next = new javax.swing.JLabel();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel4 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         setName("Kho sách"); // NOI18N
+
+        jPanelTop.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelTop.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jPanelTop.setPreferredSize(new java.awt.Dimension(373, 50));
+
+        jLabel1.setText("Nhập tên:");
+        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+
+        bookTitleName.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        bookTitleName.setPreferredSize(new java.awt.Dimension(200, 28));
+
+        btnDelete.setBackground(new java.awt.Color(255, 123, 255));
+        btnDelete.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        btnDelete.setForeground(new java.awt.Color(161, 38, 13));
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_trash_can_16px_1.png"))); // NOI18N
+        btnDelete.setText("Xóa");
+        btnDelete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(161, 38, 13)));
+        btnDelete.setContentAreaFilled(false);
+        btnDelete.setIconTextGap(10);
+        btnDelete.setPreferredSize(new java.awt.Dimension(90, 28));
+        btnDelete.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        btnAdd.setBackground(new java.awt.Color(0, 255, 51));
+        btnAdd.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        btnAdd.setForeground(new java.awt.Color(56, 138, 52));
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_plus_math_16px.png"))); // NOI18N
+        btnAdd.setText("Thêm");
+        btnAdd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(56, 138, 52)));
+        btnAdd.setContentAreaFilled(false);
+        btnAdd.setIconTextGap(10);
+        btnAdd.setPreferredSize(new java.awt.Dimension(90, 30));
+        btnAdd.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnAddActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelTopLayout = new javax.swing.GroupLayout(jPanelTop);
+        jPanelTop.setLayout(jPanelTopLayout);
+        jPanelTopLayout.setHorizontalGroup(
+            jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTopLayout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(bookTitleName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanelTopLayout.setVerticalGroup(
+            jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTopLayout.createSequentialGroup()
+                .addGap(7, 7, 7)
+                .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(bookTitleName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13))
+        );
 
         jPanelTable.setBackground(new java.awt.Color(255, 255, 255));
         jPanelTable.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jPanelTable.setPreferredSize(new java.awt.Dimension(750, 430));
 
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jTable1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -82,7 +190,7 @@ public class BookStockPanel extends javax.swing.JPanel
             }
         });
         jTable1.setFillsViewportHeight(true);
-        jTable1.setGridColor(new java.awt.Color(33, 115, 247));
+        jTable1.setGridColor(new java.awt.Color(204, 204, 255));
         jTable1.setRowHeight(28);
         jTable1.setShowGrid(true);
         jTable1.setShowVerticalLines(false);
@@ -93,107 +201,114 @@ public class BookStockPanel extends javax.swing.JPanel
         jPanelTableLayout.setHorizontalGroup(
             jPanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTableLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 748, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         jPanelTableLayout.setVerticalGroup(
             jPanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTableLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
-        jPanelTop.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel_Paging.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel_Paging.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jPanel_Paging.setPreferredSize(new java.awt.Dimension(100, 40));
+        jPanel_Paging.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText("Tên đầu sách");
-        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel1.setBackground(new java.awt.Color(102, 255, 102));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jPanel1.setPreferredSize(new java.awt.Dimension(300, 40));
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
-        bookTitleName.addActionListener(new java.awt.event.ActionListener()
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 83, 156));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Đầu");
+        jLabel2.setPreferredSize(new java.awt.Dimension(35, 30));
+        jPanel1.add(jLabel2);
+        jPanel1.add(filler1);
+
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_less_than_16px.png"))); // NOI18N
+        jLabel3.setPreferredSize(new java.awt.Dimension(25, 30));
+        jPanel1.add(jLabel3);
+        jPanel1.add(filler2);
+
+        jPanel_PageNo.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel_PageNo.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jPanel_PageNo.setPreferredSize(new java.awt.Dimension(117, 40));
+        jPanel_PageNo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 12, 8));
+        jPanel1.add(jPanel_PageNo);
+        jPanel1.add(filler5);
+
+        jLabel_Next.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_Next.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_more_than_16px.png"))); // NOI18N
+        jLabel_Next.setPreferredSize(new java.awt.Dimension(25, 30));
+        jLabel_Next.addMouseListener(new java.awt.event.MouseAdapter()
         {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
+            public void mouseClicked(java.awt.event.MouseEvent evt)
             {
-                bookTitleNameActionPerformed(evt);
+                jLabel_NextMouseClicked(evt);
             }
         });
+        jPanel1.add(jLabel_Next);
+        jPanel1.add(filler4);
 
-        jLabel2.setText("Tên tác giả");
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 83, 156));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Cuối");
+        jLabel4.setPreferredSize(new java.awt.Dimension(35, 30));
+        jPanel1.add(jLabel4);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-
-        btnAdd.setText("Thêm mới");
-        btnAdd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnAdd.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                btnAddActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanelTopLayout = new javax.swing.GroupLayout(jPanelTop);
-        jPanelTop.setLayout(jPanelTopLayout);
-        jPanelTopLayout.setHorizontalGroup(
-            jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelTopLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bookTitleName, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanelTopLayout.setVerticalGroup(
-            jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelTopLayout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(bookTitleName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        jPanel_Paging.add(jPanel1, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelTop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addComponent(jPanelTop, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
+            .addComponent(jPanelTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel_Paging, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanelTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(20, 20, 20)
                 .addComponent(jPanelTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(0, 0, 0)
+                .addComponent(jPanel_Paging, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bookTitleNameActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_bookTitleNameActionPerformed
-    {//GEN-HEADEREND:event_bookTitleNameActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnDeleteActionPerformed
+    {//GEN-HEADEREND:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_bookTitleNameActionPerformed
+        long id = (long) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 6);
+
+        try
+        {
+            BooksJpaController.destroy(id);
+
+            populateTable(currentPage);
+            JOptionPane.showMessageDialog(null, "Xóa thông tin thành công", "Thông báo", JOptionPane.OK_OPTION);
+        }
+        catch (NonexistentEntityException ex)
+        {
+            Logger.getLogger(BookStockPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnAddActionPerformed
     {//GEN-HEADEREND:event_btnAddActionPerformed
@@ -201,43 +316,80 @@ public class BookStockPanel extends javax.swing.JPanel
         //        bookTitleCreate.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jComboBox1ActionPerformed
-    {//GEN-HEADEREND:event_jComboBox1ActionPerformed
+    private void jLabel_NextMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_NextMouseClicked
+    {//GEN-HEADEREND:event_jLabel_NextMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+        
+        currentPage += 1;
+        
+        if (currentPage % 3 != 1) // currentPage + 1 not 
+        {
+            populateTable(currentPage);
+        }
+        else
+        {
+            JLabel pageNo = createPageNumber(currentPage);
+        
+            if (jPanel_Paging.getComponentCount() == 3)
+            {
+                jPanel_Paging.remove(0);
+            }
+
+            jPanel_Paging.add(pageNo);
+            jPanel_Paging.revalidate();
+            
+            populateTable(currentPage);
+        }
+    }//GEN-LAST:event_jLabel_NextMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bookTitleName;
     private javax.swing.JButton btnAdd;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel_Next;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelTable;
     private javax.swing.JPanel jPanelTop;
+    private javax.swing.JPanel jPanel_PageNo;
+    private javax.swing.JPanel jPanel_Paging;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
     private void customizePalette()
     {
-        btnAdd.setBorderPainted(true);
-        btnAdd.setFocusPainted(false);  
-        btnAdd.setContentAreaFilled(false);
 
         jTable1.getTableHeader().setOpaque(false);
+
+        // Design table header
+        JTableHeader header = jTable1.getTableHeader();
+        header.setOpaque(false);
+        header.setBackground(new Color(135, 178, 253));
+        header.setForeground(Color.white);
+
+        header.setPreferredSize(new Dimension(454, 34));
+        header.setFont(new Font("sansserif", Font.PLAIN, 12));
     }
 
-    private void populateTable()
+    private void populateTable(int page)
     {
-        bookList = new ArrayList<>(BooksJpaController.findBooksEntities());
         String[] columnName =
         {
-            "No.", "Tên sách", "Mã sách", "Tác giả", "Ngày nhập", "Trạng thái"
+            "#", "Tên sách", "Mã sách", "Tác giả", "Ngày nhập", "Trạng thái", "Id"
         };
 
         // Create model booktitles by creating anonymous nest class of CustomTableModel<T>
-        CustomTableModel<Books> model = new CustomTableModel<Books>(bookList, columnName)
+        CustomTableModel<Books> model = new CustomTableModel<Books>(bookList.size() <= maxRow
+                ? bookList : bookList.subList(maxRow * page - maxRow, maxRow * page), columnName)
         {
             @Override
             public Object getValueAt(int rowIndex, int columnIndex)
@@ -247,21 +399,21 @@ public class BookStockPanel extends javax.swing.JPanel
                 switch (columnIndex)
                 {
                     case 0:
-                        return temp = rowIndex + 1;
+                        return temp = rowIndex + 1 + maxRow * page - maxRow;
                     case 1:
                         return temp = book.getBookTitleId().getTitle();
                     case 2:
-                        return temp = book.getCode();                        
+                        return temp = book.getCode();
                     case 3:
                         var list = book.getBookTitleId().getBooksByAuthorsList();
-                        
+
                         List<String> strings = new ArrayList<>();
-                        
+
                         list.forEach((authorBook) ->
                         {
                             strings.add(authorBook.getAuthorId().getFullName());
                         });
-                        
+
                         return temp = String.join(", ", strings);
                     case 4:
                         return temp = book.getCreatedDate();
@@ -274,6 +426,8 @@ public class BookStockPanel extends javax.swing.JPanel
                         {
                             return temp = "OK";
                         }
+                    case 6:
+                        return temp = book.getId();
                     default:
                         throw new ArrayIndexOutOfBoundsException(columnIndex);
                 }
@@ -284,11 +438,91 @@ public class BookStockPanel extends javax.swing.JPanel
         jTable1.setModel(model);
 
         jScrollPane1.getViewport().add(jTable1);
+        customizeColumn();
         jPanelTable.setLayout(new BorderLayout());
         jPanelTable.add(jScrollPane1);
         jPanelTable.validate();
 
         jPanelTable.setVisible(true);
+    }
+
+    private void customizeColumn()
+    {
+        int remainWidth = newWidth - 30 - 120 - 120 - 100 - 0;
+        int autoSize = Math.round(remainWidth * 0.6f);
+
+        int[] columnWidth =
+        {
+            30, autoSize, 120, remainWidth - autoSize, 120, 100, 0
+        };
+
+        //Design table column
+        TableColumnModel columnModel = jTable1.getColumnModel();
+        for (int i = 0; i < columnWidth.length; i++)
+        {
+            var column = columnModel.getColumn(i);
+            column.setMinWidth(columnWidth[i]);
+            column.setMaxWidth(columnWidth[i]);
+            column.setPreferredWidth(columnWidth[i]);
+        }
+    }
+
+    private JLabel createPageNumber(int number)
+    {
+        JLabel pageLabel = new JLabel();
+        pageLabel.setName(String.valueOf(number));
+        pageLabel.setFont(new java.awt.Font("sansserif", 0, 16)); // NOI18N
+        pageLabel.setForeground(new java.awt.Color(0, 83, 156));
+        pageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pageLabel.setText(String.valueOf(number));
+        pageLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        pageLabel.setPreferredSize(new java.awt.Dimension(27, 24));
+
+        pageLabel.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                PageNumber_MouseClicked(evt);
+            }
+
+        });
+
+        return pageLabel;
+    }
+
+    private void PageNumber_MouseClicked(MouseEvent evt)
+    {
+        currentPage = Integer.parseInt(evt.getComponent().getName());
+        populateTable(currentPage);
+    }
+
+    private void customizeTable()
+    {
+        // Get data
+        bookList = new ArrayList<>(BooksJpaController.findBooksEntities());
+        maxRow = (newHeight - this.getPreferredSize().height + jScrollPane1.getViewport().getPreferredSize().height) / 28;
+
+        // Get number of pages
+        if (bookList.isEmpty())
+        {
+            maxPage = 1;
+        }
+        else
+        {
+            maxPage = bookList.size() % maxRow == 0 ? bookList.size() / maxRow : bookList.size() / maxRow + 1;
+        }
+
+        // Create paging bar
+        for (int i = 1; i <= maxPage; i++)
+        {
+            jPanel_PageNo.add(createPageNumber(i));
+
+            if (i == 3)
+            {
+                break;
+            }
+        }
     }
 
 }
