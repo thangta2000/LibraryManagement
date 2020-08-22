@@ -6,7 +6,6 @@
     <class>Model.Authors</class>
     <class>Model.Books</class>
     <class>Model.Borrows</class>
-    <class>Model.BookRequests</class>
     <class>Model.Publishers</class>
     <class>Model.BooksByAuthors</class>
     <class>Model.Countries</class>

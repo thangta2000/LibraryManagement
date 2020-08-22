@@ -144,15 +144,15 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel22" alignment="0" min="-2" pref="202" max="-2" attributes="0"/>
+                                      <Component id="jLabel_Address" alignment="0" min="-2" pref="202" max="-2" attributes="0"/>
                                       <Component id="jTextField_BirthDate" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                      <Component id="jLabel20" alignment="0" min="-2" pref="202" max="-2" attributes="0"/>
+                                      <Component id="jLabel_BirthDate" alignment="0" min="-2" pref="202" max="-2" attributes="0"/>
                                       <Component id="jTextField_Address" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                      <Component id="jLabel18" alignment="0" min="-2" pref="233" max="-2" attributes="0"/>
+                                      <Component id="jLabel_IdCard" alignment="0" min="-2" pref="233" max="-2" attributes="0"/>
                                       <Component id="jTextField_Country" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                                           <Component id="jTextField_IdCard" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jLabel19" alignment="0" pref="202" max="32767" attributes="0"/>
+                                          <Component id="jLabel_10" alignment="0" pref="202" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="jRadioButton_Male" min="-2" max="-2" attributes="0"/>
@@ -164,10 +164,10 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel23" alignment="0" min="-2" pref="202" max="-2" attributes="0"/>
+                                      <Component id="jLabel_Email" alignment="0" min="-2" pref="202" max="-2" attributes="0"/>
                                       <Component id="jTextField_Email" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                                       <Component id="jTextField_Tel" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                      <Component id="jLabel24" alignment="0" min="-2" pref="202" max="-2" attributes="0"/>
+                                      <Component id="jLabel_Tel" alignment="0" min="-2" pref="202" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -187,21 +187,21 @@
                       <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel19" min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="jLabel_10" min="-2" pref="26" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jTextField_IdCard" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel18" min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="jLabel_IdCard" min="-2" pref="26" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jTextField_BirthDate" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel20" min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="jLabel_BirthDate" min="-2" pref="26" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -214,21 +214,21 @@
                       <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel22" min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="jLabel_Address" min="-2" pref="26" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jTextField_Email" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel23" min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="jLabel_Email" min="-2" pref="26" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jTextField_Tel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel24" min="-2" pref="18" max="-2" attributes="0"/>
+                  <Component id="jLabel_Tel" min="-2" pref="18" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -247,6 +247,7 @@
                 <LineBorder/>
               </Border>
             </Property>
+            <Property name="name" type="java.lang.String" value="idcard" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 28]"/>
             </Property>
@@ -265,6 +266,7 @@
                 <LineBorder/>
               </Border>
             </Property>
+            <Property name="name" type="java.lang.String" value="tel" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 28]"/>
             </Property>
@@ -287,6 +289,7 @@
                 <LineBorder/>
               </Border>
             </Property>
+            <Property name="name" type="java.lang.String" value="address" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 28]"/>
             </Property>
@@ -304,6 +307,7 @@
                 <LineBorder/>
               </Border>
             </Property>
+            <Property name="name" type="java.lang.String" value="email" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 28]"/>
             </Property>
@@ -322,6 +326,7 @@
                 <LineBorder/>
               </Border>
             </Property>
+            <Property name="name" type="java.lang.String" value="birthday" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 28]"/>
             </Property>
@@ -345,18 +350,19 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel18">
+        <Component class="javax.swing.JLabel" name="jLabel_IdCard">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Nh&#x1ead;p c&#x103;n c&#x1b0;&#x1edb;c c&#xf4;ng d&#xe2;n ho&#x1eb7;c h&#x1ed9; chi&#x1ebf;u"/>
+            <Property name="name" type="java.lang.String" value="idcard" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[73, 28]"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel19">
+        <Component class="javax.swing.JLabel" name="jLabel_10">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -367,45 +373,49 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel20">
+        <Component class="javax.swing.JLabel" name="jLabel_BirthDate">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Nh&#x1ead;p ng&#xe0;y sinh."/>
+            <Property name="name" type="java.lang.String" value="birthday" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[73, 28]"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel22">
+        <Component class="javax.swing.JLabel" name="jLabel_Address">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Nh&#x1ead;p &#x111;&#x1ecb;a ch&#x1ec9;."/>
+            <Property name="name" type="java.lang.String" value="address" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[73, 28]"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel23">
+        <Component class="javax.swing.JLabel" name="jLabel_Email">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Nh&#x1ead;p email."/>
+            <Property name="name" type="java.lang.String" value="email" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[73, 28]"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel24">
+        <Component class="javax.swing.JLabel" name="jLabel_Tel">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Nh&#x1ead;p &#x111;i&#x1ec7;n tho&#x1ea1;i."/>
+            <Property name="name" type="java.lang.String" value="tel" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[73, 28]"/>
             </Property>
@@ -469,18 +479,18 @@
                   </Group>
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jLabel13" alignment="0" pref="202" max="32767" attributes="0"/>
-                      <Component id="jPasswordField2" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel17" alignment="0" pref="202" max="32767" attributes="0"/>
+                      <Component id="jLabel_Name" alignment="0" pref="202" max="32767" attributes="0"/>
+                      <Component id="jPasswordField_Retype" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel_Pass" alignment="0" pref="202" max="32767" attributes="0"/>
                       <Component id="jTextField_Name" alignment="0" max="32767" attributes="0"/>
                       <Component id="jPasswordField_Pass" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel14" alignment="0" pref="202" max="32767" attributes="0"/>
+                      <Component id="jLabel_Username" alignment="0" pref="202" max="32767" attributes="0"/>
                       <Component id="jLabel16" alignment="0" max="32767" attributes="0"/>
                       <Component id="jTextField_Username" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jLabel15" alignment="0" pref="202" max="32767" attributes="0"/>
+                      <Component id="jLabel_Retype" alignment="0" pref="202" max="32767" attributes="0"/>
                       <Component id="jComboBox_Position" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="95" max="32767" attributes="0"/>
+                  <EmptySpace pref="97" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -493,7 +503,7 @@
                       <Component id="jTextField_Name" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel13" min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="jLabel_Name" min="-2" pref="26" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -507,21 +517,21 @@
                       <Component id="jTextField_Username" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel14" min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="jLabel_Username" min="-2" pref="26" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jPasswordField_Pass" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel17" min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="jLabel_Pass" min="-2" pref="26" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jPasswordField2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jPasswordField_Retype" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel15" min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="jLabel_Retype" min="-2" pref="26" max="-2" attributes="0"/>
                   <EmptySpace pref="53" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -540,6 +550,7 @@
                 <LineBorder/>
               </Border>
             </Property>
+            <Property name="name" type="java.lang.String" value="name" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 28]"/>
             </Property>
@@ -575,6 +586,7 @@
         <Component class="javax.swing.JPasswordField" name="jPasswordField_Pass">
           <Properties>
             <Property name="text" type="java.lang.String" value="jPasswordField1"/>
+            <Property name="name" type="java.lang.String" value="pass" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 28]"/>
             </Property>
@@ -585,15 +597,16 @@
             <Property name="text" type="java.lang.String" value="Nh&#x1ead;p l&#x1ea1;i MK:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JPasswordField" name="jPasswordField2">
+        <Component class="javax.swing.JPasswordField" name="jPasswordField_Retype">
           <Properties>
             <Property name="text" type="java.lang.String" value="jPasswordField1"/>
+            <Property name="name" type="java.lang.String" value="retype" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 28]"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel13">
+        <Component class="javax.swing.JLabel" name="jLabel_Name">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -602,29 +615,32 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Nh&#x1ead;p h&#x1ecd; t&#xea;n."/>
+            <Property name="name" type="java.lang.String" value="name" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[73, 28]"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel14">
+        <Component class="javax.swing.JLabel" name="jLabel_Username">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Nh&#x1ead;p t&#xea;n t&#xe0;i kho&#x1ea3;n."/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
+            <Property name="name" type="java.lang.String" value="username" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[73, 28]"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel15">
+        <Component class="javax.swing.JLabel" name="jLabel_Retype">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Nh&#x1ead;p l&#x1ea1;i m&#x1ead;t kh&#x1ea9;u."/>
+            <Property name="name" type="java.lang.String" value="retype" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[73, 28]"/>
             </Property>
@@ -641,12 +657,13 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel17">
+        <Component class="javax.swing.JLabel" name="jLabel_Pass">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Nh&#x1ead;p m&#x1ead;t kh&#x1ea9;u."/>
+            <Property name="name" type="java.lang.String" value="pass" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[73, 28]"/>
             </Property>

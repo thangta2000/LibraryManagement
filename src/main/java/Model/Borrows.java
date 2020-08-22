@@ -37,6 +37,7 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Borrows.findByReturnDate", query = "SELECT b FROM Borrows b WHERE b.returnDate = :returnDate"),
     @NamedQuery(name = "Borrows.findByChargeFee", query = "SELECT b FROM Borrows b WHERE b.chargeFee = :chargeFee"),
     @NamedQuery(name = "Borrows.findByChargeReason", query = "SELECT b FROM Borrows b WHERE b.chargeReason = :chargeReason"),
+    @NamedQuery(name = "Borrows.findByReader", query = "SELECT b FROM Borrows b WHERE b.readerId = :readerId"),
     @NamedQuery(name = "Borrows.findByBookId", query = "SELECT b FROM Borrows b WHERE b.bookId = :bookId AND b.returnDate IS NULL")
 })
 public class Borrows implements Serializable

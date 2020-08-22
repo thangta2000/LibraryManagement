@@ -10,13 +10,14 @@ import Controller.ReadersJpaController;
 import Controller.exceptions.NonexistentEntityException;
 import Model.BookTitles;
 import Model.Readers;
-import Utility.CustomTableModel;
+import Materials.CustomTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -40,7 +41,7 @@ public class ReaderPanel extends javax.swing.JPanel
     List<Readers> readers;
     int newHeight;
     int newWidth;
-    
+
     int maxPage = 1;
     int currentPage = 1;
     int maxRow;
@@ -105,6 +106,7 @@ public class ReaderPanel extends javax.swing.JPanel
         jLabel1.setText("Nhập tên:");
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
+        bookTitleName.setBackground(new java.awt.Color(255, 255, 255));
         bookTitleName.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         bookTitleName.setPreferredSize(new java.awt.Dimension(200, 28));
 
@@ -132,6 +134,7 @@ public class ReaderPanel extends javax.swing.JPanel
         btnEdit.setText("Sửa");
         btnEdit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 83, 156)));
         btnEdit.setContentAreaFilled(false);
+        btnEdit.setEnabled(false);
         btnEdit.setIconTextGap(10);
         btnEdit.setPreferredSize(new java.awt.Dimension(90, 28));
         btnEdit.addActionListener(new java.awt.event.ActionListener()
@@ -149,6 +152,7 @@ public class ReaderPanel extends javax.swing.JPanel
         btnDelete.setText("Xóa");
         btnDelete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(161, 38, 13)));
         btnDelete.setContentAreaFilled(false);
+        btnDelete.setEnabled(false);
         btnDelete.setIconTextGap(10);
         btnDelete.setPreferredSize(new java.awt.Dimension(90, 28));
         btnDelete.addActionListener(new java.awt.event.ActionListener()
@@ -196,6 +200,7 @@ public class ReaderPanel extends javax.swing.JPanel
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
+        jTable1.setBackground(new java.awt.Color(255, 255, 255));
         jTable1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -223,6 +228,13 @@ public class ReaderPanel extends javax.swing.JPanel
         jTable1.setRowHeight(28);
         jTable1.setShowGrid(true);
         jTable1.setShowVerticalLines(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanelTableLayout = new javax.swing.GroupLayout(jPanelTable);
@@ -349,7 +361,7 @@ public class ReaderPanel extends javax.swing.JPanel
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnAddActionPerformed
     {//GEN-HEADEREND:event_btnAddActionPerformed
         ReaderAddPanel readerAdd = new ReaderAddPanel();
-        
+
         // Open readerAdd in new tab
         Home topFrame = (Home) this.getTopLevelAncestor();
         topFrame.addCard(readerAdd);
@@ -361,9 +373,9 @@ public class ReaderPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_btnEditActionPerformed
         // TODO add your handling code here:
         int id = (int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 11);
-        
+
         ReaderEditPanel panel = new ReaderEditPanel(id);
-        
+
         // Open panel in new tab
         Home topFrame = (Home) this.getTopLevelAncestor();
         topFrame.addCard(panel);
@@ -375,19 +387,12 @@ public class ReaderPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         int id = (int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 11);
-        
-        try
-        {
-            ReadersJpaController.destroy(id);
-            
-            populateTable(currentPage);
-            
-            JOptionPane.showMessageDialog(null, "Xóa thông tin thành công", "Thông báo", JOptionPane.OK_OPTION);
-        }
-        catch (NonexistentEntityException ex)
-        {
-            Logger.getLogger(ReaderPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        ReadersJpaController.deleteSafe(id);
+
+        populateTable(currentPage);
+
+        JOptionPane.showMessageDialog(null, "Xóa thông tin thành công", "Thông báo", JOptionPane.OK_OPTION);
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void jLabel_FirstMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_FirstMouseClicked
@@ -530,6 +535,16 @@ public class ReaderPanel extends javax.swing.JPanel
         jPanel_PageNo.revalidate();
     }//GEN-LAST:event_jLabel_LastMouseClicked
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTable1MouseClicked
+    {//GEN-HEADEREND:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        if (jTable1.getSelectedRow() >= 0)
+        {
+            btnEdit.setEnabled(true);
+            btnDelete.setEnabled(true);
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bookTitleName;
@@ -572,8 +587,6 @@ public class ReaderPanel extends javax.swing.JPanel
 
     private void populateTable(int page)
     {
-        
-
         String[] columnName =
         {
             "No.", "Tên", "Số thẻ", "Quốc tịch", "Số CCCD", "Ngày sinh", "Giới tính", "Địa chỉ", "Điện thoại", "Nghề nghiệp", "Cơ quan", "Id"
@@ -601,7 +614,8 @@ public class ReaderPanel extends javax.swing.JPanel
                     case 4:
                         return temp = reader.getIdentityCard();
                     case 5:
-                        return temp = reader.getBirthDay();
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                        return temp = formatter.format(reader.getBirthDay());
                     case 6:
                         return temp = reader.getGender() ? "Nam" : "Nữ";
                     case 7:
@@ -652,7 +666,7 @@ public class ReaderPanel extends javax.swing.JPanel
             column.setPreferredWidth(columnWidth[i]);
         }
     }
-    
+
     private JLabel createPageNumber(int number)
     {
         JLabel pageLabel = new JLabel();

@@ -14,7 +14,7 @@ import javax.persistence.criteria.Root;
 import Model.Books;
 import Model.Borrows;
 import Model.Readers;
-import Utility.Factory;
+import Materials.Factory;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -276,6 +276,35 @@ public class BorrowsJpaController implements Serializable
             }
             
             return obj;
+        }
+        finally
+        {
+            em.close();
+        }
+    }
+    
+    public static List<Borrows> findListBorrow(Integer readerId)
+    {
+        EntityManager em = getEntityManager();
+        try
+        {
+            TypedQuery<Borrows> query = em.createNamedQuery("Borrows.findByReader", Borrows.class);
+            query.setParameter("readerId", readerId);
+            
+            List<Borrows> list;
+            
+            var result = query.getResultList();
+            
+            if (result != null)
+            {
+                list = result;
+            }
+            else
+            {
+                list = null;
+            }
+            
+            return list;
         }
         finally
         {

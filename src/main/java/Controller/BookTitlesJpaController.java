@@ -18,10 +18,10 @@ import Model.Publishers;
 import Model.Books;
 import java.util.ArrayList;
 import java.util.List;
-import Model.BooksByAuthors;
-import Utility.Factory;
+import Materials.Factory;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 
 /**
  *
@@ -41,21 +41,16 @@ public class BookTitlesJpaController implements Serializable
 //    {
 //        return emf.createEntityManager();
 //    }
-
     public static EntityManager getEntityManager()
     {
         return Factory.getEntityManager();
     }
-    
+
     public static void create(BookTitles bookTitles)
     {
         if (bookTitles.getBooksList() == null)
         {
             bookTitles.setBooksList(new ArrayList<Books>());
-        }
-        if (bookTitles.getBooksByAuthorsList() == null)
-        {
-            bookTitles.setBooksByAuthorsList(new ArrayList<BooksByAuthors>());
         }
         EntityManager em = null;
         try
@@ -87,13 +82,7 @@ public class BookTitlesJpaController implements Serializable
                 attachedBooksList.add(booksListBooksToAttach);
             }
             bookTitles.setBooksList(attachedBooksList);
-            List<BooksByAuthors> attachedBooksByAuthorsList = new ArrayList<BooksByAuthors>();
-            for (BooksByAuthors booksByAuthorsListBooksByAuthorsToAttach : bookTitles.getBooksByAuthorsList())
-            {
-                booksByAuthorsListBooksByAuthorsToAttach = em.getReference(booksByAuthorsListBooksByAuthorsToAttach.getClass(), booksByAuthorsListBooksByAuthorsToAttach.getId());
-                attachedBooksByAuthorsList.add(booksByAuthorsListBooksByAuthorsToAttach);
-            }
-            bookTitles.setBooksByAuthorsList(attachedBooksByAuthorsList);
+            
             em.persist(bookTitles);
             if (categoryId != null)
             {
@@ -121,17 +110,7 @@ public class BookTitlesJpaController implements Serializable
                     oldBookTitleIdOfBooksListBooks = em.merge(oldBookTitleIdOfBooksListBooks);
                 }
             }
-            for (BooksByAuthors booksByAuthorsListBooksByAuthors : bookTitles.getBooksByAuthorsList())
-            {
-                BookTitles oldBookTitleIdOfBooksByAuthorsListBooksByAuthors = booksByAuthorsListBooksByAuthors.getBookTitleId();
-                booksByAuthorsListBooksByAuthors.setBookTitleId(bookTitles);
-                booksByAuthorsListBooksByAuthors = em.merge(booksByAuthorsListBooksByAuthors);
-                if (oldBookTitleIdOfBooksByAuthorsListBooksByAuthors != null)
-                {
-                    oldBookTitleIdOfBooksByAuthorsListBooksByAuthors.getBooksByAuthorsList().remove(booksByAuthorsListBooksByAuthors);
-                    oldBookTitleIdOfBooksByAuthorsListBooksByAuthors = em.merge(oldBookTitleIdOfBooksByAuthorsListBooksByAuthors);
-                }
-            }
+            
             em.getTransaction().commit();
         }
         finally
@@ -159,8 +138,12 @@ public class BookTitlesJpaController implements Serializable
             Publishers publisherIdNew = bookTitles.getPublisherId();
             List<Books> booksListOld = persistentBookTitles.getBooksList();
             List<Books> booksListNew = bookTitles.getBooksList();
-            List<BooksByAuthors> booksByAuthorsListOld = persistentBookTitles.getBooksByAuthorsList();
-            List<BooksByAuthors> booksByAuthorsListNew = bookTitles.getBooksByAuthorsList();
+            
+            if (booksListNew == null)
+            {
+                booksListNew = new ArrayList<>();
+            }
+            
             if (categoryIdNew != null)
             {
                 categoryIdNew = em.getReference(categoryIdNew.getClass(), categoryIdNew.getId());
@@ -184,14 +167,7 @@ public class BookTitlesJpaController implements Serializable
             }
             booksListNew = attachedBooksListNew;
             bookTitles.setBooksList(booksListNew);
-            List<BooksByAuthors> attachedBooksByAuthorsListNew = new ArrayList<BooksByAuthors>();
-            for (BooksByAuthors booksByAuthorsListNewBooksByAuthorsToAttach : booksByAuthorsListNew)
-            {
-                booksByAuthorsListNewBooksByAuthorsToAttach = em.getReference(booksByAuthorsListNewBooksByAuthorsToAttach.getClass(), booksByAuthorsListNewBooksByAuthorsToAttach.getId());
-                attachedBooksByAuthorsListNew.add(booksByAuthorsListNewBooksByAuthorsToAttach);
-            }
-            booksByAuthorsListNew = attachedBooksByAuthorsListNew;
-            bookTitles.setBooksByAuthorsList(booksByAuthorsListNew);
+            
             bookTitles = em.merge(bookTitles);
             if (categoryIdOld != null && !categoryIdOld.equals(categoryIdNew))
             {
@@ -242,28 +218,6 @@ public class BookTitlesJpaController implements Serializable
                     {
                         oldBookTitleIdOfBooksListNewBooks.getBooksList().remove(booksListNewBooks);
                         oldBookTitleIdOfBooksListNewBooks = em.merge(oldBookTitleIdOfBooksListNewBooks);
-                    }
-                }
-            }
-            for (BooksByAuthors booksByAuthorsListOldBooksByAuthors : booksByAuthorsListOld)
-            {
-                if (!booksByAuthorsListNew.contains(booksByAuthorsListOldBooksByAuthors))
-                {
-                    booksByAuthorsListOldBooksByAuthors.setBookTitleId(null);
-                    booksByAuthorsListOldBooksByAuthors = em.merge(booksByAuthorsListOldBooksByAuthors);
-                }
-            }
-            for (BooksByAuthors booksByAuthorsListNewBooksByAuthors : booksByAuthorsListNew)
-            {
-                if (!booksByAuthorsListOld.contains(booksByAuthorsListNewBooksByAuthors))
-                {
-                    BookTitles oldBookTitleIdOfBooksByAuthorsListNewBooksByAuthors = booksByAuthorsListNewBooksByAuthors.getBookTitleId();
-                    booksByAuthorsListNewBooksByAuthors.setBookTitleId(bookTitles);
-                    booksByAuthorsListNewBooksByAuthors = em.merge(booksByAuthorsListNewBooksByAuthors);
-                    if (oldBookTitleIdOfBooksByAuthorsListNewBooksByAuthors != null && !oldBookTitleIdOfBooksByAuthorsListNewBooksByAuthors.equals(bookTitles))
-                    {
-                        oldBookTitleIdOfBooksByAuthorsListNewBooksByAuthors.getBooksByAuthorsList().remove(booksByAuthorsListNewBooksByAuthors);
-                        oldBookTitleIdOfBooksByAuthorsListNewBooksByAuthors = em.merge(oldBookTitleIdOfBooksByAuthorsListNewBooksByAuthors);
                     }
                 }
             }
@@ -332,12 +286,6 @@ public class BookTitlesJpaController implements Serializable
                 booksListBooks.setBookTitleId(null);
                 booksListBooks = em.merge(booksListBooks);
             }
-            List<BooksByAuthors> booksByAuthorsList = bookTitles.getBooksByAuthorsList();
-            for (BooksByAuthors booksByAuthorsListBooksByAuthors : booksByAuthorsList)
-            {
-                booksByAuthorsListBooksByAuthors.setBookTitleId(null);
-                booksByAuthorsListBooksByAuthors = em.merge(booksByAuthorsListBooksByAuthors);
-            }
             em.remove(bookTitles);
             em.getTransaction().commit();
         }
@@ -366,9 +314,20 @@ public class BookTitlesJpaController implements Serializable
         try
         {
             List<BookTitles> result;
-            
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(BookTitles.class));
+
+//            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+//            cq.select(cq.from(BookTitles.class)).where(em.getCriteriaBuilder().equal(cq.from(BookTitles.class).get("status"), 1));
+//            Query q = em.createQuery(cq);
+//            if (!all)
+//            {
+//                q.setMaxResults(maxResults);
+//                q.setFirstResult(firstResult);
+//            }
+//            return result = q.getResultList();
+            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+            CriteriaQuery<BookTitles> cq = criteriaBuilder.createQuery(BookTitles.class);
+            Root<BookTitles> root = cq.from(BookTitles.class);
+            cq.select(root).where(criteriaBuilder.isNull(root.get("status")));
             Query q = em.createQuery(cq);
             if (!all)
             {
@@ -412,5 +371,22 @@ public class BookTitlesJpaController implements Serializable
             em.close();
         }
     }
-    
+
+    public static void deleteSafe(Integer id)
+    {
+        EntityManager em = getEntityManager();
+        try
+        {
+            TypedQuery<BookTitles> query = em.createNamedQuery("BookTitles.updateStatus", BookTitles.class);
+
+            query.setParameter("id", id);
+
+            query.executeUpdate();
+        }
+        finally
+        {
+            em.close();
+        }
+    }
+
 }

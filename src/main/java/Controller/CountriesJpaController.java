@@ -14,13 +14,11 @@ import javax.persistence.criteria.Root;
 import Model.Staffs;
 import java.util.ArrayList;
 import java.util.List;
-import Model.Authors;
 import Model.BookTitles;
 import Model.Readers;
 import Model.Publishers;
-import Model.BookRequests;
 import Model.Countries;
-import Utility.Factory;
+import Materials.Factory;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
@@ -54,10 +52,6 @@ public class CountriesJpaController implements Serializable
         {
             countries.setStaffsList(new ArrayList<Staffs>());
         }
-        if (countries.getAuthorsList() == null)
-        {
-            countries.setAuthorsList(new ArrayList<Authors>());
-        }
         if (countries.getBookTitlesList() == null)
         {
             countries.setBookTitlesList(new ArrayList<BookTitles>());
@@ -69,10 +63,6 @@ public class CountriesJpaController implements Serializable
         if (countries.getPublishersList() == null)
         {
             countries.setPublishersList(new ArrayList<Publishers>());
-        }
-        if (countries.getBookRequestsList() == null)
-        {
-            countries.setBookRequestsList(new ArrayList<BookRequests>());
         }
         EntityManager em = null;
         try
@@ -86,13 +76,6 @@ public class CountriesJpaController implements Serializable
                 attachedStaffsList.add(staffsListStaffsToAttach);
             }
             countries.setStaffsList(attachedStaffsList);
-            List<Authors> attachedAuthorsList = new ArrayList<Authors>();
-            for (Authors authorsListAuthorsToAttach : countries.getAuthorsList())
-            {
-                authorsListAuthorsToAttach = em.getReference(authorsListAuthorsToAttach.getClass(), authorsListAuthorsToAttach.getId());
-                attachedAuthorsList.add(authorsListAuthorsToAttach);
-            }
-            countries.setAuthorsList(attachedAuthorsList);
             List<BookTitles> attachedBookTitlesList = new ArrayList<BookTitles>();
             for (BookTitles bookTitlesListBookTitlesToAttach : countries.getBookTitlesList())
             {
@@ -114,13 +97,6 @@ public class CountriesJpaController implements Serializable
                 attachedPublishersList.add(publishersListPublishersToAttach);
             }
             countries.setPublishersList(attachedPublishersList);
-            List<BookRequests> attachedBookRequestsList = new ArrayList<BookRequests>();
-            for (BookRequests bookRequestsListBookRequestsToAttach : countries.getBookRequestsList())
-            {
-                bookRequestsListBookRequestsToAttach = em.getReference(bookRequestsListBookRequestsToAttach.getClass(), bookRequestsListBookRequestsToAttach.getId());
-                attachedBookRequestsList.add(bookRequestsListBookRequestsToAttach);
-            }
-            countries.setBookRequestsList(attachedBookRequestsList);
             em.persist(countries);
             for (Staffs staffsListStaffs : countries.getStaffsList())
             {
@@ -131,17 +107,6 @@ public class CountriesJpaController implements Serializable
                 {
                     oldCountryIdOfStaffsListStaffs.getStaffsList().remove(staffsListStaffs);
                     oldCountryIdOfStaffsListStaffs = em.merge(oldCountryIdOfStaffsListStaffs);
-                }
-            }
-            for (Authors authorsListAuthors : countries.getAuthorsList())
-            {
-                Countries oldCountryIdOfAuthorsListAuthors = authorsListAuthors.getCountryId();
-                authorsListAuthors.setCountryId(countries);
-                authorsListAuthors = em.merge(authorsListAuthors);
-                if (oldCountryIdOfAuthorsListAuthors != null)
-                {
-                    oldCountryIdOfAuthorsListAuthors.getAuthorsList().remove(authorsListAuthors);
-                    oldCountryIdOfAuthorsListAuthors = em.merge(oldCountryIdOfAuthorsListAuthors);
                 }
             }
             for (BookTitles bookTitlesListBookTitles : countries.getBookTitlesList())
@@ -177,17 +142,6 @@ public class CountriesJpaController implements Serializable
                     oldCountryIdOfPublishersListPublishers = em.merge(oldCountryIdOfPublishersListPublishers);
                 }
             }
-            for (BookRequests bookRequestsListBookRequests : countries.getBookRequestsList())
-            {
-                Countries oldCountryIdOfBookRequestsListBookRequests = bookRequestsListBookRequests.getCountryId();
-                bookRequestsListBookRequests.setCountryId(countries);
-                bookRequestsListBookRequests = em.merge(bookRequestsListBookRequests);
-                if (oldCountryIdOfBookRequestsListBookRequests != null)
-                {
-                    oldCountryIdOfBookRequestsListBookRequests.getBookRequestsList().remove(bookRequestsListBookRequests);
-                    oldCountryIdOfBookRequestsListBookRequests = em.merge(oldCountryIdOfBookRequestsListBookRequests);
-                }
-            }
             em.getTransaction().commit();
         }
         finally
@@ -209,16 +163,12 @@ public class CountriesJpaController implements Serializable
             Countries persistentCountries = em.find(Countries.class, countries.getId());
             List<Staffs> staffsListOld = persistentCountries.getStaffsList();
             List<Staffs> staffsListNew = countries.getStaffsList();
-            List<Authors> authorsListOld = persistentCountries.getAuthorsList();
-            List<Authors> authorsListNew = countries.getAuthorsList();
             List<BookTitles> bookTitlesListOld = persistentCountries.getBookTitlesList();
             List<BookTitles> bookTitlesListNew = countries.getBookTitlesList();
             List<Readers> readersListOld = persistentCountries.getReadersList();
             List<Readers> readersListNew = countries.getReadersList();
             List<Publishers> publishersListOld = persistentCountries.getPublishersList();
             List<Publishers> publishersListNew = countries.getPublishersList();
-            List<BookRequests> bookRequestsListOld = persistentCountries.getBookRequestsList();
-            List<BookRequests> bookRequestsListNew = countries.getBookRequestsList();
             List<Staffs> attachedStaffsListNew = new ArrayList<Staffs>();
             for (Staffs staffsListNewStaffsToAttach : staffsListNew)
             {
@@ -227,14 +177,6 @@ public class CountriesJpaController implements Serializable
             }
             staffsListNew = attachedStaffsListNew;
             countries.setStaffsList(staffsListNew);
-            List<Authors> attachedAuthorsListNew = new ArrayList<Authors>();
-            for (Authors authorsListNewAuthorsToAttach : authorsListNew)
-            {
-                authorsListNewAuthorsToAttach = em.getReference(authorsListNewAuthorsToAttach.getClass(), authorsListNewAuthorsToAttach.getId());
-                attachedAuthorsListNew.add(authorsListNewAuthorsToAttach);
-            }
-            authorsListNew = attachedAuthorsListNew;
-            countries.setAuthorsList(authorsListNew);
             List<BookTitles> attachedBookTitlesListNew = new ArrayList<BookTitles>();
             for (BookTitles bookTitlesListNewBookTitlesToAttach : bookTitlesListNew)
             {
@@ -259,14 +201,6 @@ public class CountriesJpaController implements Serializable
             }
             publishersListNew = attachedPublishersListNew;
             countries.setPublishersList(publishersListNew);
-            List<BookRequests> attachedBookRequestsListNew = new ArrayList<BookRequests>();
-            for (BookRequests bookRequestsListNewBookRequestsToAttach : bookRequestsListNew)
-            {
-                bookRequestsListNewBookRequestsToAttach = em.getReference(bookRequestsListNewBookRequestsToAttach.getClass(), bookRequestsListNewBookRequestsToAttach.getId());
-                attachedBookRequestsListNew.add(bookRequestsListNewBookRequestsToAttach);
-            }
-            bookRequestsListNew = attachedBookRequestsListNew;
-            countries.setBookRequestsList(bookRequestsListNew);
             countries = em.merge(countries);
             for (Staffs staffsListOldStaffs : staffsListOld)
             {
@@ -287,28 +221,6 @@ public class CountriesJpaController implements Serializable
                     {
                         oldCountryIdOfStaffsListNewStaffs.getStaffsList().remove(staffsListNewStaffs);
                         oldCountryIdOfStaffsListNewStaffs = em.merge(oldCountryIdOfStaffsListNewStaffs);
-                    }
-                }
-            }
-            for (Authors authorsListOldAuthors : authorsListOld)
-            {
-                if (!authorsListNew.contains(authorsListOldAuthors))
-                {
-                    authorsListOldAuthors.setCountryId(null);
-                    authorsListOldAuthors = em.merge(authorsListOldAuthors);
-                }
-            }
-            for (Authors authorsListNewAuthors : authorsListNew)
-            {
-                if (!authorsListOld.contains(authorsListNewAuthors))
-                {
-                    Countries oldCountryIdOfAuthorsListNewAuthors = authorsListNewAuthors.getCountryId();
-                    authorsListNewAuthors.setCountryId(countries);
-                    authorsListNewAuthors = em.merge(authorsListNewAuthors);
-                    if (oldCountryIdOfAuthorsListNewAuthors != null && !oldCountryIdOfAuthorsListNewAuthors.equals(countries))
-                    {
-                        oldCountryIdOfAuthorsListNewAuthors.getAuthorsList().remove(authorsListNewAuthors);
-                        oldCountryIdOfAuthorsListNewAuthors = em.merge(oldCountryIdOfAuthorsListNewAuthors);
                     }
                 }
             }
@@ -378,28 +290,6 @@ public class CountriesJpaController implements Serializable
                     }
                 }
             }
-            for (BookRequests bookRequestsListOldBookRequests : bookRequestsListOld)
-            {
-                if (!bookRequestsListNew.contains(bookRequestsListOldBookRequests))
-                {
-                    bookRequestsListOldBookRequests.setCountryId(null);
-                    bookRequestsListOldBookRequests = em.merge(bookRequestsListOldBookRequests);
-                }
-            }
-            for (BookRequests bookRequestsListNewBookRequests : bookRequestsListNew)
-            {
-                if (!bookRequestsListOld.contains(bookRequestsListNewBookRequests))
-                {
-                    Countries oldCountryIdOfBookRequestsListNewBookRequests = bookRequestsListNewBookRequests.getCountryId();
-                    bookRequestsListNewBookRequests.setCountryId(countries);
-                    bookRequestsListNewBookRequests = em.merge(bookRequestsListNewBookRequests);
-                    if (oldCountryIdOfBookRequestsListNewBookRequests != null && !oldCountryIdOfBookRequestsListNewBookRequests.equals(countries))
-                    {
-                        oldCountryIdOfBookRequestsListNewBookRequests.getBookRequestsList().remove(bookRequestsListNewBookRequests);
-                        oldCountryIdOfBookRequestsListNewBookRequests = em.merge(oldCountryIdOfBookRequestsListNewBookRequests);
-                    }
-                }
-            }
             em.getTransaction().commit();
         }
         catch (Exception ex)
@@ -447,12 +337,6 @@ public class CountriesJpaController implements Serializable
                 staffsListStaffs.setCountryId(null);
                 staffsListStaffs = em.merge(staffsListStaffs);
             }
-            List<Authors> authorsList = countries.getAuthorsList();
-            for (Authors authorsListAuthors : authorsList)
-            {
-                authorsListAuthors.setCountryId(null);
-                authorsListAuthors = em.merge(authorsListAuthors);
-            }
             List<BookTitles> bookTitlesList = countries.getBookTitlesList();
             for (BookTitles bookTitlesListBookTitles : bookTitlesList)
             {
@@ -470,12 +354,6 @@ public class CountriesJpaController implements Serializable
             {
                 publishersListPublishers.setCountryId(null);
                 publishersListPublishers = em.merge(publishersListPublishers);
-            }
-            List<BookRequests> bookRequestsList = countries.getBookRequestsList();
-            for (BookRequests bookRequestsListBookRequests : bookRequestsList)
-            {
-                bookRequestsListBookRequests.setCountryId(null);
-                bookRequestsListBookRequests = em.merge(bookRequestsListBookRequests);
             }
             em.remove(countries);
             em.getTransaction().commit();

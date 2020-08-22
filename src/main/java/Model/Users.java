@@ -35,6 +35,9 @@ import javax.persistence.Table;
 public class Users implements Serializable
 {
 
+    @Column(name = "Status")
+    private Integer status;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -139,6 +142,16 @@ public class Users implements Serializable
     public String toString()
     {
         return "Model.Users[ id=" + id + " ]";
+    }
+
+    public Integer getStatus()
+    {
+        return status;
+    }
+
+    public void setStatus(Integer status)
+    {
+        this.status = status;
     }
     
 }

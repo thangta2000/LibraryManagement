@@ -12,15 +12,15 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Model.Countries;
-import Model.BookRequests;
 import java.util.ArrayList;
 import java.util.List;
 import Model.Borrows;
 import Model.Readers;
-import Utility.Factory;
+import Materials.Factory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 
 /**
  *
@@ -48,10 +48,6 @@ public class ReadersJpaController implements Serializable
     
     public static void create(Readers readers)
     {
-        if (readers.getBookRequestsList() == null)
-        {
-            readers.setBookRequestsList(new ArrayList<BookRequests>());
-        }
         if (readers.getBorrowsList() == null)
         {
             readers.setBorrowsList(new ArrayList<Borrows>());
@@ -67,14 +63,7 @@ public class ReadersJpaController implements Serializable
                 countryId = em.getReference(countryId.getClass(), countryId.getId());
                 readers.setCountryId(countryId);
             }
-            List<BookRequests> attachedBookRequestsList = new ArrayList<BookRequests>();
-            for (BookRequests bookRequestsListBookRequestsToAttach : readers.getBookRequestsList())
-            {
-                bookRequestsListBookRequestsToAttach = em.getReference(bookRequestsListBookRequestsToAttach.getClass(), bookRequestsListBookRequestsToAttach.getId());
-                attachedBookRequestsList.add(bookRequestsListBookRequestsToAttach);
-            }
-            readers.setBookRequestsList(attachedBookRequestsList);
-            List<Borrows> attachedBorrowsList = new ArrayList<Borrows>();
+            List<Borrows> attachedBorrowsList = new ArrayList<>();
             for (Borrows borrowsListBorrowsToAttach : readers.getBorrowsList())
             {
                 borrowsListBorrowsToAttach = em.getReference(borrowsListBorrowsToAttach.getClass(), borrowsListBorrowsToAttach.getId());
@@ -86,17 +75,6 @@ public class ReadersJpaController implements Serializable
             {
                 countryId.getReadersList().add(readers);
                 countryId = em.merge(countryId);
-            }
-            for (BookRequests bookRequestsListBookRequests : readers.getBookRequestsList())
-            {
-                Readers oldReaderIdOfBookRequestsListBookRequests = bookRequestsListBookRequests.getReaderId();
-                bookRequestsListBookRequests.setReaderId(readers);
-                bookRequestsListBookRequests = em.merge(bookRequestsListBookRequests);
-                if (oldReaderIdOfBookRequestsListBookRequests != null)
-                {
-                    oldReaderIdOfBookRequestsListBookRequests.getBookRequestsList().remove(bookRequestsListBookRequests);
-                    oldReaderIdOfBookRequestsListBookRequests = em.merge(oldReaderIdOfBookRequestsListBookRequests);
-                }
             }
             for (Borrows borrowsListBorrows : readers.getBorrowsList())
             {
@@ -130,24 +108,18 @@ public class ReadersJpaController implements Serializable
             Readers persistentReaders = em.find(Readers.class, readers.getId());
             Countries countryIdOld = persistentReaders.getCountryId();
             Countries countryIdNew = readers.getCountryId();
-            List<BookRequests> bookRequestsListOld = persistentReaders.getBookRequestsList();
-            List<BookRequests> bookRequestsListNew = readers.getBookRequestsList();
             List<Borrows> borrowsListOld = persistentReaders.getBorrowsList();
             List<Borrows> borrowsListNew = readers.getBorrowsList();
+            if (borrowsListNew == null)
+            {
+                borrowsListNew = new ArrayList<>();
+            }
             if (countryIdNew != null)
             {
                 countryIdNew = em.getReference(countryIdNew.getClass(), countryIdNew.getId());
                 readers.setCountryId(countryIdNew);
             }
-            List<BookRequests> attachedBookRequestsListNew = new ArrayList<BookRequests>();
-            for (BookRequests bookRequestsListNewBookRequestsToAttach : bookRequestsListNew)
-            {
-                bookRequestsListNewBookRequestsToAttach = em.getReference(bookRequestsListNewBookRequestsToAttach.getClass(), bookRequestsListNewBookRequestsToAttach.getId());
-                attachedBookRequestsListNew.add(bookRequestsListNewBookRequestsToAttach);
-            }
-            bookRequestsListNew = attachedBookRequestsListNew;
-            readers.setBookRequestsList(bookRequestsListNew);
-            List<Borrows> attachedBorrowsListNew = new ArrayList<Borrows>();
+            List<Borrows> attachedBorrowsListNew = new ArrayList<>();
             for (Borrows borrowsListNewBorrowsToAttach : borrowsListNew)
             {
                 borrowsListNewBorrowsToAttach = em.getReference(borrowsListNewBorrowsToAttach.getClass(), borrowsListNewBorrowsToAttach.getId());
@@ -165,28 +137,6 @@ public class ReadersJpaController implements Serializable
             {
                 countryIdNew.getReadersList().add(readers);
                 countryIdNew = em.merge(countryIdNew);
-            }
-            for (BookRequests bookRequestsListOldBookRequests : bookRequestsListOld)
-            {
-                if (!bookRequestsListNew.contains(bookRequestsListOldBookRequests))
-                {
-                    bookRequestsListOldBookRequests.setReaderId(null);
-                    bookRequestsListOldBookRequests = em.merge(bookRequestsListOldBookRequests);
-                }
-            }
-            for (BookRequests bookRequestsListNewBookRequests : bookRequestsListNew)
-            {
-                if (!bookRequestsListOld.contains(bookRequestsListNewBookRequests))
-                {
-                    Readers oldReaderIdOfBookRequestsListNewBookRequests = bookRequestsListNewBookRequests.getReaderId();
-                    bookRequestsListNewBookRequests.setReaderId(readers);
-                    bookRequestsListNewBookRequests = em.merge(bookRequestsListNewBookRequests);
-                    if (oldReaderIdOfBookRequestsListNewBookRequests != null && !oldReaderIdOfBookRequestsListNewBookRequests.equals(readers))
-                    {
-                        oldReaderIdOfBookRequestsListNewBookRequests.getBookRequestsList().remove(bookRequestsListNewBookRequests);
-                        oldReaderIdOfBookRequestsListNewBookRequests = em.merge(oldReaderIdOfBookRequestsListNewBookRequests);
-                    }
-                }
             }
             for (Borrows borrowsListOldBorrows : borrowsListOld)
             {
@@ -257,12 +207,6 @@ public class ReadersJpaController implements Serializable
                 countryId.getReadersList().remove(readers);
                 countryId = em.merge(countryId);
             }
-            List<BookRequests> bookRequestsList = readers.getBookRequestsList();
-            for (BookRequests bookRequestsListBookRequests : bookRequestsList)
-            {
-                bookRequestsListBookRequests.setReaderId(null);
-                bookRequestsListBookRequests = em.merge(bookRequestsListBookRequests);
-            }
             List<Borrows> borrowsList = readers.getBorrowsList();
             for (Borrows borrowsListBorrows : borrowsList)
             {
@@ -296,8 +240,12 @@ public class ReadersJpaController implements Serializable
         EntityManager em = getEntityManager();
         try
         {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Readers.class));
+//            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+//            cq.select(cq.from(Readers.class)).where(em.getCriteriaBuilder().notEqual(cq.from(Readers.class).get("status"), 0));
+            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+            CriteriaQuery<Readers> cq = criteriaBuilder.createQuery(Readers.class);
+            Root<Readers> root = cq.from(Readers.class);
+            cq.select(root).where(criteriaBuilder.isNull(root.get("status")));
             Query q = em.createQuery(cq);
             if (!all)
             {
@@ -364,6 +312,23 @@ public class ReadersJpaController implements Serializable
             }
             
             return obj;
+        }
+        finally
+        {
+            em.close();
+        }
+    }
+    
+    public static void deleteSafe(Integer id)
+    {
+        EntityManager em = getEntityManager();
+        try
+        {
+            TypedQuery<Readers> query = em.createNamedQuery("Readers.updateStatus", Readers.class);
+            
+            query.setParameter("id", id);
+            
+            query.executeUpdate();
         }
         finally
         {

@@ -34,7 +34,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "BookTitles.findByPublishYear", query = "SELECT b FROM BookTitles b WHERE b.publishYear = :publishYear"),
     @NamedQuery(name = "BookTitles.findByPages", query = "SELECT b FROM BookTitles b WHERE b.pages = :pages"),
     @NamedQuery(name = "BookTitles.findByWidth", query = "SELECT b FROM BookTitles b WHERE b.width = :width"),
-    @NamedQuery(name = "BookTitles.findByIbsn", query = "SELECT b FROM BookTitles b WHERE b.ibsn = :ibsn")
+    @NamedQuery(name = "BookTitles.findByIbsn", query = "SELECT b FROM BookTitles b WHERE b.ibsn = :ibsn"),
+    @NamedQuery(name = "BookTitles.findByStatus", query = "SELECT b FROM BookTitles b WHERE b.status = :status"),
+    @NamedQuery(name = "BookTitles.findByAuthor", query = "SELECT b FROM BookTitles b WHERE b.author = :author")
 })
 public class BookTitles implements Serializable
 {
@@ -56,6 +58,10 @@ public class BookTitles implements Serializable
     private Double width;
     @Column(name = "IBSN")
     private String ibsn;
+    @Column(name = "Status")
+    private Integer status;
+    @Column(name = "Author")
+    private String author;
     @JoinColumn(name = "CategoryId", referencedColumnName = "Id")
     @ManyToOne
     private Categories categoryId;
@@ -67,8 +73,6 @@ public class BookTitles implements Serializable
     private Publishers publisherId;
     @OneToMany(mappedBy = "bookTitleId")
     private List<Books> booksList;
-    @OneToMany(mappedBy = "bookTitleId")
-    private List<BooksByAuthors> booksByAuthorsList;
 
     public BookTitles()
     {
@@ -139,6 +143,26 @@ public class BookTitles implements Serializable
         this.ibsn = ibsn;
     }
 
+    public Integer getStatus()
+    {
+        return status;
+    }
+
+    public void setStatus(Integer status)
+    {
+        this.status = status;
+    }
+
+    public String getAuthor()
+    {
+        return author;
+    }
+
+    public void setAuthor(String author)
+    {
+        this.author = author;
+    }
+
     public Categories getCategoryId()
     {
         return categoryId;
@@ -177,16 +201,6 @@ public class BookTitles implements Serializable
     public void setBooksList(List<Books> booksList)
     {
         this.booksList = booksList;
-    }
-
-    public List<BooksByAuthors> getBooksByAuthorsList()
-    {
-        return booksByAuthorsList;
-    }
-
-    public void setBooksByAuthorsList(List<BooksByAuthors> booksByAuthorsList)
-    {
-        this.booksByAuthorsList = booksByAuthorsList;
     }
 
     @Override

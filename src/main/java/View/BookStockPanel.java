@@ -8,7 +8,7 @@ package View;
 import Controller.BooksJpaController;
 import Controller.exceptions.NonexistentEntityException;
 import Model.Books;
-import Utility.CustomTableModel;
+import Materials.CustomTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -16,6 +16,7 @@ import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -74,7 +75,6 @@ public class BookStockPanel extends javax.swing.JPanel
         jLabel1 = new javax.swing.JLabel();
         bookTitleName = new javax.swing.JTextField();
         btnDelete = new javax.swing.JButton();
-        btnAdd = new javax.swing.JButton();
         jPanelTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -111,6 +111,7 @@ public class BookStockPanel extends javax.swing.JPanel
         btnDelete.setText("Xóa");
         btnDelete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(161, 38, 13)));
         btnDelete.setContentAreaFilled(false);
+        btnDelete.setEnabled(false);
         btnDelete.setIconTextGap(10);
         btnDelete.setPreferredSize(new java.awt.Dimension(90, 28));
         btnDelete.addActionListener(new java.awt.event.ActionListener()
@@ -118,23 +119,6 @@ public class BookStockPanel extends javax.swing.JPanel
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 btnDeleteActionPerformed(evt);
-            }
-        });
-
-        btnAdd.setBackground(new java.awt.Color(0, 255, 51));
-        btnAdd.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        btnAdd.setForeground(new java.awt.Color(56, 138, 52));
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_plus_math_16px.png"))); // NOI18N
-        btnAdd.setText("Thêm");
-        btnAdd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(56, 138, 52)));
-        btnAdd.setContentAreaFilled(false);
-        btnAdd.setIconTextGap(10);
-        btnAdd.setPreferredSize(new java.awt.Dimension(90, 30));
-        btnAdd.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                btnAddActionPerformed(evt);
             }
         });
 
@@ -148,21 +132,18 @@ public class BookStockPanel extends javax.swing.JPanel
                 .addGap(18, 18, 18)
                 .addComponent(bookTitleName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanelTopLayout.setVerticalGroup(
             jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTopLayout.createSequentialGroup()
-                .addGap(7, 7, 7)
+                .addGap(8, 8, 8)
                 .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(bookTitleName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(13, 13, 13))
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14))
         );
 
         jPanelTable.setBackground(new java.awt.Color(255, 255, 255));
@@ -173,6 +154,7 @@ public class BookStockPanel extends javax.swing.JPanel
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
+        jTable1.setBackground(new java.awt.Color(255, 255, 255));
         jTable1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -200,6 +182,13 @@ public class BookStockPanel extends javax.swing.JPanel
         jTable1.setRowHeight(28);
         jTable1.setShowGrid(true);
         jTable1.setShowVerticalLines(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanelTableLayout = new javax.swing.GroupLayout(jPanelTable);
@@ -324,24 +313,11 @@ public class BookStockPanel extends javax.swing.JPanel
         // TODO add your handling code here:
         long id = (long) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 6);
 
-        try
-        {
-            BooksJpaController.destroy(id);
+        BooksJpaController.deleteSafe(id);
 
-            populateTable(currentPage);
-            JOptionPane.showMessageDialog(null, "Xóa thông tin thành công", "Thông báo", JOptionPane.OK_OPTION);
-        }
-        catch (NonexistentEntityException ex)
-        {
-            Logger.getLogger(BookStockPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        populateTable(currentPage);
+        JOptionPane.showMessageDialog(null, "Xóa thông tin thành công", "Thông báo", JOptionPane.OK_OPTION);
     }//GEN-LAST:event_btnDeleteActionPerformed
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnAddActionPerformed
-    {//GEN-HEADEREND:event_btnAddActionPerformed
-        //        BookTitleCreate bookTitleCreate = new BookTitleCreate();
-        //        bookTitleCreate.setVisible(true);
-    }//GEN-LAST:event_btnAddActionPerformed
 
     private void jLabel_NextMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_NextMouseClicked
     {//GEN-HEADEREND:event_jLabel_NextMouseClicked
@@ -483,10 +459,18 @@ public class BookStockPanel extends javax.swing.JPanel
         jPanel_PageNo.revalidate();
     }//GEN-LAST:event_jLabel_LastMouseClicked
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTable1MouseClicked
+    {//GEN-HEADEREND:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        if (jTable1.getSelectedRow() >= 0)
+        {
+            btnDelete.setEnabled(true);
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bookTitleName;
-    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
@@ -529,19 +513,17 @@ public class BookStockPanel extends javax.swing.JPanel
         };
 
         // Create model booktitles by creating anonymous nest class of CustomTableModel<T>
-        CustomTableModel<Books> model = new CustomTableModel<Books>
-                (
-                        bookList.size() <= maxRow? 
-                                bookList : 
-                                bookList.subList
-                                    (
-                                            maxRow * page - maxRow, 
-                                            maxRow * page < bookList.size()? 
-                                                    maxRow * page : 
-                                                    bookList.size()
-                                    ),
-                        columnName
-                )
+        CustomTableModel<Books> model = new CustomTableModel<Books>(
+                bookList.size() <= maxRow
+                ? bookList
+                : bookList.subList(
+                        maxRow * page - maxRow,
+                        maxRow * page < bookList.size()
+                        ? maxRow * page
+                        : bookList.size()
+                ),
+                columnName
+        )
         {
             @Override
             public Object getValueAt(int rowIndex, int columnIndex)
@@ -557,18 +539,11 @@ public class BookStockPanel extends javax.swing.JPanel
                     case 2:
                         return temp = book.getCode();
                     case 3:
-                        var list = book.getBookTitleId().getBooksByAuthorsList();
-
-                        List<String> strings = new ArrayList<>();
-
-                        list.forEach((authorBook) ->
-                        {
-                            strings.add(authorBook.getAuthorId().getFullName());
-                        });
-
-                        return temp = String.join(", ", strings);
+                        
+                        return temp = book.getBookTitleId().getAuthor();
                     case 4:
-                        return temp = book.getCreatedDate();
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                        return temp = formatter.format(book.getCreatedDate());
                     case 5:
                         if (book.getStatus() == 0)
                         {
@@ -656,7 +631,11 @@ public class BookStockPanel extends javax.swing.JPanel
     {
         // Get data
         bookList = new ArrayList<>(BooksJpaController.findBooksEntities());
-        maxRow = (newHeight - this.getPreferredSize().height + jScrollPane1.getViewport().getPreferredSize().height) / 28 - 15;
+        bookList.sort((o1, o2) -> o2.getCreatedDate().compareTo(o1.getCreatedDate()));
+        //bookList.removeIf(obj -> obj.getBookTitleId().getStatus() == 0);
+        
+        
+        maxRow = (newHeight - this.getPreferredSize().height + jScrollPane1.getViewport().getPreferredSize().height) / 28 - 5;
 
         // Get number of pages
         if (bookList.isEmpty())

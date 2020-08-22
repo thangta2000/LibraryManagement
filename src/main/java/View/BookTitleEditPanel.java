@@ -7,8 +7,18 @@ import Model.BookTitles;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import Controller.BookTitlesJpaController;
+import Utility.Validation.GroupVerifier;
+import Utility.Validation.NumberVerifier;
+import Utility.Validation.RequiredVerifier;
+import java.awt.Color;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComponent;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -23,6 +33,8 @@ public class BookTitleEditPanel extends javax.swing.JFrame
     private BookTitlePanel parent;
     private int id;
 
+    JTextField[] jTextFields;
+
     public BookTitleEditPanel()
     {
         initComponents();
@@ -33,6 +45,8 @@ public class BookTitleEditPanel extends javax.swing.JFrame
     BookTitleEditPanel(ArrayList<Categories> categories, ArrayList<Countries> countries, ArrayList<Publishers> publishers, BookTitlePanel main, int bookTitleId)
     {
         initComponents();
+
+        customizePanel();
 
         this.categories = categories;
         this.countries = countries;
@@ -77,6 +91,8 @@ public class BookTitleEditPanel extends javax.swing.JFrame
         pages = new javax.swing.JSpinner();
         publishYear = new javax.swing.JSpinner();
         width = new javax.swing.JTextField();
+
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("SỬA THÔNG TIN");
@@ -194,26 +210,46 @@ public class BookTitleEditPanel extends javax.swing.JFrame
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
 
-        BookTitles booktitles = new BookTitles();
-        booktitles.setId(id);
-        booktitles.setCategoryId(categories.get(categoryId.getSelectedIndex()));
-        booktitles.setCountryId(countries.get(countryId.getSelectedIndex()));
-        booktitles.setIbsn(ibsn.getText());
-        booktitles.setPages((Integer) pages.getValue());
-        booktitles.setPublishYear((Integer) publishYear.getValue());
-        booktitles.setPublisherId(publishers.get(publisherId.getSelectedIndex()));
-        booktitles.setTitle(title.getText());
-        booktitles.setWidth(Double.valueOf(width.getText()));
-        try
+        boolean validateForm = true;
+
+        for (JTextField jTextField : jTextFields)
         {
-            BookTitlesJpaController.edit(booktitles);
-            this.setVisible(false);
-            this.parent.populateTable();
-            JOptionPane.showMessageDialog(this, "Sửa dữ liệu thành công");
+            if (jTextField.getBackground() != Color.WHITE)
+            {
+                validateForm = false;
+                break;
+            }
         }
-        catch (Exception ex)
+
+        if (validateForm)
         {
-            Logger.getLogger(BookTitleEditPanel.class.getName()).log(Level.SEVERE, null, ex);
+            BookTitles booktitles = new BookTitles();
+            booktitles.setId(id);
+            booktitles.setCategoryId(categories.get(categoryId.getSelectedIndex()));
+            booktitles.setCountryId(countries.get(countryId.getSelectedIndex()));
+            booktitles.setIbsn(ibsn.getText());
+            booktitles.setPages((Integer) pages.getValue());
+            booktitles.setPublishYear((Integer) publishYear.getValue());
+            booktitles.setPublisherId(publishers.get(publisherId.getSelectedIndex()));
+            booktitles.setTitle(title.getText());
+            booktitles.setWidth(Double.valueOf(width.getText()));
+            try
+            {
+                BookTitlesJpaController.edit(booktitles);
+                this.setVisible(false);
+                this.parent.currentPage = 1;
+                this.parent.populateTable(this.parent.currentPage);
+
+                JOptionPane.showMessageDialog(this, "Sửa dữ liệu thành công");
+            }
+            catch (Exception ex)
+            {
+                Logger.getLogger(BookTitleEditPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng điền thông tin còn thiếu");
         }
     }//GEN-LAST:event_btnSubmitActionPerformed
 
@@ -231,7 +267,7 @@ public class BookTitleEditPanel extends javax.swing.JFrame
         {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
             {
-                if ("Nimbus".equals(info.getName()))
+                if ("Windows".equals(info.getName()))
                 {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
@@ -294,4 +330,66 @@ public class BookTitleEditPanel extends javax.swing.JFrame
     private javax.swing.JTextField title;
     private javax.swing.JTextField width;
     // End of variables declaration//GEN-END:variables
+
+    private void customizePanel()
+    {
+        title.setInputVerifier(new RequiredVerifier());
+        width.setInputVerifier(new GroupVerifier(new RequiredVerifier(), new NumberVerifier()));
+        ibsn.setInputVerifier(new GroupVerifier(new RequiredVerifier(), new NumberVerifier()));
+
+        jTextFields = new JTextField[]
+        {
+            title, width, ibsn
+        };
+
+        for (JTextField jTextField : jTextFields)
+        {
+            jTextField.getDocument().addDocumentListener(new DocumentListener()
+            {
+                @Override
+                public void insertUpdate(DocumentEvent e)
+                {
+                    displayValidationResult(jTextField);
+                }
+
+                @Override
+                public void removeUpdate(DocumentEvent e)
+                {
+                    displayValidationResult(jTextField);
+                }
+
+                @Override
+                public void changedUpdate(DocumentEvent e)
+                {
+                }
+
+            });
+
+            jTextField.addFocusListener(new FocusAdapter()
+            {
+                @Override
+                public void focusLost(FocusEvent e)
+                {
+                    displayValidationResult(jTextField);
+                }
+
+            });
+        }
+    }
+
+    private void displayValidationResult(JComponent jcomponent)
+    {
+
+        boolean valid = jcomponent.getInputVerifier().verify(jcomponent);
+
+        if (valid)
+        {
+            jcomponent.setBackground(Color.white);
+        }
+        else
+        {
+            jcomponent.setBackground(Color.red);
+        }
+    }
+
 }

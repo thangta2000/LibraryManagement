@@ -5,10 +5,12 @@
  */
 package View;
 
+import Controller.StaffsJpaController;
 import Controller.UsersJpaController;
 import Controller.exceptions.NonexistentEntityException;
+import Materials.Constants;
 import Model.Users;
-import Utility.CustomTableModel;
+import Materials.CustomTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -37,7 +39,7 @@ public class UsersPanel extends javax.swing.JPanel
     private List<Users> userList;
     int newHeight;
     int newWidth;
-    
+
     int maxPage = 1;
     int currentPage = 1;
     int maxRow;
@@ -103,6 +105,7 @@ public class UsersPanel extends javax.swing.JPanel
         jLabel1.setText("Nhập tên:");
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
+        bookTitleName.setBackground(new java.awt.Color(255, 255, 255));
         bookTitleName.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         bookTitleName.setPreferredSize(new java.awt.Dimension(200, 28));
 
@@ -137,6 +140,7 @@ public class UsersPanel extends javax.swing.JPanel
         btnEdit.setText("Sửa");
         btnEdit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 83, 156)));
         btnEdit.setContentAreaFilled(false);
+        btnEdit.setEnabled(false);
         btnEdit.setIconTextGap(10);
         btnEdit.setPreferredSize(new java.awt.Dimension(90, 28));
         btnEdit.addActionListener(new java.awt.event.ActionListener()
@@ -154,6 +158,7 @@ public class UsersPanel extends javax.swing.JPanel
         btnDelete.setText("Xóa");
         btnDelete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(161, 38, 13)));
         btnDelete.setContentAreaFilled(false);
+        btnDelete.setEnabled(false);
         btnDelete.setIconTextGap(10);
         btnDelete.setPreferredSize(new java.awt.Dimension(90, 28));
         btnDelete.addActionListener(new java.awt.event.ActionListener()
@@ -208,6 +213,7 @@ public class UsersPanel extends javax.swing.JPanel
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
+        jTable1.setBackground(new java.awt.Color(255, 255, 255));
         jTable1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -238,6 +244,13 @@ public class UsersPanel extends javax.swing.JPanel
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.setShowGrid(true);
         jTable1.setShowVerticalLines(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanelTableLayout = new javax.swing.GroupLayout(jPanelTable);
@@ -365,7 +378,7 @@ public class UsersPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_btnAddActionPerformed
         // TODO add your handling code here:
         UserAddPanel userAdd = new UserAddPanel();
-        
+
         // Open userAdd in new tab
         Home topFrame = (Home) this.getTopLevelAncestor();
         topFrame.addCard(userAdd);
@@ -378,7 +391,7 @@ public class UsersPanel extends javax.swing.JPanel
         // TODO add your handling code here:
         int id = (int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 5);
         UserEditPanel panel = new UserEditPanel(id);
-        
+
         // Open panel in new tab
         Home topFrame = (Home) this.getTopLevelAncestor();
         topFrame.addCard(panel);
@@ -391,17 +404,26 @@ public class UsersPanel extends javax.swing.JPanel
     {//GEN-HEADEREND:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         int id = (int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 5);
-        
-        try
+        var model = (CustomTableModel<Users>) jTable1.getModel();
+
+        // if account is superadmin => cannot delete
+        if (id != 1)
         {
-            UsersJpaController.destroy(id);
-            
-            populateTable(currentPage);
-            JOptionPane.showMessageDialog(null, "Xóa thông tin thành công", "Thông báo", JOptionPane.OK_OPTION);
+            try
+            {
+                UsersJpaController.destroy(id);
+
+                populateTable(currentPage);
+                JOptionPane.showConfirmDialog(null, "Xóa tài khoản thành công", "Thông báo", JOptionPane.OK_OPTION);
+            }
+            catch (NonexistentEntityException ex)
+            {
+                Logger.getLogger(UsersPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        catch (NonexistentEntityException ex)
+        else
         {
-            Logger.getLogger(UsersPanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Tài khoản không thể xóa", "Thông báo", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -545,6 +567,16 @@ public class UsersPanel extends javax.swing.JPanel
         jPanel_PageNo.revalidate();
     }//GEN-LAST:event_jLabel_LastMouseClicked
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTable1MouseClicked
+    {//GEN-HEADEREND:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        if (jTable1.getSelectedRow() >= 0)
+        {
+            btnEdit.setEnabled(true);
+            btnDelete.setEnabled(true);
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bookTitleName;
@@ -589,7 +621,6 @@ public class UsersPanel extends javax.swing.JPanel
 
     private void populateTable(int page)
     {
-        
 
         String[] columnName =
         {
@@ -669,7 +700,7 @@ public class UsersPanel extends javax.swing.JPanel
             column.setPreferredWidth(columnWidth[i]);
         }
     }
-    
+
     private JLabel createPageNumber(int number)
     {
         JLabel pageLabel = new JLabel();

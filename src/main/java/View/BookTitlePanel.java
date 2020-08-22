@@ -12,7 +12,7 @@ package View;
 import Controller.BookTitlesJpaController;
 import Controller.exceptions.NonexistentEntityException;
 import Model.*;
-import Utility.CustomTableModel;
+import Materials.CustomTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -44,7 +44,7 @@ public class BookTitlePanel extends javax.swing.JPanel
     private BookTitlePanel main;
 
     int maxPage = 1;
-    int currentPage = 1;
+    public int currentPage = 1;
     int maxRow;
 
     boolean nextListenerOnOff = true;
@@ -115,11 +115,10 @@ public class BookTitlePanel extends javax.swing.JPanel
         jPanelTop = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         bookTitleName = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         btnAdd = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        btnAdd_Number = new javax.swing.JButton();
         jPanelTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -144,9 +143,11 @@ public class BookTitlePanel extends javax.swing.JPanel
         jPanelTop.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jPanelTop.setPreferredSize(new java.awt.Dimension(667, 50));
 
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nhập tên:");
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
+        bookTitleName.setBackground(new java.awt.Color(255, 255, 255));
         bookTitleName.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         bookTitleName.setPreferredSize(new java.awt.Dimension(200, 28));
         bookTitleName.addActionListener(new java.awt.event.ActionListener()
@@ -154,20 +155,6 @@ public class BookTitlePanel extends javax.swing.JPanel
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 bookTitleNameActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("Lĩnh vực:");
-
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(150, 26));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jComboBox1ActionPerformed(evt);
             }
         });
 
@@ -195,6 +182,7 @@ public class BookTitlePanel extends javax.swing.JPanel
         btnEdit.setText("Sửa");
         btnEdit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 83, 156)));
         btnEdit.setContentAreaFilled(false);
+        btnEdit.setEnabled(false);
         btnEdit.setIconTextGap(10);
         btnEdit.setPreferredSize(new java.awt.Dimension(90, 28));
         btnEdit.addActionListener(new java.awt.event.ActionListener()
@@ -212,6 +200,7 @@ public class BookTitlePanel extends javax.swing.JPanel
         btnDelete.setText("Xóa");
         btnDelete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(161, 38, 13)));
         btnDelete.setContentAreaFilled(false);
+        btnDelete.setEnabled(false);
         btnDelete.setIconTextGap(10);
         btnDelete.setPreferredSize(new java.awt.Dimension(90, 28));
         btnDelete.addActionListener(new java.awt.event.ActionListener()
@@ -219,6 +208,23 @@ public class BookTitlePanel extends javax.swing.JPanel
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 btnDeleteActionPerformed(evt);
+            }
+        });
+
+        btnAdd_Number.setBackground(new java.awt.Color(0, 255, 51));
+        btnAdd_Number.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        btnAdd_Number.setForeground(new java.awt.Color(56, 138, 52));
+        btnAdd_Number.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_add_book_16px_1.png"))); // NOI18N
+        btnAdd_Number.setText("Số lượng");
+        btnAdd_Number.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(56, 138, 52)));
+        btnAdd_Number.setContentAreaFilled(false);
+        btnAdd_Number.setIconTextGap(10);
+        btnAdd_Number.setPreferredSize(new java.awt.Dimension(90, 30));
+        btnAdd_Number.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnAdd_NumberActionPerformed(evt);
             }
         });
 
@@ -231,11 +237,9 @@ public class BookTitlePanel extends javax.swing.JPanel
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(bookTitleName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 238, Short.MAX_VALUE)
+                .addComponent(btnAdd_Number, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -246,17 +250,16 @@ public class BookTitlePanel extends javax.swing.JPanel
         jPanelTopLayout.setVerticalGroup(
             jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTopLayout.createSequentialGroup()
-                .addGap(7, 7, 7)
+                .addGap(6, 6, 6)
                 .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAdd_Number, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
-                        .addComponent(bookTitleName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(bookTitleName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(13, 13, 13))
         );
 
@@ -267,6 +270,7 @@ public class BookTitlePanel extends javax.swing.JPanel
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
+        jTable1.setBackground(new java.awt.Color(255, 255, 255));
         jTable1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jTable1.setFont(new java.awt.Font("sansserif", 0, 11)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -294,6 +298,13 @@ public class BookTitlePanel extends javax.swing.JPanel
         jTable1.setGridColor(new java.awt.Color(204, 204, 255));
         jTable1.setRowHeight(28);
         jTable1.setShowGrid(true);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanelTableLayout = new javax.swing.GroupLayout(jPanelTable);
@@ -413,10 +424,6 @@ public class BookTitlePanel extends javax.swing.JPanel
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
     private void bookTitleNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookTitleNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bookTitleNameActionPerformed
@@ -439,18 +446,11 @@ public class BookTitlePanel extends javax.swing.JPanel
         // TODO add your handling code here:
         int id = (int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 10);
 
-        try
-        {
-            BookTitlesJpaController.destroy(id);
+        BookTitlesJpaController.deleteSafe(id);
 
-            populateTable(currentPage);
+        populateTable(currentPage);
 
-            JOptionPane.showMessageDialog(null, "Xóa thông tin thành công", "Thông báo", JOptionPane.OK_OPTION);
-        }
-        catch (NonexistentEntityException ex)
-        {
-            Logger.getLogger(BookTitlePanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        JOptionPane.showMessageDialog(null, "Xóa thông tin thành công", "Thông báo", JOptionPane.OK_OPTION);
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void jLabel_FirstMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_FirstMouseClicked
@@ -593,18 +593,35 @@ public class BookTitlePanel extends javax.swing.JPanel
         jPanel_PageNo.revalidate();
     }//GEN-LAST:event_jLabel_LastMouseClicked
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTable1MouseClicked
+    {//GEN-HEADEREND:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        if (jTable1.getSelectedRow() >= 0)
+        {
+            btnEdit.setEnabled(true);
+            btnDelete.setEnabled(true);
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void btnAdd_NumberActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnAdd_NumberActionPerformed
+    {//GEN-HEADEREND:event_btnAdd_NumberActionPerformed
+        // TODO add your handling code here:
+        int id = (int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 10);
+        BookStockAdd frame = new BookStockAdd(id);
+        frame.setVisible(true);
+    }//GEN-LAST:event_btnAdd_NumberActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bookTitleName;
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAdd_Number;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel_Back;
     private javax.swing.JLabel jLabel_First;
     private javax.swing.JLabel jLabel_Last;
@@ -636,7 +653,6 @@ public class BookTitlePanel extends javax.swing.JPanel
 
     public void populateTable(int page)
     {
-
         String[] columnName =
         {
             "#", "Tên sách", "Tác giả", "Lĩnh vực", "Nhà xuất bản", "Nơi xuất bản", "Số trang", "Năm xuất bản", "Khổ", "ISBN", "Id"
@@ -658,20 +674,18 @@ public class BookTitlePanel extends javax.swing.JPanel
                     case 1:
                         return temp = bookTitle.getTitle();
                     case 2:
-                        var list = bookTitle.getBooksByAuthorsList();
-
-                        List<String> strings = new ArrayList<>();
-
-                        list.forEach((authorBook) ->
-                        {
-                            strings.add(authorBook.getAuthorId().getFullName());
-                        });
-
-                        return temp = String.join(", ", strings);
+                        return temp = bookTitle.getAuthor();
                     case 3:
                         return temp = bookTitle.getCategoryId().getName();
                     case 4:
-                        return temp = bookTitle.getPublisherId().getName();
+                        if (bookTitle.getPublisherId() == null)
+                        {
+                            return temp = null;
+                        }
+                        else
+                        {
+                            return temp = bookTitle.getPublisherId().getName();
+                        }
                     case 5:
                         return temp = bookTitle.getCountryId().getName();
                     case 6:

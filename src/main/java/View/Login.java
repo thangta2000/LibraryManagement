@@ -1,7 +1,7 @@
 package View;
 
 import Controller.UsersJpaController;
-import Data.Constants;
+import Materials.Constants;
 import java.awt.event.KeyEvent;
 import java.sql.*;
 import javax.persistence.EntityManagerFactory;
@@ -52,8 +52,11 @@ public class Login extends javax.swing.JFrame
         jLabel_ErrorPassword = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+        setUndecorated(true);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Login", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 24), new java.awt.Color(51, 102, 255))); // NOI18N
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 0, 0)), "Login", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 24), new java.awt.Color(51, 102, 255))); // NOI18N
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jButton_Login.setText("Login");
@@ -135,7 +138,7 @@ public class Login extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(18, 18, 0, 111);
         jPanel1.add(jPasswordField_Pasword, gridBagConstraints);
 
-        jLabel_ErrorName.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel_ErrorName.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_ErrorName.setText("Bạn cần nhập tài khoản");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -145,7 +148,7 @@ public class Login extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(3, 24, 0, 0);
         jPanel1.add(jLabel_ErrorName, gridBagConstraints);
 
-        jLabel_ErrorPassword.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel_ErrorPassword.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_ErrorPassword.setText("Bạn cần nhập password.");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -168,7 +171,7 @@ public class Login extends javax.swing.JFrame
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, Short.MAX_VALUE)
         );
 
-        setSize(new java.awt.Dimension(548, 322));
+        setSize(new java.awt.Dimension(532, 284));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

@@ -53,15 +53,11 @@ public class Countries implements Serializable
     @OneToMany(mappedBy = "countryId")
     private List<Staffs> staffsList;
     @OneToMany(mappedBy = "countryId")
-    private List<Authors> authorsList;
-    @OneToMany(mappedBy = "countryId")
     private List<BookTitles> bookTitlesList;
     @OneToMany(mappedBy = "countryId")
     private List<Readers> readersList;
     @OneToMany(mappedBy = "countryId")
     private List<Publishers> publishersList;
-    @OneToMany(mappedBy = "countryId")
-    private List<BookRequests> bookRequestsList;
 
     public Countries()
     {
@@ -102,16 +98,6 @@ public class Countries implements Serializable
         this.staffsList = staffsList;
     }
 
-    public List<Authors> getAuthorsList()
-    {
-        return authorsList;
-    }
-
-    public void setAuthorsList(List<Authors> authorsList)
-    {
-        this.authorsList = authorsList;
-    }
-
     public List<BookTitles> getBookTitlesList()
     {
         return bookTitlesList;
@@ -140,16 +126,6 @@ public class Countries implements Serializable
     public void setPublishersList(List<Publishers> publishersList)
     {
         this.publishersList = publishersList;
-    }
-
-    public List<BookRequests> getBookRequestsList()
-    {
-        return bookRequestsList;
-    }
-
-    public void setBookRequestsList(List<BookRequests> bookRequestsList)
-    {
-        this.bookRequestsList = bookRequestsList;
     }
 
     @Override

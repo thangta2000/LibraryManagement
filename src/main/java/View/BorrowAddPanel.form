@@ -102,11 +102,11 @@
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel8" min="-2" pref="38" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jLabel_Safe" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel_Borrowing" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jLabel10" pref="56" max="32767" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel_OverDate" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jLabel_Warning" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
@@ -124,7 +124,7 @@
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel_Lost" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jLabel_Fine" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="336" max="-2" attributes="0"/>
@@ -167,15 +167,15 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel_OverDate" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel_Warning" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel_Lost" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel_Fine" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButton_BorrowHistory" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                               <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel_Safe" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel_Borrowing" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -241,7 +241,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel_Safe">
+            <Component class="javax.swing.JLabel" name="jLabel_Borrowing">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="0"/>
@@ -270,7 +270,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel13">
+            <Component class="javax.swing.JLabel" name="jLabel_Lost">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="0"/>
@@ -299,7 +299,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel11">
+            <Component class="javax.swing.JLabel" name="jLabel_OverDate">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="0"/>
@@ -375,7 +375,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="sansserif" size="18" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="B&#x1ea1;n &#x111;&#x1ecd;c"/>
+                <Property name="text" type="java.lang.String" value="Chi ti&#x1ebf;t"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[65, 28]"/>
                 </Property>
@@ -627,7 +627,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="sansserif" size="24" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Th&#xf4;ng tin b&#x1ea1;n &#x111;&#x1ecd;c "/>
+            <Property name="text" type="java.lang.String" value="Nh&#x1ead;p d&#x1eef; li&#x1ec7;u"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="5" left="5" right="10" top="5"/>
@@ -663,16 +663,16 @@
                           <Group type="102" attributes="0">
                               <Component id="jTextField_BookCode" pref="0" max="32767" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jButton_Find" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButton_FindBool" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel_Check" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel_Check1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel_CheckBook" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel_CheckReader" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Component id="jTextField_MemberCard" min="-2" pref="162" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                      <Component id="jButton_FindBook" min="-2" pref="40" max="-2" attributes="0"/>
+                                      <Component id="jButton_FindReader" min="-2" pref="40" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -691,20 +691,20 @@
                               <Component id="jTextField_MemberCard" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jButton_FindBook" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButton_FindReader" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel_Check1" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel_CheckReader" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton_Find" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButton_FindBool" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jTextField_BookCode" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel_Check" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel_CheckBook" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="14" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -729,7 +729,7 @@
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton_Find">
+            <Component class="javax.swing.JButton" name="jButton_FindBool">
               <Properties>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="99" green="0" red="0" type="rgb"/>
@@ -748,7 +748,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_FindActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_FindBoolActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField_BookCode">
@@ -763,7 +763,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel_Check">
+            <Component class="javax.swing.JLabel" name="jLabel_CheckBook">
               <Properties>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="25" green="1e" red="e5" type="rgb"/>
@@ -771,7 +771,7 @@
                 <Property name="text" type="java.lang.String" value="Kh&#xf4;ng t&#xec;m th&#x1ea5;y s&#xe1;ch!"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton_FindBook">
+            <Component class="javax.swing.JButton" name="jButton_FindReader">
               <Properties>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="99" green="0" red="0" type="rgb"/>
@@ -790,7 +790,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_FindBookActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_FindReaderActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
@@ -808,7 +808,7 @@
                 <Property name="opaque" type="boolean" value="true"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel_Check1">
+            <Component class="javax.swing.JLabel" name="jLabel_CheckReader">
               <Properties>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="25" green="1e" red="e5" type="rgb"/>

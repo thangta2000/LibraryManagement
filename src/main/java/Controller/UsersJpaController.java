@@ -14,7 +14,7 @@ import javax.persistence.criteria.Root;
 import Model.Roles;
 import Model.Staffs;
 import Model.Users;
-import Utility.Factory;
+import Materials.Factory;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

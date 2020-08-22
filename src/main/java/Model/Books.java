@@ -35,7 +35,8 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Books.findById", query = "SELECT b FROM Books b WHERE b.id = :id"),
     @NamedQuery(name = "Books.findByCode", query = "SELECT b FROM Books b WHERE b.code = :code"),
     @NamedQuery(name = "Books.findByCreatedDate", query = "SELECT b FROM Books b WHERE b.createdDate = :createdDate"),
-    @NamedQuery(name = "Books.findByStatus", query = "SELECT b FROM Books b WHERE b.status = :status")
+    @NamedQuery(name = "Books.findByStatus", query = "SELECT b FROM Books b WHERE b.status = :status"),
+    @NamedQuery(name = "Books.updateStatus", query = "UPDATE Books b SET b.status = 0 WHERE b.id = :id")
 })
 public class Books implements Serializable
 {

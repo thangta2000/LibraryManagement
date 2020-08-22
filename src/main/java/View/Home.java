@@ -142,7 +142,6 @@ public class Home extends javax.swing.JFrame
             .addGap(0, 43, Short.MAX_VALUE)
         );
 
-        jlbBookTitle.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jlbBookTitle.setForeground(new java.awt.Color(255, 255, 255));
         jlbBookTitle.setText("Tên sách");
 
@@ -192,7 +191,6 @@ public class Home extends javax.swing.JFrame
             .addGap(0, 43, Short.MAX_VALUE)
         );
 
-        jlbBook.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jlbBook.setForeground(new java.awt.Color(255, 255, 255));
         jlbBook.setText("Kho sách");
 
@@ -242,7 +240,6 @@ public class Home extends javax.swing.JFrame
             .addGap(0, 43, Short.MAX_VALUE)
         );
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Mượn/Trả sách");
 
@@ -290,7 +287,6 @@ public class Home extends javax.swing.JFrame
             .addGap(0, 43, Short.MAX_VALUE)
         );
 
-        jLabel_Users.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel_Users.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_Users.setText("Tài khoản");
 
@@ -341,7 +337,6 @@ public class Home extends javax.swing.JFrame
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jlbBook1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jlbBook1.setForeground(new java.awt.Color(255, 255, 255));
         jlbBook1.setText("Bạn đọc");
 
@@ -389,7 +384,6 @@ public class Home extends javax.swing.JFrame
             .addGap(0, 43, Short.MAX_VALUE)
         );
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Thống kê");
 
@@ -455,11 +449,25 @@ public class Home extends javax.swing.JFrame
         jLabel_Exit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_Exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_delete_16px_3.png"))); // NOI18N
         jLabel_Exit.setPreferredSize(new java.awt.Dimension(36, 36));
+        jLabel_Exit.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jLabel_ExitMouseClicked(evt);
+            }
+        });
 
         jLabel_Minimize.setBackground(new java.awt.Color(204, 204, 204));
         jLabel_Minimize.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_Minimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_horizontal_line_16px_9.png"))); // NOI18N
         jLabel_Minimize.setPreferredSize(new java.awt.Dimension(36, 36));
+        jLabel_Minimize.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jLabel_MinimizeMouseClicked(evt);
+            }
+        });
 
         jLabel_Minimize1.setBackground(new java.awt.Color(204, 204, 204));
         jLabel_Minimize1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -493,6 +501,7 @@ public class Home extends javax.swing.JFrame
         jLabel3.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(56, 138, 52));
         jLabel3.setText("Xin chào Super Admin!");
+        jLabel3.setToolTipText("");
         jLabel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 7, 1, 7));
         jLabel3.setOpaque(true);
         jLabel3.setPreferredSize(new java.awt.Dimension(41, 26));
@@ -629,7 +638,7 @@ public class Home extends javax.swing.JFrame
             mainViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel_Top, javax.swing.GroupLayout.DEFAULT_SIZE, 1013, Short.MAX_VALUE)
             .addComponent(jPanel_TabPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1013, Short.MAX_VALUE)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addComponent(jPanel_Footer, javax.swing.GroupLayout.DEFAULT_SIZE, 1013, Short.MAX_VALUE)
             .addComponent(jPanel_Content, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1013, Short.MAX_VALUE)
             .addComponent(jSeparator2)
@@ -799,6 +808,19 @@ public class Home extends javax.swing.JFrame
         tabList.clear();
         addTab(name);
     }//GEN-LAST:event_jPanel_ReaderMouseClicked
+
+    private void jLabel_ExitMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_ExitMouseClicked
+    {//GEN-HEADEREND:event_jLabel_ExitMouseClicked
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jLabel_ExitMouseClicked
+
+    private void jLabel_MinimizeMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel_MinimizeMouseClicked
+    {//GEN-HEADEREND:event_jLabel_MinimizeMouseClicked
+        // TODO add your handling code here:
+        this.setExtendedState(ICONIFIED);
+        
+    }//GEN-LAST:event_jLabel_MinimizeMouseClicked
 
     /**
      * @param args the command line arguments

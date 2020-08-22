@@ -14,12 +14,13 @@ import javax.persistence.criteria.Root;
 import Model.BookTitles;
 import Model.Books;
 import Model.Borrows;
-import Utility.Factory;
+import Materials.Factory;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 
 /**
  *
@@ -63,6 +64,7 @@ public class BooksJpaController implements Serializable
                 books.setBookTitleId(bookTitleId);
             }
             List<Borrows> attachedBorrowsList = new ArrayList<Borrows>();
+            
             for (Borrows borrowsListBorrowsToAttach : books.getBorrowsList())
             {
                 borrowsListBorrowsToAttach = em.getReference(borrowsListBorrowsToAttach.getClass(), borrowsListBorrowsToAttach.getId());
@@ -109,6 +111,11 @@ public class BooksJpaController implements Serializable
             BookTitles bookTitleIdNew = books.getBookTitleId();
             List<Borrows> borrowsListOld = persistentBooks.getBorrowsList();
             List<Borrows> borrowsListNew = books.getBorrowsList();
+            if (borrowsListNew == null)
+            {
+                borrowsListNew = new ArrayList<>();
+            }
+            
             if (bookTitleIdNew != null)
             {
                 bookTitleIdNew = em.getReference(bookTitleIdNew.getClass(), bookTitleIdNew.getId());
@@ -303,6 +310,23 @@ public class BooksJpaController implements Serializable
             }
             
             return obj;
+        }
+        finally
+        {
+            em.close();
+        }
+    }
+    
+    public static void deleteSafe(long id)
+    {
+        EntityManager em = getEntityManager();
+        try
+        {
+            TypedQuery<Books> query = em.createNamedQuery("Books.updateStatus", Books.class);
+            
+            query.setParameter("id", id);
+            
+            query.executeUpdate();
         }
         finally
         {

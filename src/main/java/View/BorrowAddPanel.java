@@ -1,6 +1,6 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template file, choose Functions | Templates
  * and open the template in the editor.
  */
 package View;
@@ -10,9 +10,11 @@ import Controller.BorrowsJpaController;
 import Controller.ReadersJpaController;
 import Model.Borrows;
 import Model.Readers;
-import Utility.CustomTableModel;
-import Utility.Tools;
+import Materials.CustomTableModel;
+import Utility.Tools.Functions;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -25,6 +27,7 @@ public class BorrowAddPanel extends javax.swing.JPanel
 {
 
     Readers reader;
+    List<Borrows> borrowHistory;
 
     /**
      * Creates new form BorrowAddPanel
@@ -52,11 +55,11 @@ public class BorrowAddPanel extends javax.swing.JPanel
         jLabel_BirthDate = new javax.swing.JLabel();
         jLabel_Status = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel_Safe = new javax.swing.JLabel();
+        jLabel_Borrowing = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        jLabel_Lost = new javax.swing.JLabel();
         jLabel_Fine = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        jLabel_OverDate = new javax.swing.JLabel();
         jLabel_Warning = new javax.swing.JLabel();
         jButton_BorrowHistory = new javax.swing.JButton();
         jButton_ReaderDetail = new javax.swing.JButton();
@@ -74,12 +77,12 @@ public class BorrowAddPanel extends javax.swing.JPanel
         jPanel1 = new javax.swing.JPanel();
         jTextField_MemberCard = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jButton_Find = new javax.swing.JButton();
+        jButton_FindBool = new javax.swing.JButton();
         jTextField_BookCode = new javax.swing.JTextField();
-        jLabel_Check = new javax.swing.JLabel();
-        jButton_FindBook = new javax.swing.JButton();
+        jLabel_CheckBook = new javax.swing.JLabel();
+        jButton_FindReader = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jLabel_Check1 = new javax.swing.JLabel();
+        jLabel_CheckReader = new javax.swing.JLabel();
 
         setName("Thêm"); // NOI18N
 
@@ -113,10 +116,10 @@ public class BorrowAddPanel extends javax.swing.JPanel
         jLabel8.setEnabled(false);
         jLabel8.setPreferredSize(new java.awt.Dimension(200, 28));
 
-        jLabel_Safe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel_Safe.setText("0");
-        jLabel_Safe.setEnabled(false);
-        jLabel_Safe.setPreferredSize(new java.awt.Dimension(28, 28));
+        jLabel_Borrowing.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_Borrowing.setText("0");
+        jLabel_Borrowing.setEnabled(false);
+        jLabel_Borrowing.setPreferredSize(new java.awt.Dimension(28, 28));
 
         jLabel10.setBackground(new java.awt.Color(51, 153, 51));
         jLabel10.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
@@ -126,10 +129,10 @@ public class BorrowAddPanel extends javax.swing.JPanel
         jLabel10.setOpaque(true);
         jLabel10.setPreferredSize(new java.awt.Dimension(60, 28));
 
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("0");
-        jLabel13.setEnabled(false);
-        jLabel13.setPreferredSize(new java.awt.Dimension(28, 28));
+        jLabel_Lost.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_Lost.setText("0");
+        jLabel_Lost.setEnabled(false);
+        jLabel_Lost.setPreferredSize(new java.awt.Dimension(28, 28));
 
         jLabel_Fine.setBackground(new java.awt.Color(229, 30, 37));
         jLabel_Fine.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
@@ -139,10 +142,10 @@ public class BorrowAddPanel extends javax.swing.JPanel
         jLabel_Fine.setOpaque(true);
         jLabel_Fine.setPreferredSize(new java.awt.Dimension(60, 28));
 
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("0");
-        jLabel11.setEnabled(false);
-        jLabel11.setPreferredSize(new java.awt.Dimension(28, 28));
+        jLabel_OverDate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_OverDate.setText("0");
+        jLabel_OverDate.setEnabled(false);
+        jLabel_OverDate.setPreferredSize(new java.awt.Dimension(28, 28));
 
         jLabel_Warning.setBackground(new java.awt.Color(255, 204, 0));
         jLabel_Warning.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
@@ -175,7 +178,7 @@ public class BorrowAddPanel extends javax.swing.JPanel
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
-        jLabel4.setText("Bạn đọc");
+        jLabel4.setText("Chi tiết");
         jLabel4.setPreferredSize(new java.awt.Dimension(65, 28));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -194,11 +197,11 @@ public class BorrowAddPanel extends javax.swing.JPanel
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel_Safe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel_Borrowing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel_OverDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel_Warning, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(15, 15, 15)))
@@ -213,7 +216,7 @@ public class BorrowAddPanel extends javax.swing.JPanel
                                 .addGap(58, 58, 58))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel_Lost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel_Fine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(336, 336, 336)))
@@ -244,14 +247,14 @@ public class BorrowAddPanel extends javax.swing.JPanel
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel_OverDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel_Warning, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel_Lost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel_Fine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton_BorrowHistory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel_Safe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel_Borrowing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(12, 12, 12))
         );
@@ -409,7 +412,7 @@ public class BorrowAddPanel extends javax.swing.JPanel
 
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
         jLabel5.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
-        jLabel5.setText("Thông tin bạn đọc ");
+        jLabel5.setText("Nhập dữ liệu");
         jLabel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 10));
         jLabel5.setOpaque(true);
         jLabel5.setPreferredSize(new java.awt.Dimension(118, 60));
@@ -423,35 +426,35 @@ public class BorrowAddPanel extends javax.swing.JPanel
         jLabel1.setText("Thẻ bạn đọc:");
         jLabel1.setEnabled(false);
 
-        jButton_Find.setForeground(new java.awt.Color(0, 0, 153));
-        jButton_Find.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_find_and_replace_24px.png"))); // NOI18N
-        jButton_Find.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jButton_Find.setContentAreaFilled(false);
-        jButton_Find.setPreferredSize(new java.awt.Dimension(40, 28));
-        jButton_Find.addActionListener(new java.awt.event.ActionListener()
+        jButton_FindBool.setForeground(new java.awt.Color(0, 0, 153));
+        jButton_FindBool.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_find_and_replace_24px.png"))); // NOI18N
+        jButton_FindBool.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jButton_FindBool.setContentAreaFilled(false);
+        jButton_FindBool.setPreferredSize(new java.awt.Dimension(40, 28));
+        jButton_FindBool.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton_FindActionPerformed(evt);
+                jButton_FindBoolActionPerformed(evt);
             }
         });
 
         jTextField_BookCode.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jTextField_BookCode.setPreferredSize(new java.awt.Dimension(200, 28));
 
-        jLabel_Check.setForeground(new java.awt.Color(229, 30, 37));
-        jLabel_Check.setText("Không tìm thấy sách!");
+        jLabel_CheckBook.setForeground(new java.awt.Color(229, 30, 37));
+        jLabel_CheckBook.setText("Không tìm thấy sách!");
 
-        jButton_FindBook.setForeground(new java.awt.Color(0, 0, 153));
-        jButton_FindBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_find_and_replace_24px.png"))); // NOI18N
-        jButton_FindBook.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jButton_FindBook.setContentAreaFilled(false);
-        jButton_FindBook.setPreferredSize(new java.awt.Dimension(40, 28));
-        jButton_FindBook.addActionListener(new java.awt.event.ActionListener()
+        jButton_FindReader.setForeground(new java.awt.Color(0, 0, 153));
+        jButton_FindReader.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8_find_and_replace_24px.png"))); // NOI18N
+        jButton_FindReader.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jButton_FindReader.setContentAreaFilled(false);
+        jButton_FindReader.setPreferredSize(new java.awt.Dimension(40, 28));
+        jButton_FindReader.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton_FindBookActionPerformed(evt);
+                jButton_FindReaderActionPerformed(evt);
             }
         });
 
@@ -461,8 +464,8 @@ public class BorrowAddPanel extends javax.swing.JPanel
         jLabel6.setEnabled(false);
         jLabel6.setOpaque(true);
 
-        jLabel_Check1.setForeground(new java.awt.Color(229, 30, 37));
-        jLabel_Check1.setText("Không tìm thấy bạn đọc!");
+        jLabel_CheckReader.setForeground(new java.awt.Color(229, 30, 37));
+        jLabel_CheckReader.setText("Không tìm thấy bạn đọc!");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -478,15 +481,15 @@ public class BorrowAddPanel extends javax.swing.JPanel
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jTextField_BookCode, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                         .addGap(0, 0, 0)
-                        .addComponent(jButton_Find, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton_FindBool, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel_Check)
-                            .addComponent(jLabel_Check1)
+                            .addComponent(jLabel_CheckBook)
+                            .addComponent(jLabel_CheckReader)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jTextField_MemberCard, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, 0)
-                                .addComponent(jButton_FindBook, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jButton_FindReader, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -498,17 +501,17 @@ public class BorrowAddPanel extends javax.swing.JPanel
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField_MemberCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1))
-                    .addComponent(jButton_FindBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton_FindReader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel_Check1)
+                .addComponent(jLabel_CheckReader)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton_Find, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_FindBool, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField_BookCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel6)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel_Check)
+                .addComponent(jLabel_CheckBook)
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -561,6 +564,7 @@ public class BorrowAddPanel extends javax.swing.JPanel
             if (obj.getId() == null) // new borrow
             {
                 BorrowsJpaController.create(obj);
+                JOptionPane.showMessageDialog(null, "Lưu thành công!", "Thông báo", JOptionPane.OK_OPTION);
             }
             else // return book
             {
@@ -576,96 +580,121 @@ public class BorrowAddPanel extends javax.swing.JPanel
                 }
             }
         });
+        
+        this.getParent().remove(this);
 
     }//GEN-LAST:event_jButton_SaveActionPerformed
 
-    private void jButton_FindBookActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_FindBookActionPerformed
-    {//GEN-HEADEREND:event_jButton_FindBookActionPerformed
-        // TODO add your handling code here:
-
-        var book = BooksJpaController.findBooks(jTextField_BookCode.getText());
-
-        // If cannot find book in borrow database, so book is requested for borrow => create a new borrow
-        // ELSE: add returnDate = today
-        var borrow = BorrowsJpaController.findBorrow(book.getId());
-        if (borrow == null)
-        {
-            borrow.setBorrowDate(new Date());
-            borrow.setPlanReturnDate(Tools.addDay(new Date(), 14));
-            borrow.setBookId(book);
-            borrow.setReaderId(reader);
-        }
-        else
-        {
-            borrow.setReturnDate(new Date());
-        }
-
-        if (book == null)
-        {
-            jLabel_Check.setVisible(true);
-        }
-        else
-        {
-            jLabel_Check.setVisible(false);
-
-            // Show info
-            CustomTableModel<Borrows> model = (CustomTableModel<Borrows>) jTable_BorrowBooks.getModel();
-            model.insertRow(borrow);
-        }
-    }//GEN-LAST:event_jButton_FindBookActionPerformed
-
-    private void jButton_BorrowHistoryActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_BorrowHistoryActionPerformed
-    {//GEN-HEADEREND:event_jButton_BorrowHistoryActionPerformed
-        // TODO add your handling code here:
-        var borrowHistory = reader.getBorrowsList();
-        CustomTableModel<Borrows> model = (CustomTableModel<Borrows>) jTable_BorrowBooks.getModel();
-        model.changeData(borrowHistory);
-    }//GEN-LAST:event_jButton_BorrowHistoryActionPerformed
-
-    private void jButton_FindActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_FindActionPerformed
-    {//GEN-HEADEREND:event_jButton_FindActionPerformed
+    private void jButton_FindReaderActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_FindReaderActionPerformed
+    {//GEN-HEADEREND:event_jButton_FindReaderActionPerformed
         // TODO add your handling code here:
         reader = ReadersJpaController.findReaders(jTextField_MemberCard.getText());
 
         if (reader == null)
         {
-            jLabel_Check.setVisible(true);
+            jLabel_CheckBook.setVisible(true);
         }
         else
         {
-            jLabel_Check.setVisible(false);
+            jLabel_CheckBook.setVisible(false);
             // Show info
             jLabel_Name.setText(reader.getFullName());
-            jLabel_BirthDate.setText(reader.getBirthDay().toString());
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+            jLabel_BirthDate.setText(formatter.format(reader.getBirthDay()).toString());
             jLabel_Status.setText("Đang sử dụng");
-            jLabel_Safe.setText(Long.toString(reader.getBorrowsList().stream().filter(obj -> obj.getReturnDate().compareTo(new Date()) <= 0).count()));
-            jLabel_Fine.setText(Long.toString(reader.getBorrowsList().stream().filter(obj -> obj.getChargeReason() == 3).count()));
-            jLabel_Warning.setText(Long.toString(reader.getBorrowsList().stream().filter(obj -> obj.getReturnDate().compareTo(new Date()) > 0).count()));
+//            jLabel_Borrowing.setText(Long.toString(reader.getBorrowsList().stream().filter(obj -> obj.getReturnDate().compareTo(new Date()) <= 0).count()));
+//            jLabel_Fine.setText(Long.toString(reader.getBorrowsList().stream().filter(obj -> obj.getChargeReason() == 3).count()));
+//            jLabel_Warning.setText(Long.toString(reader.getBorrowsList().stream().filter(obj -> obj.getReturnDate().compareTo(new Date()) > 0).count()));
+
+            // Borrow History
+            borrowHistory = reader.getBorrowsList();
+            long borrowing = borrowHistory.stream()
+                    .filter(obj -> formatter.format(obj.getPlanReturnDate()).compareTo(formatter.format(new Date())) <= 0 && obj.getReturnDate() == null)
+                    .count();
+
+            long overDate = borrowHistory.stream()
+                    .filter(obj -> formatter.format(obj.getPlanReturnDate()).compareTo(formatter.format(new Date())) > 0 && obj.getReturnDate() == null)
+                    .count();
+
+            long lost = borrowHistory.stream().filter(obj -> obj.getChargeReason() == 2 && obj.getChargeReason() == 3).count();
+
+            jLabel_Borrowing.setText(String.valueOf(borrowing));
+            jLabel_OverDate.setText(String.valueOf(overDate));
+            jLabel_Lost.setText(String.valueOf(lost));
 
             // Enable button
             jButton_ReaderDetail.setEnabled(true);
             jButton_BorrowHistory.setEnabled(true);
             jTextField_BookCode.setEnabled(true);
         }
-    }//GEN-LAST:event_jButton_FindActionPerformed
+
+    }//GEN-LAST:event_jButton_FindReaderActionPerformed
+
+    private void jButton_BorrowHistoryActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_BorrowHistoryActionPerformed
+    {//GEN-HEADEREND:event_jButton_BorrowHistoryActionPerformed
+        // TODO add your handling code here:
+        CustomTableModel<Borrows> model = (CustomTableModel<Borrows>) jTable_BorrowBooks.getModel();
+        model.changeData(borrowHistory);
+    }//GEN-LAST:event_jButton_BorrowHistoryActionPerformed
+
+    private void jButton_FindBoolActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_FindBoolActionPerformed
+    {//GEN-HEADEREND:event_jButton_FindBoolActionPerformed
+        // TODO add your handling code here:
+        // Check book
+        var book = BooksJpaController.findBooks(jTextField_BookCode.getText());
+
+        if (book != null)
+        {
+            jLabel_CheckBook.setVisible(false);
+
+            // If cannot find book in borrow database, so book is requested to borrow => create a new borrow
+            // ELSE: add returnDate = today
+            Borrows borrow = new Borrows();
+            borrow = borrowHistory.stream().filter(obj -> obj.getBookId().getId() == book.getId() && obj.getReturnDate() == null).findFirst().orElse(null);
+
+            Date date = new Date();
+            if (borrow == null)
+            {
+                Borrows newBorrow = new Borrows();
+                newBorrow.setBookId(book);
+                newBorrow.setBorrowDate(date);
+                newBorrow.setReaderId(reader);
+                newBorrow.setPlanReturnDate(Functions.addDay(date, 14));
+
+                borrow = newBorrow;
+            }
+            else
+            {
+                borrow.setReturnDate(date);
+            }
+
+            // Show info
+            CustomTableModel<Borrows> model = (CustomTableModel<Borrows>) jTable_BorrowBooks.getModel();
+            model.insertRow(borrow);
+        }
+        else
+        {
+            jLabel_CheckBook.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton_FindBoolActionPerformed
 
     private void jButton_RefreshActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_RefreshActionPerformed
     {//GEN-HEADEREND:event_jButton_RefreshActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButton_RefreshActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_BorrowHistory;
-    private javax.swing.JButton jButton_Find;
-    private javax.swing.JButton jButton_FindBook;
+    private javax.swing.JButton jButton_FindBool;
+    private javax.swing.JButton jButton_FindReader;
     private javax.swing.JButton jButton_ReaderDetail;
     private javax.swing.JButton jButton_Refresh;
     private javax.swing.JButton jButton_Save;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -673,11 +702,13 @@ public class BorrowAddPanel extends javax.swing.JPanel
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel_BirthDate;
-    private javax.swing.JLabel jLabel_Check;
-    private javax.swing.JLabel jLabel_Check1;
+    private javax.swing.JLabel jLabel_Borrowing;
+    private javax.swing.JLabel jLabel_CheckBook;
+    private javax.swing.JLabel jLabel_CheckReader;
     private javax.swing.JLabel jLabel_Fine;
+    private javax.swing.JLabel jLabel_Lost;
     private javax.swing.JLabel jLabel_Name;
-    private javax.swing.JLabel jLabel_Safe;
+    private javax.swing.JLabel jLabel_OverDate;
     private javax.swing.JLabel jLabel_Status;
     private javax.swing.JLabel jLabel_Warning;
     private javax.swing.JPanel jPanel1;
@@ -697,7 +728,8 @@ public class BorrowAddPanel extends javax.swing.JPanel
     private void customizeDesign()
     {
 
-        jLabel_Check.setVisible(false);
+        jLabel_CheckBook.setVisible(false);
+        jLabel_CheckReader.setVisible(false);
 
         String[] columnNames = new String[]
         {
@@ -710,7 +742,7 @@ public class BorrowAddPanel extends javax.swing.JPanel
 
     private void populateTable(String[] columnNames)
     {
-
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         CustomTableModel<Borrows> model = new CustomTableModel<Borrows>(columnNames)
         {
             @Override
@@ -727,11 +759,19 @@ public class BorrowAddPanel extends javax.swing.JPanel
                     case 2:
                         return temp = borrow.getBookId().getCode();
                     case 3:
-                        return temp = borrow.getBorrowDate();
+                        return temp = formatter.format(borrow.getBorrowDate());
                     case 4:
-                        return temp = borrow.getPlanReturnDate();
+                        return temp = formatter.format(borrow.getPlanReturnDate());
                     case 5:
-                        return temp = borrow.getReturnDate();
+                        if (borrow.getReturnDate() == null)
+                        {
+                            return temp = null;
+                        }
+                        else
+                        {
+
+                            return temp = formatter.format(borrow.getReturnDate());
+                        }
                     case 6:
                         if (borrow.getReturnDate() == null)
                         {

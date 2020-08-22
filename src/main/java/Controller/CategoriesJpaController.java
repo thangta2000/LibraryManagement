@@ -13,11 +13,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Model.BookTitles;
 import Model.Categories;
-import Utility.Factory;
+import Materials.Factory;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.criteria.CriteriaBuilder;
 
 /**
  *

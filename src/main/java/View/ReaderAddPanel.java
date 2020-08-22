@@ -9,11 +9,26 @@ import Controller.CountriesJpaController;
 import Controller.ReadersJpaController;
 import Model.Countries;
 import Model.Readers;
+import Utility.Validation.DateTimeVerifier;
+import Utility.Validation.EmailVerifier;
+import Utility.Validation.GroupVerifier;
+import Utility.Validation.NumberVerifier;
+import Utility.Validation.RequiredVerifier;
+import Utility.Validation.StringLengthVerifier;
+import Utility.Validation.StringMatchVerifier;
+import java.awt.Color;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -22,12 +37,16 @@ import javax.swing.JOptionPane;
 public class ReaderAddPanel extends javax.swing.JPanel
 {
 
+    JLabel[] validateLabels;
+
     /**
      * Creates new form ReaderAddPanel
      */
     public ReaderAddPanel()
     {
         initComponents();
+
+        customizePanel();
     }
 
     /**
@@ -55,27 +74,26 @@ public class ReaderAddPanel extends javax.swing.JPanel
         jLabel8 = new javax.swing.JLabel();
         jTextField_BirthDate = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField_Country = new javax.swing.JTextField();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
+        jLabel_IdCard = new javax.swing.JLabel();
+        jLabel_Country = new javax.swing.JLabel();
+        jLabel_BirthDate = new javax.swing.JLabel();
+        jLabel_Address = new javax.swing.JLabel();
+        jLabel_Email = new javax.swing.JLabel();
+        jLabel_Tel = new javax.swing.JLabel();
         jRadioButton_Male = new javax.swing.JRadioButton();
         jRadioButton_Female = new javax.swing.JRadioButton();
         jLabel10 = new javax.swing.JLabel();
         jTextField_Name = new javax.swing.JTextField();
-        jLabel21 = new javax.swing.JLabel();
+        jLabel_Name = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jTextField_JobTitle = new javax.swing.JTextField();
-        jLabel25 = new javax.swing.JLabel();
+        jLabel_JobTitle = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jTextField_WorkPlace = new javax.swing.JTextField();
-        jLabel26 = new javax.swing.JLabel();
+        jLabel_WorkPlace = new javax.swing.JLabel();
+        jComboBox_Country = new javax.swing.JComboBox<>();
         jPanel6 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jButton_Refresh = new javax.swing.JButton();
         jButton_Add = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -112,12 +130,14 @@ public class ReaderAddPanel extends javax.swing.JPanel
         jLabel2.setText("Ngày sinh:");
 
         jTextField_IdCard.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextField_IdCard.setName("idcard"); // NOI18N
         jTextField_IdCard.setPreferredSize(new java.awt.Dimension(250, 28));
 
         jLabel3.setText("Điện thoại:");
         jLabel3.setToolTipText("");
 
         jTextField_Tel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextField_Tel.setName("tel"); // NOI18N
         jTextField_Tel.setPreferredSize(new java.awt.Dimension(250, 28));
 
         jLabel5.setText("Địa chỉ:");
@@ -125,48 +145,54 @@ public class ReaderAddPanel extends javax.swing.JPanel
         jLabel6.setText("Email:");
 
         jTextField_Address.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextField_Address.setName("address"); // NOI18N
         jTextField_Address.setPreferredSize(new java.awt.Dimension(250, 28));
 
         jLabel7.setText("Quốc tịch:");
 
         jTextField_Email.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextField_Email.setName("email"); // NOI18N
         jTextField_Email.setPreferredSize(new java.awt.Dimension(250, 28));
 
         jLabel8.setText("Giới tính:");
         jLabel8.setToolTipText("");
 
         jTextField_BirthDate.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextField_BirthDate.setName("birthday"); // NOI18N
         jTextField_BirthDate.setPreferredSize(new java.awt.Dimension(250, 28));
 
         jLabel9.setText("CCCD/Hộ chiếu:");
         jLabel9.setToolTipText("");
 
-        jTextField_Country.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField_Country.setPreferredSize(new java.awt.Dimension(250, 28));
+        jLabel_IdCard.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_IdCard.setText("Nhập căn cước công dân/hộ chiếu");
+        jLabel_IdCard.setName("idcard"); // NOI18N
+        jLabel_IdCard.setPreferredSize(new java.awt.Dimension(250, 28));
 
-        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel18.setText("Nhập căn cước công dân/hộ chiếu");
-        jLabel18.setPreferredSize(new java.awt.Dimension(250, 28));
+        jLabel_Country.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_Country.setText("Chọn quốc tịch.");
+        jLabel_Country.setName("country"); // NOI18N
+        jLabel_Country.setPreferredSize(new java.awt.Dimension(250, 28));
 
-        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel19.setText("Chọn quốc tịch.");
-        jLabel19.setPreferredSize(new java.awt.Dimension(250, 28));
+        jLabel_BirthDate.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_BirthDate.setText("Nhập ngày sinh.");
+        jLabel_BirthDate.setName("birthday"); // NOI18N
+        jLabel_BirthDate.setPreferredSize(new java.awt.Dimension(250, 28));
 
-        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel20.setText("Nhập ngày sinh.");
-        jLabel20.setPreferredSize(new java.awt.Dimension(250, 28));
+        jLabel_Address.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_Address.setText("Nhập địa chỉ.");
+        jLabel_Address.setName("address"); // NOI18N
+        jLabel_Address.setPreferredSize(new java.awt.Dimension(250, 28));
 
-        jLabel22.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel22.setText("Nhập địa chỉ.");
-        jLabel22.setPreferredSize(new java.awt.Dimension(250, 28));
+        jLabel_Email.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_Email.setText("Nhập email.");
+        jLabel_Email.setName("email"); // NOI18N
+        jLabel_Email.setPreferredSize(new java.awt.Dimension(250, 28));
 
-        jLabel23.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel23.setText("Nhập email.");
-        jLabel23.setPreferredSize(new java.awt.Dimension(250, 28));
-
-        jLabel24.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel24.setText("Nhập điện thoại.");
-        jLabel24.setPreferredSize(new java.awt.Dimension(250, 28));
+        jLabel_Tel.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_Tel.setText("Nhập điện thoại.");
+        jLabel_Tel.setName("tel"); // NOI18N
+        jLabel_Tel.setPreferredSize(new java.awt.Dimension(250, 28));
 
         jRadioButton_Male.setBackground(new java.awt.Color(255, 255, 255));
         jRadioButton_Male.setSelected(true);
@@ -180,29 +206,38 @@ public class ReaderAddPanel extends javax.swing.JPanel
         jLabel10.setText("Họ và tên:");
 
         jTextField_Name.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextField_Name.setName("name"); // NOI18N
         jTextField_Name.setPreferredSize(new java.awt.Dimension(250, 28));
 
-        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel21.setText("Chọn quốc tịch.");
-        jLabel21.setPreferredSize(new java.awt.Dimension(250, 28));
+        jLabel_Name.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_Name.setText("Chọn quốc tịch.");
+        jLabel_Name.setName("name"); // NOI18N
+        jLabel_Name.setPreferredSize(new java.awt.Dimension(250, 28));
 
         jLabel11.setText("Nghề nghiệp:");
 
         jTextField_JobTitle.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextField_JobTitle.setName("job"); // NOI18N
         jTextField_JobTitle.setPreferredSize(new java.awt.Dimension(250, 28));
 
-        jLabel25.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel25.setText("Nhập nghề nghiệp.");
-        jLabel25.setPreferredSize(new java.awt.Dimension(250, 28));
+        jLabel_JobTitle.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_JobTitle.setText("Nhập nghề nghiệp.");
+        jLabel_JobTitle.setName("job"); // NOI18N
+        jLabel_JobTitle.setPreferredSize(new java.awt.Dimension(250, 28));
 
         jLabel12.setText("Nơi làm việc:");
 
         jTextField_WorkPlace.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextField_WorkPlace.setName("office"); // NOI18N
         jTextField_WorkPlace.setPreferredSize(new java.awt.Dimension(250, 28));
 
-        jLabel26.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel26.setText("Nhập nơi làm việc.");
-        jLabel26.setPreferredSize(new java.awt.Dimension(250, 28));
+        jLabel_WorkPlace.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_WorkPlace.setText("Nhập nơi làm việc.");
+        jLabel_WorkPlace.setName("office"); // NOI18N
+        jLabel_WorkPlace.setPreferredSize(new java.awt.Dimension(250, 28));
+
+        jComboBox_Country.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBox_Country.setForeground(new java.awt.Color(51, 51, 51));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -213,48 +248,45 @@ public class ReaderAddPanel extends javax.swing.JPanel
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(86, 86, 86)
-                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel_JobTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel11))
+                                .addGap(12, 12, 12)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel_Tel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField_Tel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField_JobTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel7))
+                                .addGap(28, 28, 28)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel11))
-                                        .addGap(12, 12, 12)
+                                            .addComponent(jTextField_Address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel_Address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel_Country, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel_Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTextField_Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField_Tel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField_JobTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel10)
-                                            .addComponent(jLabel5))
-                                        .addGap(28, 28, 28)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jTextField_Country, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jTextField_Address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField_Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jTextField_BirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                            .addComponent(jLabel_BirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jTextField_BirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jComboBox_Country, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel_IdCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField_IdCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jRadioButton_Male)
@@ -267,9 +299,9 @@ public class ReaderAddPanel extends javax.swing.JPanel
                                 .addGap(32, 32, 32)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextField_WorkPlace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel_Email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField_Email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jLabel_WorkPlace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(11, 11, 11))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -280,7 +312,7 @@ public class ReaderAddPanel extends javax.swing.JPanel
                     .addComponent(jTextField_Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel_Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -288,13 +320,13 @@ public class ReaderAddPanel extends javax.swing.JPanel
                             .addComponent(jLabel9)
                             .addComponent(jTextField_IdCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel_IdCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField_Country, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel7)
+                            .addComponent(jComboBox_Country, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel_Country, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -306,7 +338,7 @@ public class ReaderAddPanel extends javax.swing.JPanel
                             .addComponent(jTextField_BirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(4, 4, 4)
-                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel_BirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -314,19 +346,19 @@ public class ReaderAddPanel extends javax.swing.JPanel
                             .addComponent(jTextField_Email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel_Email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField_Address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel_Address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField_Tel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel_Tel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField_JobTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -335,8 +367,8 @@ public class ReaderAddPanel extends javax.swing.JPanel
                     .addComponent(jTextField_WorkPlace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel_JobTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_WorkPlace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -354,19 +386,7 @@ public class ReaderAddPanel extends javax.swing.JPanel
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jPanel4.setPreferredSize(new java.awt.Dimension(350, 35));
-
-        jButton_Refresh.setBackground(new java.awt.Color(255, 255, 255));
-        jButton_Refresh.setText("Làm mới");
-        jButton_Refresh.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jButton_Refresh.setContentAreaFilled(false);
-        jButton_Refresh.setPreferredSize(new java.awt.Dimension(90, 30));
-        jButton_Refresh.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jButton_RefreshActionPerformed(evt);
-            }
-        });
+        jPanel4.setLayout(new java.awt.GridBagLayout());
 
         jButton_Add.setBackground(new java.awt.Color(51, 255, 51));
         jButton_Add.setText("Thêm");
@@ -381,27 +401,13 @@ public class ReaderAddPanel extends javax.swing.JPanel
                 jButton_AddActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton_Add, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton_Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_Add, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 58;
+        gridBagConstraints.ipady = 12;
+        gridBagConstraints.insets = new java.awt.Insets(1, 0, 4, 0);
+        jPanel4.add(jButton_Add, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -415,10 +421,20 @@ public class ReaderAddPanel extends javax.swing.JPanel
     private void jButton_AddActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_AddActionPerformed
     {//GEN-HEADEREND:event_jButton_AddActionPerformed
         // TODO add your handling code here:
-        if (validateForm())
+        boolean validateForm = true;
+
+        for (JLabel label : validateLabels)
+        {
+            if (label.getForeground() != Color.WHITE)
+            {
+                validateForm = false;
+                break;
+            }
+        }
+        
+        if (validateForm)
         {
             Readers reader = new Readers();
-            Countries countryId = new Countries();
 
             // Insert staff
             reader.setFullName(jTextField_Name.getText());
@@ -438,49 +454,50 @@ public class ReaderAddPanel extends javax.swing.JPanel
             reader.setEmail(jTextField_Email.getText());
             reader.setIdentityCard(jTextField_IdCard.getText());
             reader.setGender(jRadioButton_Male.isSelected());
-            reader.setCountryId(CountriesJpaController.findCountries(jTextField_Country.getText()));
+            reader.setCountryId(CountriesJpaController.findCountries(jComboBox_Country.getSelectedIndex() + 1));
             reader.setJobTitle(jTextField_JobTitle.getText());
             reader.setWorkPlace(jTextField_WorkPlace.getText());
 
             ReadersJpaController.create(reader);
 
-            JOptionPane.showMessageDialog(null, "Thêm bạn đọc thành công", "Thông báo", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, "Thêm bạn đọc thành công!", "Thông báo", JOptionPane.OK_OPTION);
+
+            // refresh
+            this.getParent().remove(this);
+            this.getParent().add(this);
+            this.getParent().validate();
+            this.getParent().repaint();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin!", "Thông báo", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_jButton_AddActionPerformed
-
-    private void jButton_RefreshActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_RefreshActionPerformed
-    {//GEN-HEADEREND:event_jButton_RefreshActionPerformed
-        // TODO add your handling code here:
-        this.getParent().remove(this);
-        this.getParent().add(this);
-        this.getParent().validate();
-        this.getParent().repaint();
-    }//GEN-LAST:event_jButton_RefreshActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_Add;
-    private javax.swing.JButton jButton_Refresh;
+    private javax.swing.JComboBox<String> jComboBox_Country;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel_Address;
+    private javax.swing.JLabel jLabel_BirthDate;
+    private javax.swing.JLabel jLabel_Country;
+    private javax.swing.JLabel jLabel_Email;
+    private javax.swing.JLabel jLabel_IdCard;
+    private javax.swing.JLabel jLabel_JobTitle;
+    private javax.swing.JLabel jLabel_Name;
+    private javax.swing.JLabel jLabel_Tel;
+    private javax.swing.JLabel jLabel_WorkPlace;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -490,7 +507,6 @@ public class ReaderAddPanel extends javax.swing.JPanel
     private javax.swing.JRadioButton jRadioButton_Male;
     private javax.swing.JTextField jTextField_Address;
     private javax.swing.JTextField jTextField_BirthDate;
-    private javax.swing.JTextField jTextField_Country;
     private javax.swing.JTextField jTextField_Email;
     private javax.swing.JTextField jTextField_IdCard;
     private javax.swing.JTextField jTextField_JobTitle;
@@ -499,8 +515,105 @@ public class ReaderAddPanel extends javax.swing.JPanel
     private javax.swing.JTextField jTextField_WorkPlace;
     // End of variables declaration//GEN-END:variables
 
-    private boolean validateForm()
+    private void customizePanel()
     {
-        return true;
+        // populate combobox
+        var countries = CountriesJpaController.findCountriesEntities();
+        for (Countries country : countries)
+        {
+            jComboBox_Country.addItem(country.getName());
+        }
+        
+        // set inputverifier
+        jTextField_Address.setInputVerifier(new RequiredVerifier());
+        jTextField_BirthDate.setInputVerifier(new GroupVerifier(new RequiredVerifier(), new DateTimeVerifier()));
+        jTextField_Email.setInputVerifier(new GroupVerifier(new RequiredVerifier(), new EmailVerifier()));
+        jTextField_IdCard.setInputVerifier(new GroupVerifier(new RequiredVerifier(), new NumberVerifier(), new StringLengthVerifier(-1, 12)));
+        jTextField_JobTitle.setInputVerifier(new RequiredVerifier());
+        jTextField_Name.setInputVerifier(new RequiredVerifier());
+        jTextField_Tel.setInputVerifier(new GroupVerifier(new RequiredVerifier(), new NumberVerifier()));
+        jTextField_WorkPlace.setInputVerifier(new RequiredVerifier());
+
+        validateLabels = new JLabel[]
+        {
+            jLabel_Address, jLabel_BirthDate, jLabel_Email, jLabel_IdCard, jLabel_JobTitle, jLabel_Name, jLabel_Tel, jLabel_WorkPlace
+        };
+
+        JComponent[] components =
+        {
+            jTextField_Address,
+            jTextField_BirthDate,
+            jTextField_Email,
+            jTextField_IdCard,
+            jTextField_JobTitle,
+            jTextField_Name,
+            jTextField_Tel,
+            jTextField_WorkPlace
+        };
+
+        // add listener to validate while typing
+        for (JComponent component : components)
+        {
+            createListener(component);
+        }
     }
+
+    private void createListener(JComponent component)
+    {
+        // While typing
+        ((JTextField) component).getDocument().addDocumentListener(new DocumentListener()
+        {
+            @Override
+            public void insertUpdate(DocumentEvent e)
+            {
+                displayValidationResult(component);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e)
+            {
+                displayValidationResult(component);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e)
+            {
+            }
+
+        });
+
+        // Lose focus
+        ((JTextField) component).addFocusListener(new FocusAdapter()
+        {
+            @Override
+            public void focusLost(FocusEvent e)
+            {
+                displayValidationResult(component);
+            }
+
+        });
+    }
+
+    private void displayValidationResult(JComponent jcomponent)
+    {
+        boolean valid = jcomponent.getInputVerifier().verify(jcomponent);
+        
+        for (JLabel label : validateLabels)
+        {
+            if (label.getName() == jcomponent.getName())
+            {
+                if (valid)
+                {
+                    label.setText(jcomponent.getToolTipText());
+                    label.setForeground(Color.white);
+                }
+                else
+                {
+                    label.setText(jcomponent.getToolTipText());
+                    label.setForeground(new Color(229, 30, 37));
+                }
+            }
+        }
+    }
+
 }

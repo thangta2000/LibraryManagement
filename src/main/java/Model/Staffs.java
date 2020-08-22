@@ -40,7 +40,8 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Staffs.findByEmail", query = "SELECT s FROM Staffs s WHERE s.email = :email"),
     @NamedQuery(name = "Staffs.findByIdentityCard", query = "SELECT s FROM Staffs s WHERE s.identityCard = :identityCard"),
     @NamedQuery(name = "Staffs.findByPosition", query = "SELECT s FROM Staffs s WHERE s.position = :position"),
-    @NamedQuery(name = "Staffs.findByGender", query = "SELECT s FROM Staffs s WHERE s.gender = :gender")
+    @NamedQuery(name = "Staffs.findByGender", query = "SELECT s FROM Staffs s WHERE s.gender = :gender"),
+    @NamedQuery(name = "Staffs.updateStatus", query = "UPDATE Staffs s SET s.status = 0 WHERE s.id = :id")
 })
 public class Staffs implements Serializable
 {
@@ -73,6 +74,8 @@ public class Staffs implements Serializable
     private Countries countryId;
     @OneToMany(mappedBy = "staffId")
     private List<Users> usersList;
+    @Column(name = "Status")
+    private Integer status;
 
     public Staffs()
     {
@@ -191,6 +194,16 @@ public class Staffs implements Serializable
     public void setUsersList(List<Users> usersList)
     {
         this.usersList = usersList;
+    }
+
+    public Integer getStatus()
+    {
+        return status;
+    }
+
+    public void setStatus(Integer status)
+    {
+        this.status = status;
     }
 
     @Override

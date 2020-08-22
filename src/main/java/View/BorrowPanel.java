@@ -11,13 +11,14 @@ package View;
  */
 import Controller.BorrowsJpaController;
 import Model.Borrows;
-import Utility.CustomTableModel;
+import Materials.CustomTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
@@ -99,6 +100,7 @@ public class BorrowPanel extends javax.swing.JPanel
         jLabel1.setText("Nhập tên:");
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
+        bookTitleName.setBackground(new java.awt.Color(255, 255, 255));
         bookTitleName.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         bookTitleName.setPreferredSize(new java.awt.Dimension(200, 28));
 
@@ -126,6 +128,7 @@ public class BorrowPanel extends javax.swing.JPanel
         btnEdit.setText("Sửa");
         btnEdit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 83, 156)));
         btnEdit.setContentAreaFilled(false);
+        btnEdit.setEnabled(false);
         btnEdit.setIconTextGap(10);
         btnEdit.setPreferredSize(new java.awt.Dimension(90, 28));
         btnEdit.addActionListener(new java.awt.event.ActionListener()
@@ -143,6 +146,7 @@ public class BorrowPanel extends javax.swing.JPanel
         btnDelete.setText("Xóa");
         btnDelete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(161, 38, 13)));
         btnDelete.setContentAreaFilled(false);
+        btnDelete.setEnabled(false);
         btnDelete.setIconTextGap(10);
         btnDelete.setPreferredSize(new java.awt.Dimension(90, 28));
         btnDelete.addActionListener(new java.awt.event.ActionListener()
@@ -193,6 +197,7 @@ public class BorrowPanel extends javax.swing.JPanel
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
+        jTable1.setBackground(new java.awt.Color(255, 255, 255));
         jTable1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -220,6 +225,13 @@ public class BorrowPanel extends javax.swing.JPanel
         jTable1.setRowHeight(28);
         jTable1.setShowGrid(true);
         jTable1.setShowVerticalLines(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanelTableLayout = new javax.swing.GroupLayout(jPanelTable);
@@ -504,6 +516,16 @@ public class BorrowPanel extends javax.swing.JPanel
         jPanel_PageNo.revalidate();
     }//GEN-LAST:event_jLabel_LastMouseClicked
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTable1MouseClicked
+    {//GEN-HEADEREND:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        if (jTable1.getSelectedRow() >= 0)
+        {
+            btnEdit.setEnabled(true);
+            btnDelete.setEnabled(true);
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bookTitleName;
@@ -546,6 +568,8 @@ public class BorrowPanel extends javax.swing.JPanel
 
     private void populateTable(int page)
     {   
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        
         String[] columnName =
         {
             "No.", "Họ và tên", "Tên sách", "Mã sách", "Ngày trả dự kiến", "Ngày trả"
@@ -571,7 +595,7 @@ public class BorrowPanel extends javax.swing.JPanel
                     case 3:
                         return temp = borrow.getBookId().getCode();
                     case 4:
-                        return temp = borrow.getPlanReturnDate();
+                        return temp = formatter.format(borrow.getPlanReturnDate());
                     case 5:
                         if (borrow.getReturnDate() == null)
                         {
@@ -579,7 +603,7 @@ public class BorrowPanel extends javax.swing.JPanel
                         }
                         else
                         {
-                            return temp = borrow.getReturnDate();
+                            return temp = formatter.format(borrow.getReturnDate());
                         }
                     default:
                         throw new ArrayIndexOutOfBoundsException(columnIndex);

@@ -13,7 +13,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Model.Users;
-import Utility.Factory;
+import Materials.Factory;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;

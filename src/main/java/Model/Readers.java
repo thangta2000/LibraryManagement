@@ -42,7 +42,8 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Readers.findByGender", query = "SELECT r FROM Readers r WHERE r.gender = :gender"),
     @NamedQuery(name = "Readers.findByBirthDay", query = "SELECT r FROM Readers r WHERE r.birthDay = :birthDay"),
     @NamedQuery(name = "Readers.findByWorkPlace", query = "SELECT r FROM Readers r WHERE r.workPlace = :workPlace"),
-    @NamedQuery(name = "Readers.findByJobTitle", query = "SELECT r FROM Readers r WHERE r.jobTitle = :jobTitle")
+    @NamedQuery(name = "Readers.findByJobTitle", query = "SELECT r FROM Readers r WHERE r.jobTitle = :jobTitle"),
+    @NamedQuery(name = "Readers.updateStatus", query = "UPDATE Readers r SET r.status = 0 WHERE r.id = :id")
 })
 public class Readers implements Serializable
 {
@@ -78,9 +79,9 @@ public class Readers implements Serializable
     @ManyToOne
     private Countries countryId;
     @OneToMany(mappedBy = "readerId")
-    private List<BookRequests> bookRequestsList;
-    @OneToMany(mappedBy = "readerId")
     private List<Borrows> borrowsList;
+    @Column(name = "Status")
+    private Integer status;
 
     public Readers()
     {
@@ -211,16 +212,6 @@ public class Readers implements Serializable
         this.countryId = countryId;
     }
 
-    public List<BookRequests> getBookRequestsList()
-    {
-        return bookRequestsList;
-    }
-
-    public void setBookRequestsList(List<BookRequests> bookRequestsList)
-    {
-        this.bookRequestsList = bookRequestsList;
-    }
-
     public List<Borrows> getBorrowsList()
     {
         return borrowsList;
@@ -231,6 +222,16 @@ public class Readers implements Serializable
         this.borrowsList = borrowsList;
     }
 
+    public Integer getStatus()
+    {
+        return status;
+    }
+
+    public void setStatus(Integer status)
+    {
+        this.status = status;
+    }   
+    
     @Override
     public int hashCode()
     {

@@ -14,11 +14,12 @@ import javax.persistence.criteria.Root;
 import Model.Countries;
 import Model.Staffs;
 import Model.Users;
-import Utility.Factory;
+import Materials.Factory;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 
 /**
  *
@@ -38,7 +39,6 @@ public class StaffsJpaController implements Serializable
 //    {
 //        return emf.createEntityManager();
 //    }
-    
     public static EntityManager getEntityManager()
     {
         return Factory.getEntityManager();
@@ -108,6 +108,10 @@ public class StaffsJpaController implements Serializable
             Countries countryIdNew = staffs.getCountryId();
             List<Users> usersListOld = persistentStaffs.getUsersList();
             List<Users> usersListNew = staffs.getUsersList();
+            if (usersListNew == null)
+            {
+                usersListNew = new ArrayList<>();
+            }
             if (countryIdNew != null)
             {
                 countryIdNew = em.getReference(countryIdNew.getClass(), countryIdNew.getId());
@@ -234,8 +238,13 @@ public class StaffsJpaController implements Serializable
         EntityManager em = getEntityManager();
         try
         {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Staffs.class));
+//            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+//            cq.select(cq.from(Staffs.class)).where(em.getCriteriaBuilder().notEqual(cq.from(Staffs.class).get("status"), 0));
+            
+            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+            CriteriaQuery<Staffs> cq = criteriaBuilder.createQuery(Staffs.class);
+            Root<Staffs> root = cq.from(Staffs.class);
+            cq.select(root).where(criteriaBuilder.isNull(root.get("status")));
             Query q = em.createQuery(cq);
             if (!all)
             {
@@ -279,11 +288,28 @@ public class StaffsJpaController implements Serializable
             em.close();
         }
     }
-    
+
     public static Staffs add(Staffs staff)
     {
         create(staff);
         return staff;
     }
-    
+
+    public static void deleteSafe(Integer id)
+    {
+        EntityManager em = getEntityManager();
+        try
+        {
+            TypedQuery<Staffs> query = em.createNamedQuery("Staffs.updateStatus", Staffs.class);
+            
+            query.setParameter("id", id);
+            
+            query.executeUpdate();
+        }
+        finally
+        {
+            em.close();
+        }
+    }
+
 }
